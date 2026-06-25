@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CNET Admission Application</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+  :root {
+    --navy: #1a2744;
+    --gold: #c8972a;
+    --gold-light: #f0e0b0;
+    --cream: #fdfaf4;
+    --white: #ffffff;
+    --text: #1e2330;
+    --muted: #6b7280;
+    --border: #dde3ee;
+    --error: #c0392b;
+    --success: #1a7a4a;
+    --step-done: #c8972a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--navy);
+    padding: 0;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,.25);
+  }
+  .header-inner {
+    max-width: 860px; margin: 0 auto;
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 24px;
+  }
+  .logo-circle {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; color: var(--navy); font-weight: 700;
+    flex-shrink: 0;
+  }
+  .header-text h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; color: var(--white);
+    letter-spacing: .3px;
+  }
+  .header-text p { font-size: 11px; color: var(--gold-light); margin-top: 2px; letter-spacing: .5px; }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar-wrap {
+    background: var(--navy);
+    padding: 0 24px 16px;
+  }
+  .progress-bar-inner { max-width: 860px; margin: 0 auto; }
+  .step-labels {
+    display: flex; gap: 0; overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .step-labels::-webkit-scrollbar { display: none; }
+  .step-label {
+    flex: 1; min-width: 80px;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 4px; cursor: default; opacity: .45;
+    transition: opacity .2s;
+    font-size: 10px; color: var(--white);
+    text-align: center; line-height: 1.3;
+  }
+  .step-label.active { opacity: 1; }
+  .step-label.done { opacity: .8; }
+  .step-dot {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,.3);
+    background: transparent;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: var(--white); font-weight: 600;
+    transition: background .2s, border-color .2s;
+  }
+  .step-label.active .step-dot {
+    background: var(--gold); border-color: var(--gold); color: var(--navy);
+  }
+  .step-label.done .step-dot {
+    background: var(--gold); border-color: var(--gold); color: var(--navy);
+  }
+  .step-line {
+    flex: 1; height: 2px; background: rgba(255,255,255,.15);
+    align-self: center; margin-bottom: 18px;
+    transition: background .2s;
+  }
+  .step-line.done { background: var(--gold); }
+
+  /* ── MAIN CONTENT ── */
+  main { max-width: 860px; margin: 0 auto; padding: 28px 24px 60px; }
+
+  .section-header {
+    margin-bottom: 24px;
+    border-left: 4px solid var(--gold);
+    padding-left: 14px;
+  }
+  .section-header h2 {
+    font-size: 20px; font-weight: 700; color: var(--navy);
+  }
+  .section-header p {
+    font-size: 13px; color: var(--muted); margin-top: 4px;
+  }
+
+  /* ── FORM GRID ── */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 24px;
+  }
+  .form-grid .full { grid-column: 1 / -1; }
+  .form-grid .third { grid-column: span 1; }
+
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label {
+    font-size: 12px; font-weight: 600;
+    color: var(--navy); letter-spacing: .3px;
+    text-transform: uppercase;
+  }
+  .field label .req { color: var(--gold); margin-left: 2px; }
+  .field input, .field select, .field textarea {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 13px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--white);
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+    width: 100%;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(200,151,42,.12);
+  }
+  .field input.error, .field select.error { border-color: var(--error); }
+  .field .err-msg { font-size: 11px; color: var(--error); }
+
+  .field textarea { resize: vertical; min-height: 72px; }
+
+  /* checkbox row */
+  .check-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 13px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--white);
+    cursor: pointer;
+  }
+  .check-row input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--gold); }
+  .check-row span { font-size: 13px; color: var(--text); }
+
+  /* radio group */
+  .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+  .radio-pill {
+    display: flex; align-items: center; gap: 7px;
+    padding: 8px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: border-color .15s, background .15s;
+    background: var(--white);
+    user-select: none;
+  }
+  .radio-pill input[type=radio] { accent-color: var(--gold); }
+  .radio-pill:has(input:checked) {
+    border-color: var(--gold);
+    background: rgba(200,151,42,.06);
+    font-weight: 600;
+  }
+
+  /* ── CONDITIONAL BLOCKS ── */
+  .cond-block {
+    background: #f8f5ee;
+    border: 1.5px solid var(--gold-light);
+    border-radius: 10px;
+    padding: 18px;
+    margin-top: 16px;
+    display: none;
+  }
+  .cond-block.visible { display: block; }
+  .cond-block .cond-title {
+    font-size: 12px; font-weight: 700;
+    color: var(--navy); text-transform: uppercase;
+    letter-spacing: .4px; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .cond-block .cond-title::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%; background: var(--gold);
+  }
+
+  /* ── FILE UPLOAD ── */
+  .file-upload-area {
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 18px 14px;
+    text-align: center;
+    background: var(--white);
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+    position: relative;
+  }
+  .file-upload-area:hover { border-color: var(--gold); background: rgba(200,151,42,.03); }
+  .file-upload-area input[type=file] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .file-upload-area .upload-icon { font-size: 24px; }
+  .file-upload-area p { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .file-upload-area .file-name {
+    font-size: 12px; color: var(--success); margin-top: 6px; font-weight: 600;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none; border-top: 1.5px solid var(--border);
+    margin: 28px 0;
+  }
+
+  /* ── MARK INPUTS (number with max) ── */
+  .mark-input-wrap { position: relative; }
+  .mark-input-wrap input { padding-right: 50px; }
+  .mark-badge {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    font-size: 10px; color: var(--muted); font-weight: 600;
+    pointer-events: none;
+  }
+
+  /* ── NAV BUTTONS ── */
+  .nav-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 32px;
+  }
+  .btn {
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px; font-weight: 600;
+    cursor: pointer; border: none;
+    transition: opacity .15s, transform .1s;
+  }
+  .btn:active { transform: scale(.98); }
+  .btn-primary { background: var(--navy); color: var(--white); }
+  .btn-primary:hover { opacity: .88; }
+  .btn-secondary {
+    background: transparent; color: var(--navy);
+    border: 1.5px solid var(--border);
+  }
+  .btn-secondary:hover { background: rgba(0,0,0,.04); }
+  .btn-gold { background: var(--gold); color: var(--white); }
+  .btn-gold:hover { opacity: .88; }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+
+  /* ── REVIEW TABLE ── */
+  .review-section { margin-bottom: 22px; }
+  .review-section h3 {
+    font-size: 13px; text-transform: uppercase; letter-spacing: .5px;
+    color: var(--navy); font-weight: 700;
+    border-bottom: 2px solid var(--gold); padding-bottom: 6px; margin-bottom: 10px;
+  }
+  .review-row {
+    display: grid; grid-template-columns: 1fr 1.5fr;
+    gap: 4px 16px; padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .review-row .rv-key { color: var(--muted); }
+  .review-row .rv-val { color: var(--text); font-weight: 500; word-break: break-all; }
+
+  /* ── SUCCESS SCREEN ── */
+  .success-screen {
+    text-align: center; padding: 60px 24px;
+    display: none;
+  }
+  .success-screen.visible { display: block; }
+  .success-icon { font-size: 56px; }
+  .success-screen h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; color: var(--navy); margin: 16px 0 8px;
+  }
+  .success-screen p { color: var(--muted); font-size: 14px; max-width: 400px; margin: 0 auto 24px; }
+  .app-id-badge {
+    display: inline-block;
+    background: var(--gold-light);
+    border: 1.5px solid var(--gold);
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 18px; font-weight: 700; color: var(--navy);
+    letter-spacing: 1px;
+    margin-bottom: 28px;
+  }
+  .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* ── ADMIN PANEL ── */
+  .admin-toggle {
+    text-align: center; margin-top: 40px;
+  }
+  .admin-toggle button {
+    background: none; border: none; color: var(--muted);
+    font-size: 11px; cursor: pointer; text-decoration: underline;
+  }
+  .admin-panel {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 16px;
+    display: none;
+  }
+  .admin-panel.visible { display: block; }
+  .admin-panel h3 {
+    font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 16px;
+  }
+  .entries-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .entries-table th {
+    background: var(--navy); color: var(--white);
+    padding: 8px 10px; text-align: left;
+  }
+  .entries-table td {
+    padding: 7px 10px; border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .entries-table tr:hover td { background: #f5f7fb; }
+  .no-entries { text-align: center; color: var(--muted); padding: 24px; font-size: 14px; }
+
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-grid .full { grid-column: 1; }
+    main { padding: 20px 16px 60px; }
+    .btn { padding: 11px 18px; }
+    .review-row { grid-template-columns: 1fr; }
+    .radio-group { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-circle">C</div>
+    <div class="header-text">
+      <h1>CNET Admission Portal</h1>
+      <p>ONLINE APPLICATION FORM · 2025–26</p>
+    </div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-inner">
+      <div class="step-labels" id="stepLabels">
+        <!-- filled by JS -->
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="mainContent">
+  <!-- Steps rendered by JS -->
+</main>
+
+<script>
+// ─── DATA STORE ───────────────────────────────────────────────
+const STORAGE_KEY = 'cnet_applications';
+
+function loadApplications() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  catch { return []; }
+}
+function saveApplication(data) {
+  const apps = loadApplications();
+  const id = 'CNET' + Date.now().toString(36).toUpperCase();
+  data._id = id;
+  data._submittedAt = new Date().toLocaleString('en-IN');
+  apps.push(data);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
+  return id;
+}
+function exportJSON() {
+  const apps = loadApplications();
+  const blob = new Blob([JSON.stringify(apps, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'cnet_applications_' + Date.now() + '.json';
+  a.click();
+}
+function clearAllData() {
+  if (confirm('Delete ALL stored applications? This cannot be undone.')) {
+    localStorage.removeItem(STORAGE_KEY);
+    renderAdminPanel();
+  }
+}
+
+// ─── STEP CONFIG ──────────────────────────────────────────────
+const STEPS = [
+  { label: 'Account', icon: '1' },
+  { label: 'CNET', icon: '2' },
+  { label: 'Personal', icon: '3' },
+  { label: 'Aadhaar', icon: '4' },
+  { label: 'Category', icon: '5' },
+  { label: 'Marks', icon: '6' },
+  { label: 'Documents', icon: '7' },
+  { label: 'Review', icon: '8' },
+];
+let currentStep = 0;
+const formData = {};
+
+// ─── PROGRESS BAR ─────────────────────────────────────────────
+function renderProgress() {
+  const container = document.getElementById('stepLabels');
+  let html = '';
+  STEPS.forEach((s, i) => {
+    const cls = i < currentStep ? 'done' : i === currentStep ? 'active' : '';
+    const dotContent = i < currentStep ? '✓' : s.icon;
+    html += `<div class="step-label ${cls}">
+      <div class="step-dot">${dotContent}</div>
+      <span>${s.label}</span>
+    </div>`;
+    if (i < STEPS.length - 1) {
+      html += `<div class="step-line ${i < currentStep ? 'done' : ''}"></div>`;
+    }
+  });
+  container.innerHTML = html;
+}
+
+// ─── FIELD BUILDER HELPERS ────────────────────────────────────
+function field(id, label, type='text', required=true, opts={}) {
+  const req = required ? '<span class="req">*</span>' : '';
+  const placeholder = opts.placeholder || '';
+  let input = '';
+  if (type === 'select') {
+    const options = (opts.options||[]).map(o => `<option value="${o.v||o}">${o.l||o}</option>`).join('');
+    input = `<select id="${id}" name="${id}" ${required?'required':''}>
+      <option value="">Select…</option>${options}</select>`;
+  } else if (type === 'textarea') {
+    input = `<textarea id="${id}" name="${id}" placeholder="${placeholder}" ${required?'required':''}></textarea>`;
+  } else if (type === 'checkbox') {
+    return `<div class="field full">
+      <label class="check-row">
+        <input type="checkbox" id="${id}" name="${id}" ${required?'required':''}>
+        <span>${label}${req}</span>
+      </label>
+    </div>`;
+  } else {
+    input = `<input type="${type}" id="${id}" name="${id}" placeholder="${placeholder}" ${required?'required':''}/>`;
+  }
+  const fullClass = opts.full ? ' full' : '';
+  return `<div class="field${fullClass}">
+    <label for="${id}">${label}${req}</label>
+    ${input}
+    <span class="err-msg" id="err_${id}"></span>
+  </div>`;
+}
+
+function markField(id, label, max=24) {
+  return `<div class="field">
+    <label for="${id}">${label}<span class="req">*</span></label>
+    <div class="mark-input-wrap">
+      <input type="number" id="${id}" name="${id}" min="0" max="${max}" step="0.01" required placeholder="0"/>
+      <span class="mark-badge">/${max}</span>
+    </div>
+    <span class="err-msg" id="err_${id}"></span>
+  </div>`;
+}
+
+function fileField(id, label, required=true) {
+  const req = required ? '<span class="req">*</span>' : '';
+  return `<div class="field full">
+    <label>${label}${req}</label>
+    <div class="file-upload-area" onclick="document.getElementById('${id}').click()">
+      <input type="file" id="${id}" name="${id}" accept=".pdf,.jpg,.jpeg,.png" ${required?'required':''} onchange="showFileName('${id}')"/>
+      <div class="upload-icon">📎</div>
+      <p>Click to upload · PDF, JPG, PNG · Max 5 MB</p>
+      <div class="file-name" id="fn_${id}"></div>
+    </div>
+    <span class="err-msg" id="err_${id}"></span>
+  </div>`;
+}
+
+function showFileName(id) {
+  const inp = document.getElementById(id);
+  const span = document.getElementById('fn_' + id);
+  if (inp && inp.files[0]) span.textContent = '✓ ' + inp.files[0].name;
+}
+
+// ─── STEP RENDERS ─────────────────────────────────────────────
+const stepRenders = [
+
+  // STEP 0: Account
+  () => `
+    <div class="section-header">
+      <h2>Account Details</h2>
+      <p>Create your application account. These credentials will be used to log in.</p>
+    </div>
+    <div class="form-grid">
+      ${field('email','Email Address','email')}
+      ${field('mobile','Mobile Number','tel',true,{placeholder:'10-digit number'})}
+      ${field('password','Password','password')}
+      ${field('confirm_password','Confirm Password','password')}
+    </div>`,
+
+  // STEP 1: CNET / Exam
+  () => `
+    <div class="section-header">
+      <h2>CNET / Exam Details</h2>
+      <p>Enter your CNET examination information exactly as on your scorecard.</p>
+    </div>
+    <div class="form-grid">
+      ${field('registration_id','Registration ID','text')}
+      ${field('roll_no','Roll Number','text')}
+      ${field('open_rank','Open Rank','number')}
+      ${field('cnet_percentile','CNET Percentile','number',true,{placeholder:'e.g. 87.50'})}
+      ${field('category_rank','Category Rank','number',false)}
+      ${field('sub_category_rank','Sub-Category Rank','number',false)}
+    </div>`,
+
+  // STEP 2: Personal
+  () => `
+    <div class="section-header">
+      <h2>Personal Details</h2>
+      <p>Provide personal information as it appears on your official documents.</p>
+    </div>
+    <div class="form-grid">
+      ${field('full_name','Full Name','text',true,{full:true})}
+      ${field('father_name',"Father's Name",'text')}
+      ${field('mother_name',"Mother's Name",'text')}
+      ${field('email_personal','Email ID (Personal)','email')}
+      ${field('mobile_personal','Mobile Number','tel')}
+      ${field('name_10th','Name as per 10th Certificate','text')}
+      ${field('dob_10th','Date of Birth (as per 10th Certificate)','date')}
+      ${field('dob','Date of Birth','date')}
+      ${field('address','Residential Address','textarea',true,{full:true,placeholder:'House No., Street, City, State, PIN'})}
+      <div class="field full">
+        <label>Hostel Facility Required<span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-pill"><input type="radio" name="hostel" value="Yes" required> Yes</label>
+          <label class="radio-pill"><input type="radio" name="hostel" value="No"> No</label>
+        </div>
+      </div>
+    </div>`,
+
+  // STEP 3: Aadhaar
+  () => `
+    <div class="section-header">
+      <h2>Aadhaar Verification</h2>
+      <p>Enter details exactly as printed on your Aadhaar card.</p>
+    </div>
+    <div class="form-grid">
+      ${field('aadhar_name','Name as on Aadhaar','text',true,{full:true})}
+      ${field('aadhar_dob','Date of Birth as on Aadhaar','date')}
+      ${field('aadhar_address','Address as on Aadhaar','textarea',true,{full:true,placeholder:'Full address as printed on Aadhaar'})}
+    </div>`,
+
+  // STEP 4: Category
+  () => `
+    <div class="section-header">
+      <h2>Category &amp; Quota</h2>
+      <p>Select your main category and sub-category. Extra fields will appear if applicable.</p>
+    </div>
+    <div class="form-grid">
+      <div class="field full">
+        <label>Main Category<span class="req">*</span></label>
+        <div class="radio-group">
+          ${['UR','EWS','OBC','SC','ST'].map(c =>
+            `<label class="radio-pill"><input type="radio" name="main_category" value="${c}" required onchange="onCategoryChange()"> ${c}</label>`
+          ).join('')}
+        </div>
+      </div>
+      <div class="field full">
+        <label>Sub Category<span class="req">*</span></label>
+        <div class="radio-group">
+          ${['OPEN','PH','EX','FF','NCC'].map(c =>
+            `<label class="radio-pill"><input type="radio" name="sub_category" value="${c}" required onchange="onSubCategoryChange()"> ${c}</label>`
+          ).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- SC/ST block -->
+    <div class="cond-block" id="block_scst">
+      <div class="cond-title">SC / ST — Caste Certificate</div>
+      <div class="form-grid">
+        ${field('caste_cert_name','Caste Certificate Issued In Name Of','text')}
+        ${field('caste_cert_date','Certificate Issue Date','date')}
+      </div>
+    </div>
+
+    <!-- OBC block -->
+    <div class="cond-block" id="block_obc">
+      <div class="cond-title">OBC — Certificate (must be Year 2025)</div>
+      <div class="form-grid">
+        ${field('obc_cert_date','OBC Certificate Issue Date','date')}
+      </div>
+    </div>
+
+    <!-- EWS block -->
+    <div class="cond-block" id="block_ews">
+      <div class="cond-title">EWS — Certificate (on or after 1 Apr 2026)</div>
+      <div class="form-grid">
+        ${field('ews_cert_date','EWS Certificate Issue Date','date')}
+      </div>
+    </div>
+
+    <!-- PH block -->
+    <div class="cond-block" id="block_ph">
+      <div class="cond-title">Sub-Category: PH (PwD)</div>
+      <div class="form-grid">
+        ${field('pwd_percent','Disability Percentage (%)','number')}
+        ${field('pwd_type','Disability Type','text')}
+        <div class="field full">
+          <label>Lower Limb Disability Confirmed?<span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="radio-pill"><input type="radio" name="lower_limb" value="Yes"> Yes</label>
+            <label class="radio-pill"><input type="radio" name="lower_limb" value="No"> No</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NCC block -->
+    <div class="cond-block" id="block_ncc">
+      <div class="cond-title">Sub-Category: NCC</div>
+      <div class="form-grid">
+        ${field('ncc_cert_type','NCC Certificate Type','select',true,{options:['C']})}
+        ${field('ncc_cert_grade','NCC Certificate Grade','select',true,{options:['B']})}
+      </div>
+    </div>`,
+
+  // STEP 5: Marks
+  () => `
+    <div class="section-header">
+      <h2>Exam &amp; Academic Marks</h2>
+      <p>Enter marks as they appear on your certificates. CNET subjects are out of 24 each.</p>
+    </div>
+    <div class="section-header" style="margin-top:0;border:none;padding:0 0 8px 0">
+      <h2 style="font-size:15px;color:var(--muted);font-weight:600">CNET Subject Marks (max 24 each)</h2>
+    </div>
+    <div class="form-grid">
+      ${markField('marks_nursing','Nursing Aptitude',24)}
+      ${markField('marks_physics','Physics',24)}
+      ${markField('marks_chemistry','Chemistry',24)}
+      ${markField('marks_biology','Biology',24)}
+      ${markField('marks_english','English',24)}
+    </div>
+    <hr class="divider"/>
+    <div class="section-header" style="margin-top:0;border:none;padding:0 0 8px 0">
+      <h2 style="font-size:15px;color:var(--muted);font-weight:600">Academic / Board Marks</h2>
+    </div>
+    <div class="form-grid">
+      ${markField('pct_10th','10th Standard Total Percentage',100)}
+      ${markField('pct_12_physics','12th Physics %',100)}
+      ${markField('pct_12_chemistry','12th Chemistry %',100)}
+      ${markField('pct_12_biology','12th Biology %',100)}
+      ${markField('pct_12_english','12th English %',100)}
+      <div class="field full">
+        <label class="check-row">
+          <input type="checkbox" id="english_passed" name="english_passed" required>
+          <span>12th English passed individually (as separate subject)<span class="req">*</span></span>
+        </label>
+      </div>
+    </div>`,
+
+  // STEP 6: Documents
+  () => `
+    <div class="section-header">
+      <h2>Document Uploads</h2>
+      <p>Upload clear scanned copies. Accepted: PDF, JPG, PNG · Max 5 MB each.</p>
+    </div>
+    <div class="form-grid">
+      ${fileField('doc_aadhar_front','Aadhaar Card (Front)')}
+      ${fileField('doc_aadhar_back','Aadhaar Card (Back)')}
+      ${fileField('doc_photo','Passport Size Photograph')}
+      ${fileField('doc_10th','10th Marksheet / Certificate')}
+      ${fileField('doc_12th','12th Marksheet / Certificate')}
+    </div>
+    <div class="cond-block" id="doc_block_scst">
+      <div class="cond-title">SC / ST — Caste Certificate</div>
+      <div class="form-grid">${fileField('doc_caste','Caste Certificate')}</div>
+    </div>
+    <div class="cond-block" id="doc_block_obc">
+      <div class="cond-title">OBC — Certificate</div>
+      <div class="form-grid">${fileField('doc_obc','OBC Certificate')}</div>
+    </div>
+    <div class="cond-block" id="doc_block_ews">
+      <div class="cond-title">EWS — Certificate</div>
+      <div class="form-grid">${fileField('doc_ews','EWS Certificate')}</div>
+    </div>
+    <div class="cond-block" id="doc_block_ph">
+      <div class="cond-title">PH (PwD) — Certificate</div>
+      <div class="form-grid">${fileField('doc_pwd','PwD Certificate')}</div>
+    </div>
+    <div class="cond-block" id="doc_block_ncc">
+      <div class="cond-title">NCC — Certificate</div>
+      <div class="form-grid">${fileField('doc_ncc','NCC Certificate')}</div>
+    </div>`,
+
+  // STEP 7: Review
+  () => {
+    const rv = (k, l) => `<div class="review-row"><span class="rv-key">${l}</span><span class="rv-val">${formData[k]||'—'}</span></div>`;
+    const hostel = document.querySelector('input[name="hostel"]:checked');
+    const mainCat = document.querySelector('input[name="main_category"]:checked');
+    const subCat = document.querySelector('input[name="sub_category"]:checked');
+    const ll = document.querySelector('input[name="lower_limb"]:checked');
+    const catVal = mainCat ? mainCat.value : (formData.main_category||'—');
+    const subCatVal = subCat ? subCat.value : (formData.sub_category||'—');
+    const hostelVal = hostel ? hostel.value : (formData.hostel||'—');
+    const llVal = ll ? ll.value : (formData.lower_limb||'—');
+    return `
+    <div class="section-header">
+      <h2>Review &amp; Submit</h2>
+      <p>Please verify all details before final submission. Use the Back button to make changes.</p>
+    </div>
+    <div class="review-section">
+      <h3>Account</h3>
+      ${rv('email','Email')}
+      ${rv('mobile','Mobile')}
+    </div>
+    <div class="review-section">
+      <h3>CNET Details</h3>
+      ${rv('registration_id','Registration ID')}
+      ${rv('roll_no','Roll No.')}
+      ${rv('open_rank','Open Rank')}
+      ${rv('cnet_percentile','CNET Percentile')}
+    </div>
+    <div class="review-section">
+      <h3>Personal</h3>
+      ${rv('full_name','Full Name')}
+      ${rv('father_name',"Father's Name")}
+      ${rv('mother_name',"Mother's Name")}
+      ${rv('dob','Date of Birth')}
+      <div class="review-row"><span class="rv-key">Hostel Required</span><span class="rv-val">${hostelVal}</span></div>
+    </div>
+    <div class="review-section">
+      <h3>Aadhaar</h3>
+      ${rv('aadhar_name','Name on Aadhaar')}
+      ${rv('aadhar_dob','DOB on Aadhaar')}
+    </div>
+    <div class="review-section">
+      <h3>Category</h3>
+      <div class="review-row"><span class="rv-key">Main Category</span><span class="rv-val">${catVal}</span></div>
+      <div class="review-row"><span class="rv-key">Sub Category</span><span class="rv-val">${subCatVal}</span></div>
+    </div>
+    <div class="review-section">
+      <h3>Marks</h3>
+      ${rv('marks_nursing','Nursing Aptitude')}
+      ${rv('marks_physics','Physics')}
+      ${rv('marks_chemistry','Chemistry')}
+      ${rv('marks_biology','Biology')}
+      ${rv('marks_english','English (CNET)')}
+      ${rv('pct_10th','10th %')}
+      ${rv('pct_12_physics','12th Physics %')}
+      ${rv('pct_12_chemistry','12th Chemistry %')}
+      ${rv('pct_12_biology','12th Biology %')}
+      ${rv('pct_12_english','12th English %')}
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:12px">
+      ℹ By clicking <strong>Submit Application</strong>, you confirm that all information provided is true and correct to the best of your knowledge.
+    </p>`;
+  }
+];
+
+// ─── CONDITIONAL CATEGORY UI ──────────────────────────────────
+function onCategoryChange() {
+  const cat = document.querySelector('input[name="main_category"]:checked')?.value || '';
+  const show = (id, visible) => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('visible', visible);
+  };
+  show('block_scst', cat === 'SC' || cat === 'ST');
+  show('block_obc', cat === 'OBC');
+  show('block_ews', cat === 'EWS');
+}
+function onSubCategoryChange() {
+  const sub = document.querySelector('input[name="sub_category"]:checked')?.value || '';
+  const show = (id, visible) => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('visible', visible);
+  };
+  show('block_ph', sub === 'PH');
+  show('block_ncc', sub === 'NCC');
+}
+// mirror for doc step
+function applyDocBlocks() {
+  const cat = formData.main_category || '';
+  const sub = formData.sub_category || '';
+  const show = (id, visible) => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('visible', visible);
+  };
+  show('doc_block_scst', cat === 'SC' || cat === 'ST');
+  show('doc_block_obc', cat === 'OBC');
+  show('doc_block_ews', cat === 'EWS');
+  show('doc_block_ph', sub === 'PH');
+  show('doc_block_ncc', sub === 'NCC');
+}
+
+// ─── COLLECT FORM DATA ────────────────────────────────────────
+function collectStep() {
+  const main = document.getElementById('mainContent');
+  const inputs = main.querySelectorAll('input:not([type=file]):not([type=radio]):not([type=checkbox]), select, textarea');
+  inputs.forEach(el => { if (el.id) formData[el.id] = el.value; });
+  const radios = main.querySelectorAll('input[type=radio]:checked');
+  radios.forEach(el => { if (el.name) formData[el.name] = el.value; });
+  const checks = main.querySelectorAll('input[type=checkbox]');
+  checks.forEach(el => { if (el.id) formData[el.id] = el.checked ? 'Yes' : 'No'; });
+}
+
+// ─── VALIDATE STEP ────────────────────────────────────────────
+function validateStep() {
+  const main = document.getElementById('mainContent');
+  let ok = true;
+  // required text/number/select/textarea
+  main.querySelectorAll('[required]:not([type=radio]):not([type=checkbox]):not([type=file])').forEach(el => {
+    const err = document.getElementById('err_' + el.id);
+    if (!el.value.trim()) {
+      if (err) err.textContent = 'This field is required.';
+      el.classList.add('error');
+      ok = false;
+    } else {
+      if (err) err.textContent = '';
+      el.classList.remove('error');
+    }
+  });
+  // required radios
+  const radioNames = new Set();
+  main.querySelectorAll('input[type=radio][required]').forEach(el => radioNames.add(el.name));
+  radioNames.forEach(name => {
+    if (!main.querySelector(`input[name="${name}"]:checked`)) ok = false;
+  });
+  // password match
+  const pw = document.getElementById('password');
+  const cpw = document.getElementById('confirm_password');
+  if (pw && cpw && pw.value && pw.value !== cpw.value) {
+    const err = document.getElementById('err_confirm_password');
+    if (err) err.textContent = 'Passwords do not match.';
+    cpw.classList.add('error');
+    ok = false;
+  }
+  return ok;
+}
+
+// ─── NAVIGATION ───────────────────────────────────────────────
+function renderStep() {
+  const main = document.getElementById('mainContent');
+  main.innerHTML = stepRenders[currentStep]();
+
+  // nav buttons
+  const navRow = document.createElement('div');
+  navRow.className = 'nav-row';
+  navRow.innerHTML = `
+    ${currentStep > 0
+      ? `<button class="btn btn-secondary" onclick="goBack()">← Back</button>`
+      : `<span></span>`}
+    ${currentStep < STEPS.length - 1
+      ? `<button class="btn btn-primary" onclick="goNext()">Next →</button>`
+      : `<button class="btn btn-gold" onclick="submitForm()">Submit Application ✓</button>`}
+  `;
+  main.appendChild(navRow);
+
+  // restore values
+  Object.entries(formData).forEach(([k, v]) => {
+    const el = document.getElementById(k);
+    if (!el) return;
+    if (el.type === 'checkbox') el.checked = v === 'Yes';
+    else el.value = v;
+  });
+  // restore radios
+  ['hostel','main_category','sub_category','lower_limb','ncc_cert_type','ncc_cert_grade'].forEach(name => {
+    if (formData[name]) {
+      const r = document.querySelector(`input[name="${name}"][value="${formData[name]}"]`);
+      if (r) r.checked = true;
+    }
+  });
+
+  // restore conditional visibility
+  if (currentStep === 4) { onCategoryChange(); onSubCategoryChange(); }
+  if (currentStep === 6) { applyDocBlocks(); }
+
+  renderProgress();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function goNext() {
+  collectStep();
+  if (!validateStep()) return;
+  currentStep++;
+  renderStep();
+}
+
+function goBack() {
+  collectStep();
+  currentStep--;
+  renderStep();
+}
+
+// ─── SUBMIT ───────────────────────────────────────────────────
+function submitForm() {
+  collectStep();
+  if (!validateStep()) return;
+  const id = saveApplication({...formData});
+
+  // show success
+  const main = document.getElementById('mainContent');
+  main.innerHTML = `
+    <div class="success-screen visible">
+      <div class="success-icon">🎓</div>
+      <h2>Application Submitted!</h2>
+      <p>Your CNET admission application has been received. Please note your application ID for future reference.</p>
+      <div class="app-id-badge">${id}</div>
+      <p style="margin-bottom:8px">A copy of your application has been saved to this device.</p>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="location.reload()">Submit Another</button>
+        <button class="btn btn-gold" onclick="exportJSON()">⬇ Download All Records</button>
+      </div>
+    </div>
+    <div class="admin-toggle">
+      <button onclick="toggleAdmin()">View saved applications</button>
+    </div>
+    <div class="admin-panel" id="adminPanel"></div>
+  `;
+  renderAdminPanel();
+
+  // hide progress header background
+  document.querySelector('.progress-bar-wrap').style.display = 'none';
+  document.getElementById('stepLabels').innerHTML = '';
+}
+
+// ─── ADMIN ────────────────────────────────────────────────────
+function toggleAdmin() {
+  const p = document.getElementById('adminPanel');
+  if (!p) return;
+  p.classList.toggle('visible');
+  if (p.classList.contains('visible')) renderAdminPanel();
+}
+
+function renderAdminPanel() {
+  const p = document.getElementById('adminPanel');
+  if (!p) return;
+  const apps = loadApplications();
+  if (!apps.length) {
+    p.innerHTML = `<h3>Saved Applications</h3><div class="no-entries">No applications yet.</div>`;
+    return;
+  }
+  const cols = ['_id','_submittedAt','full_name','email','mobile','roll_no','open_rank','cnet_percentile','main_category','sub_category'];
+  const labels = ['App ID','Submitted','Full Name','Email','Mobile','Roll No.','Open Rank','Percentile','Category','Sub-Cat'];
+  let rows = apps.map(a =>
+    `<tr>${cols.map(c => `<td>${a[c]||'—'}</td>`).join('')}</tr>`
+  ).join('');
+  p.innerHTML = `
+    <h3>Saved Applications (${apps.length})</h3>
+    <div style="overflow-x:auto">
+      <table class="entries-table">
+        <thead><tr>${labels.map(l=>`<th>${l}</th>`).join('')}</tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <div style="margin-top:14px;display:flex;gap:12px;flex-wrap:wrap">
+      <button class="btn btn-gold" onclick="exportJSON()">⬇ Export JSON</button>
+      <button class="btn btn-secondary" style="color:#c0392b;border-color:#c0392b" onclick="clearAllData()">🗑 Clear All</button>
+    </div>`;
+}
+
+// ─── INIT ─────────────────────────────────────────────────────
+renderStep();
+</script>
+
+</body>
+</html>
