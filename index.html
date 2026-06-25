@@ -3,1292 +3,773 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CNET Admission Application</title>
+<title>CNET Admission Portal 2025–26</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+:root{
+  --navy:#1a2744;--navy2:#243260;--gold:#c8972a;--gold-light:#f5e8c8;
+  --cream:#fdfaf4;--white:#fff;--text:#1e2330;--muted:#6b7280;
+  --border:#dde3ee;--err:#c0392b;--ok:#1a7a4a;--bg:#f0f3f9;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;}
 
-  :root {
-    --navy: #1a2744;
-    --gold: #c8972a;
-    --gold-light: #f0e0b0;
-    --cream: #fdfaf4;
-    --white: #ffffff;
-    --text: #1e2330;
-    --muted: #6b7280;
-    --border: #dde3ee;
-    --error: #c0392b;
-    --success: #1a7a4a;
-    --step-done: #c8972a;
-  }
+/* HEADER */
+header{background:var(--navy);position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.hdr{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:13px 20px;}
+.logo{width:42px;height:42px;border-radius:50%;background:var(--gold);display:flex;align-items:center;
+  justify-content:center;font-family:'Playfair Display',serif;font-size:20px;color:var(--navy);font-weight:700;flex-shrink:0;}
+.hdr-txt h1{font-size:17px;color:#fff;font-family:'Playfair Display',serif;}
+.hdr-txt p{font-size:10px;color:var(--gold-light);margin-top:1px;letter-spacing:.5px;}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* PROGRESS */
+.prog-wrap{background:var(--navy);padding:0 20px 14px;}
+.prog-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;}
+.step-dot-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:52px;}
+.step-dot{width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,.25);
+  display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(255,255,255,.5);font-weight:600;}
+.step-dot.done{background:var(--gold);border-color:var(--gold);color:var(--navy);}
+.step-dot.active{background:var(--gold);border-color:var(--gold);color:var(--navy);}
+.step-lbl{font-size:9px;color:rgba(255,255,255,.45);text-align:center;line-height:1.2;}
+.step-lbl.active{color:var(--gold);}
+.step-lbl.done{color:rgba(255,255,255,.65);}
+.prog-line{flex:1;height:2px;background:rgba(255,255,255,.15);}
+.prog-line.done{background:var(--gold);}
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--cream);
-    color: var(--text);
-    min-height: 100vh;
-  }
+/* EDIT BANNER */
+.edit-banner{background:linear-gradient(135deg,#243260,#1a2744);padding:10px 20px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:13px;color:#fff;}
+.edit-banner strong{color:var(--gold);}
+.eb-btn{padding:5px 14px;border-radius:6px;background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.3);color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;}
 
-  /* ── HEADER ── */
-  header {
-    background: var(--navy);
-    padding: 0;
-    position: sticky; top: 0; z-index: 100;
-    box-shadow: 0 2px 12px rgba(0,0,0,.25);
-  }
-  .header-inner {
-    max-width: 860px; margin: 0 auto;
-    display: flex; align-items: center; gap: 16px;
-    padding: 14px 24px;
-  }
-  .logo-circle {
-    width: 44px; height: 44px; border-radius: 50%;
-    background: var(--gold);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-size: 20px; color: var(--navy); font-weight: 700;
-    flex-shrink: 0;
-  }
-  .header-text h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px; color: var(--white);
-    letter-spacing: .3px;
-  }
-  .header-text p { font-size: 11px; color: var(--gold-light); margin-top: 2px; letter-spacing: .5px; }
+/* MAIN */
+main{max-width:860px;margin:0 auto;padding:24px 20px 80px;}
 
-  /* ── PROGRESS BAR ── */
-  .progress-bar-wrap {
-    background: var(--navy);
-    padding: 0 24px 16px;
-  }
-  .progress-bar-inner { max-width: 860px; margin: 0 auto; }
-  .step-labels {
-    display: flex; gap: 0; overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .step-labels::-webkit-scrollbar { display: none; }
-  .step-label {
-    flex: 1; min-width: 80px;
-    display: flex; flex-direction: column; align-items: center;
-    gap: 4px; cursor: default; opacity: .45;
-    transition: opacity .2s;
-    font-size: 10px; color: var(--white);
-    text-align: center; line-height: 1.3;
-  }
-  .step-label.active { opacity: 1; }
-  .step-label.done { opacity: .8; }
-  .step-dot {
-    width: 22px; height: 22px; border-radius: 50%;
-    border: 2px solid rgba(255,255,255,.3);
-    background: transparent;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 9px; color: var(--white); font-weight: 600;
-    transition: background .2s, border-color .2s;
-  }
-  .step-label.active .step-dot {
-    background: var(--gold); border-color: var(--gold); color: var(--navy);
-  }
-  .step-label.done .step-dot {
-    background: var(--gold); border-color: var(--gold); color: var(--navy);
-  }
-  .step-line {
-    flex: 1; height: 2px; background: rgba(255,255,255,.15);
-    align-self: center; margin-bottom: 18px;
-    transition: background .2s;
-  }
-  .step-line.done { background: var(--gold); }
+/* LANDING */
+.land{text-align:center;padding:40px 0;}
+.land h2{font-family:'Playfair Display',serif;font-size:24px;color:var(--navy);margin:14px 0 8px;}
+.land p{color:var(--muted);font-size:14px;margin-bottom:28px;}
+.land-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:440px;margin:0 auto;text-align:left;}
+.land-card{background:var(--white);border:2px solid var(--border);border-radius:14px;
+  padding:22px 18px;cursor:pointer;transition:border-color .2s,box-shadow .2s;}
+.land-card:hover{border-color:var(--gold);box-shadow:0 4px 20px rgba(200,151,42,.15);}
+.land-card .lci{font-size:26px;margin-bottom:8px;}
+.land-card h3{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px;}
+.land-card p{font-size:12px;color:var(--muted);margin:0;}
 
-  /* ── MAIN CONTENT ── */
-  main { max-width: 860px; margin: 0 auto; padding: 28px 24px 60px; }
+/* LOOKUP */
+.lookup-box{background:var(--white);border-radius:14px;padding:30px;max-width:440px;
+  margin:40px auto;box-shadow:0 4px 24px rgba(0,0,0,.08);text-align:center;}
+.lookup-box h3{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.lookup-box p{font-size:13px;color:var(--muted);margin-bottom:18px;}
+.lookup-row{display:flex;gap:8px;}
+.lookup-row input{flex:1;padding:10px 13px;border:1.5px solid var(--border);border-radius:8px;
+  font-family:'Inter',sans-serif;font-size:14px;outline:none;text-transform:uppercase;letter-spacing:1px;}
+.lookup-row input:focus{border-color:var(--gold);}
+.lookup-err{color:var(--err);font-size:12px;margin-top:8px;text-align:left;}
 
-  .section-header {
-    margin-bottom: 24px;
-    border-left: 4px solid var(--gold);
-    padding-left: 14px;
-  }
-  .section-header h2 {
-    font-size: 20px; font-weight: 700; color: var(--navy);
-  }
-  .section-header p {
-    font-size: 13px; color: var(--muted); margin-top: 4px;
-  }
+/* SECTION HEADER */
+.sec-hdr{border-left:4px solid var(--gold);padding-left:13px;margin-bottom:22px;}
+.sec-hdr h2{font-size:19px;font-weight:700;color:var(--navy);}
+.sec-hdr p{font-size:13px;color:var(--muted);margin-top:3px;}
 
-  /* ── FORM GRID ── */
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px 24px;
-  }
-  .form-grid .full { grid-column: 1 / -1; }
-  .form-grid .third { grid-column: span 1; }
+/* FORM GRID */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 22px;}
+.grid .full{grid-column:1/-1;}
 
-  .field { display: flex; flex-direction: column; gap: 6px; }
-  .field label {
-    font-size: 12px; font-weight: 600;
-    color: var(--navy); letter-spacing: .3px;
-    text-transform: uppercase;
-  }
-  .field label .req { color: var(--gold); margin-left: 2px; }
-  .field input, .field select, .field textarea {
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 13px;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    background: var(--white);
-    outline: none;
-    transition: border-color .15s, box-shadow .15s;
-    width: 100%;
-  }
-  .field input:focus, .field select:focus, .field textarea:focus {
-    border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(200,151,42,.12);
-  }
-  .field input.error, .field select.error { border-color: var(--error); }
-  .field .err-msg { font-size: 11px; color: var(--error); }
+/* FIELD */
+.fld{display:flex;flex-direction:column;gap:5px;}
+.fld label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--navy);}
+.fld label .req{color:var(--gold);margin-left:2px;}
+.fld input,.fld select,.fld textarea{
+  border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;
+  font-family:'Inter',sans-serif;font-size:14px;color:var(--text);background:var(--white);
+  outline:none;transition:border-color .15s,box-shadow .15s;width:100%;}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,151,42,.1);}
+.fld input.err,.fld select.err{border-color:var(--err);}
+.fld textarea{resize:vertical;min-height:70px;}
+.fld .emsg{font-size:11px;color:var(--err);}
 
-  .field textarea { resize: vertical; min-height: 72px; }
+/* MARK FIELD */
+.mark-wrap{position:relative;}
+.mark-wrap input{padding-right:48px;}
+.mark-badge{position:absolute;right:11px;top:50%;transform:translateY(-50%);
+  font-size:10px;color:var(--muted);font-weight:700;pointer-events:none;}
 
-  /* checkbox row */
-  .check-row {
-    display: flex; align-items: center; gap: 10px;
-    padding: 10px 13px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    background: var(--white);
-    cursor: pointer;
-  }
-  .check-row input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--gold); }
-  .check-row span { font-size: 13px; color: var(--text); }
+/* RADIO PILLS */
+.radio-grp{display:flex;gap:8px;flex-wrap:wrap;}
+.pill{display:flex;align-items:center;gap:8px;padding:10px 16px;
+  border:1.5px solid var(--border);border-radius:30px;cursor:pointer;
+  font-size:14px;font-weight:500;background:var(--white);user-select:none;transition:border-color .15s,background .15s;}
+.pill input[type=radio]{width:15px;height:15px;accent-color:var(--gold);flex-shrink:0;}
+.pill.checked{border-color:var(--gold);background:rgba(200,151,42,.09);font-weight:700;color:var(--navy);}
 
-  /* radio group */
-  .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
-  .radio-pill {
-    display: flex; align-items: center; gap: 10px;
-    padding: 11px 18px;
-    border: 1.5px solid var(--border);
-    border-radius: 30px;
-    cursor: pointer;
-    font-size: 14px; font-weight: 500;
-    transition: border-color .15s, background .15s;
-    background: var(--white);
-    user-select: none;
-    min-width: 90px;
-  }
-  .radio-pill input[type=radio] {
-    accent-color: var(--gold);
-    width: 16px; height: 16px; flex-shrink: 0;
-  }
-  .radio-pill:has(input:checked) {
-    border-color: var(--gold);
-    background: rgba(200,151,42,.10);
-    font-weight: 700; color: var(--navy);
-  }
+/* CHECKBOX */
+.chk-row{display:flex;align-items:center;gap:10px;padding:11px 13px;
+  border:1.5px solid var(--border);border-radius:8px;background:var(--white);cursor:pointer;}
+.chk-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--gold);}
+.chk-row span{font-size:13px;}
 
-  /* ── CONDITIONAL BLOCKS ── */
-  .cond-block {
-    background: #f8f5ee;
-    border: 1.5px solid var(--gold-light);
-    border-radius: 10px;
-    padding: 18px;
-    margin-top: 16px;
-    display: none;
-  }
-  .cond-block.visible { display: block; }
-  .cond-block .cond-title {
-    font-size: 12px; font-weight: 700;
-    color: var(--navy); text-transform: uppercase;
-    letter-spacing: .4px; margin-bottom: 14px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .cond-block .cond-title::before {
-    content: '';
-    display: inline-block;
-    width: 6px; height: 6px;
-    border-radius: 50%; background: var(--gold);
-  }
+/* CONDITIONAL BLOCK */
+.cond{background:#f8f5ee;border:1.5px solid var(--gold-light);border-radius:10px;
+  padding:16px;margin-top:14px;display:none;}
+.cond.show{display:block;}
+.cond-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;
+  color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.cond-title::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;}
 
-  /* ── FILE UPLOAD ── */
-  .file-upload-area {
-    border: 2px dashed var(--border);
-    border-radius: 10px;
-    padding: 18px 14px;
-    text-align: center;
-    background: var(--white);
-    cursor: pointer;
-    transition: border-color .15s, background .15s;
-    position: relative;
-  }
-  .file-upload-area:hover { border-color: var(--gold); background: rgba(200,151,42,.03); }
-  .file-upload-area input[type=file] {
-    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
-  }
-  .file-upload-area .upload-icon { font-size: 24px; }
-  .file-upload-area p { font-size: 12px; color: var(--muted); margin-top: 4px; }
-  .file-upload-area .file-name {
-    font-size: 12px; color: var(--success); margin-top: 6px; font-weight: 600;
-  }
+/* FILE UPLOAD */
+.file-area{border:2px dashed var(--border);border-radius:10px;padding:16px;
+  text-align:center;background:var(--white);cursor:pointer;position:relative;transition:border-color .15s;}
+.file-area:hover{border-color:var(--gold);}
+.file-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.file-area .fi{font-size:22px;}
+.file-area p{font-size:11px;color:var(--muted);margin-top:3px;}
+.file-name{font-size:12px;color:var(--ok);margin-top:5px;font-weight:600;}
 
-  /* ── DIVIDER ── */
-  .divider {
-    border: none; border-top: 1.5px solid var(--border);
-    margin: 28px 0;
-  }
+/* DIVIDER */
+hr.div{border:none;border-top:1.5px solid var(--border);margin:22px 0;}
 
-  /* ── MARK INPUTS (number with max) ── */
-  .mark-input-wrap { position: relative; }
-  .mark-input-wrap input { padding-right: 50px; }
-  .mark-badge {
-    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-    font-size: 10px; color: var(--muted); font-weight: 600;
-    pointer-events: none;
-  }
+/* NAV */
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:28px;}
+.btn{padding:11px 24px;border-radius:8px;font-family:'Inter',sans-serif;
+  font-size:14px;font-weight:600;cursor:pointer;border:none;transition:opacity .15s,transform .1s;}
+.btn:active{transform:scale(.98);}
+.btn-primary{background:var(--navy);color:#fff;}
+.btn-primary:hover{opacity:.88;}
+.btn-outline{background:transparent;color:var(--navy);border:1.5px solid var(--border);}
+.btn-outline:hover{background:rgba(0,0,0,.04);}
+.btn-gold{background:var(--gold);color:#fff;}
+.btn-gold:hover{opacity:.88;}
 
-  /* ── NAV BUTTONS ── */
-  .nav-row {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-top: 32px;
-  }
-  .btn {
-    padding: 12px 28px;
-    border-radius: 8px;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px; font-weight: 600;
-    cursor: pointer; border: none;
-    transition: opacity .15s, transform .1s;
-  }
-  .btn:active { transform: scale(.98); }
-  .btn-primary { background: var(--navy); color: var(--white); }
-  .btn-primary:hover { opacity: .88; }
-  .btn-secondary {
-    background: transparent; color: var(--navy);
-    border: 1.5px solid var(--border);
-  }
-  .btn-secondary:hover { background: rgba(0,0,0,.04); }
-  .btn-gold { background: var(--gold); color: var(--white); }
-  .btn-gold:hover { opacity: .88; }
-  .btn:disabled { opacity: .4; cursor: not-allowed; }
+/* REVIEW */
+.rv-sec{margin-bottom:18px;}
+.rv-sec h3{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--navy);
+  font-weight:700;border-bottom:2px solid var(--gold);padding-bottom:5px;margin-bottom:8px;}
+.rv-row{display:grid;grid-template-columns:1fr 1.5fr;gap:3px 12px;
+  padding:5px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.rv-row .rk{color:var(--muted);}
+.rv-row .rv{color:var(--text);font-weight:500;word-break:break-all;}
 
-  /* ── REVIEW TABLE ── */
-  .review-section { margin-bottom: 22px; }
-  .review-section h3 {
-    font-size: 13px; text-transform: uppercase; letter-spacing: .5px;
-    color: var(--navy); font-weight: 700;
-    border-bottom: 2px solid var(--gold); padding-bottom: 6px; margin-bottom: 10px;
-  }
-  .review-row {
-    display: grid; grid-template-columns: 1fr 1.5fr;
-    gap: 4px 16px; padding: 6px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-  }
-  .review-row .rv-key { color: var(--muted); }
-  .review-row .rv-val { color: var(--text); font-weight: 500; word-break: break-all; }
+/* SUCCESS */
+.success{text-align:center;padding:50px 20px;}
+.success h2{font-family:'Playfair Display',serif;font-size:26px;color:var(--navy);margin:14px 0 8px;}
+.success p{color:var(--muted);font-size:14px;max-width:380px;margin:0 auto 20px;}
+.app-id{display:inline-block;background:var(--gold-light);border:1.5px solid var(--gold);
+  border-radius:8px;padding:10px 22px;font-size:18px;font-weight:700;color:var(--navy);
+  letter-spacing:1px;margin-bottom:20px;}
+.btn-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
 
-  /* ── SUCCESS SCREEN ── */
-  .success-screen {
-    text-align: center; padding: 60px 24px;
-    display: none;
-  }
-  .success-screen.visible { display: block; }
-  .success-icon { font-size: 56px; }
-  .success-screen h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px; color: var(--navy); margin: 16px 0 8px;
-  }
-  .success-screen p { color: var(--muted); font-size: 14px; max-width: 400px; margin: 0 auto 24px; }
-  .app-id-badge {
-    display: inline-block;
-    background: var(--gold-light);
-    border: 1.5px solid var(--gold);
-    border-radius: 8px;
-    padding: 10px 24px;
-    font-size: 18px; font-weight: 700; color: var(--navy);
-    letter-spacing: 1px;
-    margin-bottom: 28px;
-  }
-  .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+/* LOADING */
+.loading{text-align:center;padding:50px;}
+.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--gold);
+  border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 14px;}
+@keyframes spin{to{transform:rotate(360deg);}}
 
-  /* ── ADMIN PANEL ── */
-  .admin-toggle {
-    text-align: center; margin-top: 40px;
-  }
-  .admin-toggle button {
-    background: none; border: none; color: var(--muted);
-    font-size: 11px; cursor: pointer; text-decoration: underline;
-  }
-  .admin-panel {
-    background: var(--white);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 24px;
-    margin-top: 16px;
-    display: none;
-  }
-  .admin-panel.visible { display: block; }
-  .admin-panel h3 {
-    font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 16px;
-  }
-  .entries-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .entries-table th {
-    background: var(--navy); color: var(--white);
-    padding: 8px 10px; text-align: left;
-  }
-  .entries-table td {
-    padding: 7px 10px; border-bottom: 1px solid var(--border);
-    vertical-align: top;
-  }
-  .entries-table tr:hover td { background: #f5f7fb; }
-  .no-entries { text-align: center; color: var(--muted); padding: 24px; font-size: 14px; }
-
-  @media (max-width: 600px) {
-    .form-grid { grid-template-columns: 1fr; }
-    .form-grid .full { grid-column: 1; }
-    main { padding: 20px 16px 60px; }
-    .btn { padding: 11px 18px; }
-    .review-row { grid-template-columns: 1fr; }
-    .radio-group { flex-direction: column; gap: 8px; }
-    .radio-pill { width: 100%; min-width: unset; padding: 12px 16px; font-size: 15px; }
-  }
-
-  /* ── LANDING SCREEN ── */
-  .landing-screen {
-    max-width: 500px; margin: 60px auto; text-align: center; padding: 0 16px;
-  }
-  .landing-screen .land-icon { font-size: 52px; margin-bottom: 16px; }
-  .landing-screen h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px; color: var(--navy); margin-bottom: 8px;
-  }
-  .landing-screen p { color: var(--muted); font-size: 14px; margin-bottom: 32px; }
-
-  .landing-cards {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; text-align: left;
-  }
-  .land-card {
-    background: var(--white); border: 2px solid var(--border);
-    border-radius: 14px; padding: 24px 20px;
-    cursor: pointer; transition: border-color .2s, box-shadow .2s;
-  }
-  .land-card:hover { border-color: var(--gold); box-shadow: 0 4px 20px rgba(200,151,42,.15); }
-  .land-card .lc-icon { font-size: 28px; margin-bottom: 10px; }
-  .land-card h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
-  .land-card p { font-size: 12px; color: var(--muted); margin: 0; }
-
-  /* lookup box */
-  .lookup-box {
-    background: var(--white); border-radius: 14px;
-    padding: 32px; max-width: 460px; margin: 40px auto;
-    box-shadow: 0 4px 24px rgba(0,0,0,.08);
-    text-align: center;
-  }
-  .lookup-box h3 { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
-  .lookup-box p { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
-  .lookup-input-row { display: flex; gap: 10px; }
-  .lookup-input-row input {
-    flex: 1; padding: 11px 14px;
-    border: 1.5px solid var(--border); border-radius: 8px;
-    font-family: 'Inter', sans-serif; font-size: 14px; outline: none;
-    text-transform: uppercase; letter-spacing: 1px;
-    transition: border-color .15s;
-  }
-  .lookup-input-row input:focus { border-color: var(--gold); }
-  .lookup-err { color: var(--error); font-size: 12px; margin-top: 8px; }
-
-  /* edit mode banner */
-  .edit-banner {
-    background: linear-gradient(135deg, #1a2744, #2a3d6e);
-    color: var(--white); padding: 10px 20px;
-    display: flex; align-items: center; justify-content: space-between;
-    font-size: 13px; flex-wrap: wrap; gap: 8px;
-  }
-  .edit-banner strong { color: var(--gold); }
-  .edit-banner-btn {
-    padding: 6px 14px; border-radius: 6px;
-    background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3);
-    color: var(--white); font-size: 12px; font-weight: 600;
-    cursor: pointer; font-family: 'Inter', sans-serif;
-  }
-  .edit-banner-btn:hover { background: rgba(255,255,255,.25); }
-
-  @media (max-width: 500px) {
-    .landing-cards { grid-template-columns: 1fr; }
-  }
+@media(max-width:580px){
+  .grid{grid-template-columns:1fr;}
+  .grid .full{grid-column:1;}
+  .land-cards{grid-template-columns:1fr;}
+  .radio-grp{flex-direction:column;}
+  .pill{width:100%;}
+  .rv-row{grid-template-columns:1fr;}
+  main{padding:18px 14px 80px;}
+}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-inner">
-    <div class="logo-circle">C</div>
-    <div class="header-text">
+  <div class="hdr">
+    <div class="logo">C</div>
+    <div class="hdr-txt">
       <h1>CNET Admission Portal</h1>
       <p>ONLINE APPLICATION FORM · 2025–26</p>
     </div>
   </div>
-  <div class="progress-bar-wrap">
-    <div class="progress-bar-inner">
-      <div class="step-labels" id="stepLabels">
-        <!-- filled by JS -->
-      </div>
-    </div>
+  <div class="prog-wrap" id="progWrap" style="display:none">
+    <div class="prog-inner" id="progInner"></div>
   </div>
 </header>
 <div id="editBanner" style="display:none"></div>
-
-<main id="mainContent">
-  <!-- Steps rendered by JS -->
-</main>
+<main id="app"></main>
 
 <script>
-// ─── DATA STORE ───────────────────────────────────────────────
-const STORAGE_KEY = 'cnet_applications';
+// ══════════════════════════════════════════════
+//  CONFIG
+// ══════════════════════════════════════════════
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzgR-bPXTTLsasZhd7DvI4ASE6J9Uqvj0HEWCg-uGx6M1UC3M9PrNiJR362e0NrcSb7/exec';
+const STORE_KEY = 'cnet_apps_v2';
 
-function loadApplications() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
-  catch { return []; }
+// ══════════════════════════════════════════════
+//  LOCAL STORAGE
+// ══════════════════════════════════════════════
+function loadApps(){ try{ return JSON.parse(localStorage.getItem(STORE_KEY)||'[]'); }catch{ return []; } }
+function saveApps(arr){ localStorage.setItem(STORE_KEY, JSON.stringify(arr)); }
+function addApp(data){
+  const apps = loadApps();
+  const id = 'CNET'+Date.now().toString(36).toUpperCase();
+  const rec = {...data, _id:id, _submittedAt:new Date().toLocaleString('en-IN')};
+  apps.push(rec); saveApps(apps); return id;
 }
-function saveApplication(data) {
-  const apps = loadApplications();
-  const id = 'CNET' + Date.now().toString(36).toUpperCase();
-  data._id = id;
-  data._submittedAt = new Date().toLocaleString('en-IN');
-  apps.push(data);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
-  return id;
+function updateApp(id, data){
+  const apps = loadApps();
+  const i = apps.findIndex(a=>a._id===id);
+  if(i<0) return false;
+  const rec = {...data, _id:id, _submittedAt:apps[i]._submittedAt, _updatedAt:new Date().toLocaleString('en-IN')};
+  apps[i]=rec; saveApps(apps); return true;
 }
-function exportJSON() {
-  const apps = loadApplications();
-  const blob = new Blob([JSON.stringify(apps, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'cnet_applications_' + Date.now() + '.json';
-  a.click();
-}
-function clearAllData() {
-  if (confirm('Delete ALL stored applications? This cannot be undone.')) {
-    localStorage.removeItem(STORAGE_KEY);
-    renderAdminPanel();
-  }
+function findApp(id){ return loadApps().find(a=>a._id===id.trim().toUpperCase())||null; }
+
+// ══════════════════════════════════════════════
+//  GOOGLE SHEETS — POST via no-cors fetch
+// ══════════════════════════════════════════════
+function sendToSheet(payload, cb){
+  fetch(SHEET_URL, {
+    method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload)
+  }).then(()=>cb(true)).catch(()=>cb(false));
 }
 
-// ─── STEP CONFIG ──────────────────────────────────────────────
-const STEPS = [
-  { label: 'Account', icon: '1' },
-  { label: 'CNET', icon: '2' },
-  { label: 'Personal', icon: '3' },
-  { label: 'Aadhaar', icon: '4' },
-  { label: 'Category', icon: '5' },
-  { label: 'Marks', icon: '6' },
-  { label: 'Documents', icon: '7' },
-  { label: 'Review', icon: '8' },
-];
-let currentStep = 0;
-const formData = {};
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let step = 0;
+let editId = null;
+let fd = {};   // form data object
 
-// ─── PROGRESS BAR ─────────────────────────────────────────────
-function renderProgress() {
-  const container = document.getElementById('stepLabels');
-  let html = '';
-  STEPS.forEach((s, i) => {
-    const cls = i < currentStep ? 'done' : i === currentStep ? 'active' : '';
-    const dotContent = i < currentStep ? '✓' : s.icon;
-    html += `<div class="step-label ${cls}">
-      <div class="step-dot">${dotContent}</div>
-      <span>${s.label}</span>
+const STEPS = ['Account','CNET','Personal','Aadhaar','Category','Marks','Documents','Review'];
+
+// ══════════════════════════════════════════════
+//  PROGRESS BAR
+// ══════════════════════════════════════════════
+function showProg(){ document.getElementById('progWrap').style.display='block'; renderProg(); }
+function hideProg(){ document.getElementById('progWrap').style.display='none'; }
+function renderProg(){
+  const el = document.getElementById('progInner');
+  let h='';
+  STEPS.forEach((s,i)=>{
+    const cls = i<step?'done':i===step?'active':'';
+    h+=`<div class="step-dot-wrap">
+      <div class="step-dot ${cls}">${i<step?'✓':(i+1)}</div>
+      <div class="step-lbl ${cls}">${s}</div>
     </div>`;
-    if (i < STEPS.length - 1) {
-      html += `<div class="step-line ${i < currentStep ? 'done' : ''}"></div>`;
-    }
+    if(i<STEPS.length-1) h+=`<div class="prog-line ${i<step?'done':''}"></div>`;
   });
-  container.innerHTML = html;
+  el.innerHTML=h;
 }
 
-// ─── FIELD BUILDER HELPERS ────────────────────────────────────
-function field(id, label, type='text', required=true, opts={}) {
-  const req = required ? '<span class="req">*</span>' : '';
-  const placeholder = opts.placeholder || '';
-  let input = '';
-  if (type === 'select') {
-    const options = (opts.options||[]).map(o => `<option value="${o.v||o}">${o.l||o}</option>`).join('');
-    input = `<select id="${id}" name="${id}" ${required?'required':''}>
-      <option value="">Select…</option>${options}</select>`;
-  } else if (type === 'textarea') {
-    input = `<textarea id="${id}" name="${id}" placeholder="${placeholder}" ${required?'required':''}></textarea>`;
-  } else if (type === 'checkbox') {
-    return `<div class="field full">
-      <label class="check-row">
-        <input type="checkbox" id="${id}" name="${id}" ${required?'required':''}>
-        <span>${label}${req}</span>
-      </label>
-    </div>`;
+// ══════════════════════════════════════════════
+//  HELPERS — build HTML
+// ══════════════════════════════════════════════
+function F(id,label,type='text',req=true,opts={}){
+  const star = req?'<span class="req">*</span>':'';
+  const ph = opts.ph||'';
+  const full = opts.full?' full':'';
+  let inp='';
+  if(type==='select'){
+    const os=(opts.options||[]).map(o=>`<option value="${o.v||o}">${o.l||o}</option>`).join('');
+    inp=`<select id="${id}" ${req?'required':''}><option value="">Select…</option>${os}</select>`;
+  } else if(type==='textarea'){
+    inp=`<textarea id="${id}" placeholder="${ph}" ${req?'required':''}></textarea>`;
   } else {
-    input = `<input type="${type}" id="${id}" name="${id}" placeholder="${placeholder}" ${required?'required':''}/>`;
+    inp=`<input type="${type}" id="${id}" placeholder="${ph}" ${req?'required':''}/>`;
   }
-  const fullClass = opts.full ? ' full' : '';
-  return `<div class="field${fullClass}">
-    <label for="${id}">${label}${req}</label>
-    ${input}
-    <span class="err-msg" id="err_${id}"></span>
-  </div>`;
+  return `<div class="fld${full}"><label for="${id}">${label}${star}</label>${inp}<span class="emsg" id="e_${id}"></span></div>`;
 }
 
-function markField(id, label, max=24) {
-  return `<div class="field">
-    <label for="${id}">${label}<span class="req">*</span></label>
-    <div class="mark-input-wrap">
-      <input type="number" id="${id}" name="${id}" min="0" max="${max}" step="0.01" required placeholder="0"/>
-      <span class="mark-badge">/${max}</span>
-    </div>
-    <span class="err-msg" id="err_${id}"></span>
-  </div>`;
+function MF(id,label,max=24){
+  return `<div class="fld"><label for="${id}">${label}<span class="req">*</span></label>
+    <div class="mark-wrap"><input type="number" id="${id}" min="0" max="${max}" step="0.01" required placeholder="0"/>
+    <span class="mark-badge">/${max}</span></div>
+    <span class="emsg" id="e_${id}"></span></div>`;
 }
 
-function fileField(id, label, required=true) {
-  const req = required ? '<span class="req">*</span>' : '';
-  return `<div class="field full">
-    <label>${label}${req}</label>
-    <div class="file-upload-area" onclick="document.getElementById('${id}').click()">
-      <input type="file" id="${id}" name="${id}" accept=".pdf,.jpg,.jpeg,.png" ${required?'required':''} onchange="showFileName('${id}')"/>
-      <div class="upload-icon">📎</div>
-      <p>Click to upload · PDF, JPG, PNG · Max 5 MB</p>
+function FILE(id,label,req=true){
+  const star=req?'<span class="req">*</span>':'';
+  return `<div class="fld full"><label>${label}${star}</label>
+    <div class="file-area">
+      <input type="file" id="${id}" accept=".pdf,.jpg,.jpeg,.png" onchange="showFN('${id}')"/>
+      <div class="fi">📎</div>
+      <p>Click to upload · PDF / JPG / PNG · Max 5 MB</p>
       <div class="file-name" id="fn_${id}"></div>
-    </div>
-    <span class="err-msg" id="err_${id}"></span>
-  </div>`;
+    </div></div>`;
 }
 
-function showFileName(id) {
-  const inp = document.getElementById(id);
-  const span = document.getElementById('fn_' + id);
-  if (inp && inp.files[0]) span.textContent = '✓ ' + inp.files[0].name;
+function showFN(id){
+  const f=document.getElementById(id);
+  const s=document.getElementById('fn_'+id);
+  if(f&&f.files[0]) s.textContent='✓ '+f.files[0].name;
 }
 
-// ─── STEP RENDERS ─────────────────────────────────────────────
-const stepRenders = [
+function RADIO(name,opts,req=true,onch=''){
+  return opts.map(o=>`
+    <label class="pill" id="pill_${name}_${o.v||o}">
+      <input type="radio" name="${name}" value="${o.v||o}" ${req?'required':''} onchange="syncPills('${name}');${onch}">
+      ${o.l||o}
+    </label>`).join('');
+}
 
-  // STEP 0: Account
-  () => `
-    <div class="section-header">
-      <h2>Account Details</h2>
-      <p>Create your application account. These credentials will be used to log in.</p>
-    </div>
-    <div class="form-grid">
-      ${field('email','Email Address','email')}
-      ${field('mobile','Mobile Number','tel',true,{placeholder:'10-digit number'})}
-      ${field('password','Password','password')}
-      ${field('confirm_password','Confirm Password','password')}
-    </div>`,
+function syncPills(name){
+  document.querySelectorAll(`.pill input[name="${name}"]`).forEach(r=>{
+    r.closest('.pill').classList.toggle('checked',r.checked);
+  });
+}
 
-  // STEP 1: CNET / Exam
-  () => `
-    <div class="section-header">
-      <h2>CNET / Exam Details</h2>
-      <p>Enter your CNET examination information exactly as on your scorecard.</p>
-    </div>
-    <div class="form-grid">
-      ${field('registration_id','Registration ID','text')}
-      ${field('roll_no','Roll Number','text')}
-      ${field('open_rank','Open Rank','number')}
-      ${field('cnet_percentile','CNET Percentile','number',true,{placeholder:'e.g. 87.50'})}
-      ${field('category_rank','Category Rank','number',false)}
-      ${field('sub_category_rank','Sub-Category Rank','number',false)}
-    </div>`,
+// ══════════════════════════════════════════════
+//  STEP CONTENT
+// ══════════════════════════════════════════════
+function stepHTML(){
+  if(step===0) return `
+    <div class="sec-hdr"><h2>Account Details</h2><p>Create your login credentials for this application.</p></div>
+    <div class="grid">
+      ${F('email','Email Address','email')}
+      ${F('mobile','Mobile Number','tel',true,{ph:'10-digit number'})}
+      ${F('password','Password','password')}
+      ${F('confirm_password','Confirm Password','password')}
+    </div>`;
 
-  // STEP 2: Personal
-  () => `
-    <div class="section-header">
-      <h2>Personal Details</h2>
-      <p>Provide personal information as it appears on your official documents.</p>
-    </div>
-    <div class="form-grid">
-      ${field('full_name','Full Name','text',true,{full:true})}
-      ${field('father_name',"Father's Name",'text')}
-      ${field('mother_name',"Mother's Name",'text')}
-      ${field('email_personal','Email ID (Personal)','email')}
-      ${field('mobile_personal','Mobile Number','tel')}
-      ${field('name_10th','Name as per 10th Certificate','text')}
-      ${field('dob_10th','Date of Birth (as per 10th Certificate)','date')}
-      ${field('dob','Date of Birth','date')}
-      ${field('address','Residential Address','textarea',true,{full:true,placeholder:'House No., Street, City, State, PIN'})}
-      <div class="field full">
+  if(step===1) return `
+    <div class="sec-hdr"><h2>CNET / Exam Details</h2><p>Enter details exactly as on your CNET scorecard.</p></div>
+    <div class="grid">
+      ${F('registration_id','Registration ID','text')}
+      ${F('roll_no','Roll Number','text')}
+      ${F('open_rank','Open Rank','number')}
+      ${F('cnet_percentile','CNET Percentile','number',true,{ph:'e.g. 87.50'})}
+      ${F('category_rank','Category Rank','number',false)}
+      ${F('sub_category_rank','Sub-Category Rank','number',false)}
+    </div>`;
+
+  if(step===2) return `
+    <div class="sec-hdr"><h2>Personal Details</h2><p>As appearing on your official documents.</p></div>
+    <div class="grid">
+      ${F('full_name','Full Name','text',true,{full:true})}
+      ${F('father_name',"Father's Name",'text')}
+      ${F('mother_name',"Mother's Name",'text')}
+      ${F('email_personal','Personal Email','email',false)}
+      ${F('mobile_personal','Personal Mobile','tel',false)}
+      ${F('name_10th','Name as per 10th Certificate','text',true,{full:true})}
+      ${F('dob_10th','DOB as per 10th Certificate','date')}
+      ${F('dob','Date of Birth','date')}
+      ${F('address','Residential Address','textarea',true,{full:true,ph:'House No., Street, City, State, PIN'})}
+      <div class="fld full">
         <label>Hostel Facility Required<span class="req">*</span></label>
-        <div class="radio-group">
-          <label class="radio-pill"><input type="radio" name="hostel" value="Yes" required> Yes</label>
-          <label class="radio-pill"><input type="radio" name="hostel" value="No"> No</label>
-        </div>
+        <div class="radio-grp">${RADIO('hostel',[{v:'Yes',l:'Yes'},{v:'No',l:'No'}])}</div>
+        <span class="emsg" id="e_hostel"></span>
       </div>
-    </div>`,
+    </div>`;
 
-  // STEP 3: Aadhaar
-  () => `
-    <div class="section-header">
-      <h2>Aadhaar Verification</h2>
-      <p>Enter details exactly as printed on your Aadhaar card.</p>
-    </div>
-    <div class="form-grid">
-      ${field('aadhar_name','Name as on Aadhaar','text',true,{full:true})}
-      ${field('aadhar_dob','Date of Birth as on Aadhaar','date')}
-      ${field('aadhar_address','Address as on Aadhaar','textarea',true,{full:true,placeholder:'Full address as printed on Aadhaar'})}
-    </div>`,
+  if(step===3) return `
+    <div class="sec-hdr"><h2>Aadhaar Verification</h2><p>Exactly as printed on your Aadhaar card.</p></div>
+    <div class="grid">
+      ${F('aadhar_name','Name as on Aadhaar','text',true,{full:true})}
+      ${F('aadhar_dob','Date of Birth as on Aadhaar','date')}
+      ${F('aadhar_address','Address as on Aadhaar','textarea',true,{full:true,ph:'Full address as on Aadhaar'})}
+    </div>`;
 
-  // STEP 4: Category
-  () => `
-    <div class="section-header">
-      <h2>Category &amp; Quota</h2>
-      <p>Select your main category and sub-category. Extra fields will appear if applicable.</p>
-    </div>
-    <div class="form-grid">
-      <div class="field full">
+  if(step===4) return `
+    <div class="sec-hdr"><h2>Category &amp; Quota</h2><p>Select your category — extra fields appear automatically.</p></div>
+    <div class="grid">
+      <div class="fld full">
         <label>Main Category<span class="req">*</span></label>
-        <div class="radio-group">
-          ${['UR','EWS','OBC','SC','ST'].map(c =>
-            `<label class="radio-pill"><input type="radio" name="main_category" value="${c}" required onchange="onCategoryChange()"> ${c}</label>`
-          ).join('')}
-        </div>
+        <div class="radio-grp">${RADIO('main_category',[{v:'UR',l:'UR'},{v:'EWS',l:'EWS'},{v:'OBC',l:'OBC'},{v:'SC',l:'SC'},{v:'ST',l:'ST'}],true,"onCatChange()")}</div>
+        <span class="emsg" id="e_main_category"></span>
       </div>
-      <div class="field full">
+      <div class="fld full">
         <label>Sub Category<span class="req">*</span></label>
-        <div class="radio-group">
-          ${['OPEN','PH','EX','FF','NCC'].map(c =>
-            `<label class="radio-pill"><input type="radio" name="sub_category" value="${c}" required onchange="onSubCategoryChange()"> ${c}</label>`
-          ).join('')}
-        </div>
+        <div class="radio-grp">${RADIO('sub_category',[{v:'OPEN',l:'OPEN'},{v:'PH',l:'PH'},{v:'EX',l:'EX'},{v:'FF',l:'FF'},{v:'NCC',l:'NCC'}],true,"onSubChange()")}</div>
+        <span class="emsg" id="e_sub_category"></span>
       </div>
     </div>
-
-    <!-- SC/ST block -->
-    <div class="cond-block" id="block_scst">
+    <div class="cond" id="c_scst">
       <div class="cond-title">SC / ST — Caste Certificate</div>
-      <div class="form-grid">
-        ${field('caste_cert_name','Caste Certificate Issued In Name Of','text')}
-        ${field('caste_cert_date','Certificate Issue Date','date')}
+      <div class="grid">
+        ${F('caste_cert_name','Certificate Issued In Name Of','text',false)}
+        ${F('caste_cert_date','Certificate Issue Date','date',false)}
       </div>
     </div>
-
-    <!-- OBC block -->
-    <div class="cond-block" id="block_obc">
-      <div class="cond-title">OBC — Certificate (must be Year 2025)</div>
-      <div class="form-grid">
-        ${field('obc_cert_date','OBC Certificate Issue Date','date')}
-      </div>
+    <div class="cond" id="c_obc">
+      <div class="cond-title">OBC — Certificate (Year 2025)</div>
+      <div class="grid">${F('obc_cert_date','OBC Certificate Issue Date','date',false)}</div>
     </div>
-
-    <!-- EWS block -->
-    <div class="cond-block" id="block_ews">
+    <div class="cond" id="c_ews">
       <div class="cond-title">EWS — Certificate (on or after 1 Apr 2026)</div>
-      <div class="form-grid">
-        ${field('ews_cert_date','EWS Certificate Issue Date','date')}
-      </div>
+      <div class="grid">${F('ews_cert_date','EWS Certificate Issue Date','date',false)}</div>
     </div>
-
-    <!-- PH block -->
-    <div class="cond-block" id="block_ph">
+    <div class="cond" id="c_ph">
       <div class="cond-title">Sub-Category: PH (PwD)</div>
-      <div class="form-grid">
-        ${field('pwd_percent','Disability Percentage (%)','number')}
-        ${field('pwd_type','Disability Type','text')}
-        <div class="field full">
-          <label>Lower Limb Disability Confirmed?<span class="req">*</span></label>
-          <div class="radio-group">
-            <label class="radio-pill"><input type="radio" name="lower_limb" value="Yes"> Yes</label>
-            <label class="radio-pill"><input type="radio" name="lower_limb" value="No"> No</label>
-          </div>
+      <div class="grid">
+        ${F('pwd_percent','Disability Percentage (%)','number',false)}
+        ${F('pwd_type','Disability Type','text',false)}
+        <div class="fld full">
+          <label>Lower Limb Disability Confirmed?</label>
+          <div class="radio-grp">${RADIO('lower_limb',[{v:'Yes',l:'Yes'},{v:'No',l:'No'}],false,'')}</div>
         </div>
       </div>
     </div>
-
-    <!-- NCC block -->
-    <div class="cond-block" id="block_ncc">
+    <div class="cond" id="c_ncc">
       <div class="cond-title">Sub-Category: NCC</div>
-      <div class="form-grid">
-        ${field('ncc_cert_type','NCC Certificate Type','select',true,{options:['C']})}
-        ${field('ncc_cert_grade','NCC Certificate Grade','select',true,{options:['B']})}
+      <div class="grid">
+        ${F('ncc_cert_type','NCC Certificate Type','select',false,{options:['C']})}
+        ${F('ncc_cert_grade','NCC Certificate Grade','select',false,{options:['B']})}
       </div>
-    </div>`,
+    </div>`;
 
-  // STEP 5: Marks
-  () => `
-    <div class="section-header">
-      <h2>Exam &amp; Academic Marks</h2>
-      <p>Enter marks as they appear on your certificates. CNET subjects are out of 24 each.</p>
+  if(step===5) return `
+    <div class="sec-hdr"><h2>Marks</h2><p>Enter marks as on certificates. CNET subjects are out of 24.</p></div>
+    <p style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:12px">CNET Subject Marks</p>
+    <div class="grid">
+      ${MF('marks_nursing','Nursing Aptitude',24)}
+      ${MF('marks_physics','Physics',24)}
+      ${MF('marks_chemistry','Chemistry',24)}
+      ${MF('marks_biology','Biology',24)}
+      ${MF('marks_english_cnet','English (CNET)',24)}
     </div>
-    <div class="section-header" style="margin-top:0;border:none;padding:0 0 8px 0">
-      <h2 style="font-size:15px;color:var(--muted);font-weight:600">CNET Subject Marks (max 24 each)</h2>
-    </div>
-    <div class="form-grid">
-      ${markField('marks_nursing','Nursing Aptitude',24)}
-      ${markField('marks_physics','Physics',24)}
-      ${markField('marks_chemistry','Chemistry',24)}
-      ${markField('marks_biology','Biology',24)}
-      ${markField('marks_english','English',24)}
-    </div>
-    <hr class="divider"/>
-    <div class="section-header" style="margin-top:0;border:none;padding:0 0 8px 0">
-      <h2 style="font-size:15px;color:var(--muted);font-weight:600">Academic / Board Marks</h2>
-    </div>
-    <div class="form-grid">
-      ${markField('pct_10th','10th Standard Total Percentage',100)}
-      ${markField('pct_12_physics','12th Physics %',100)}
-      ${markField('pct_12_chemistry','12th Chemistry %',100)}
-      ${markField('pct_12_biology','12th Biology %',100)}
-      ${markField('pct_12_english','12th English %',100)}
-      <div class="field full">
-        <label class="check-row">
-          <input type="checkbox" id="english_passed" name="english_passed" required>
-          <span>12th English passed individually (as separate subject)<span class="req">*</span></span>
+    <hr class="div"/>
+    <p style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:12px">Board / Academic Marks</p>
+    <div class="grid">
+      ${MF('pct_10th','10th Total Percentage',100)}
+      ${MF('pct_12_physics','12th Physics %',100)}
+      ${MF('pct_12_chemistry','12th Chemistry %',100)}
+      ${MF('pct_12_biology','12th Biology %',100)}
+      ${MF('pct_12_english','12th English %',100)}
+      <div class="fld full">
+        <label class="chk-row">
+          <input type="checkbox" id="english_passed"/>
+          <span>12th English passed as separate subject<span class="req">*</span></span>
         </label>
       </div>
-    </div>`,
+    </div>`;
 
-  // STEP 6: Documents
-  () => `
-    <div class="section-header">
-      <h2>Document Uploads</h2>
-      <p>Upload clear scanned copies. Accepted: PDF, JPG, PNG · Max 5 MB each.</p>
+  if(step===6) return `
+    <div class="sec-hdr"><h2>Document Uploads</h2><p>PDF / JPG / PNG · Max 5 MB each.</p></div>
+    <div class="grid">
+      ${FILE('doc_aadhar_front','Aadhaar Card (Front)')}
+      ${FILE('doc_aadhar_back','Aadhaar Card (Back)')}
+      ${FILE('doc_photo','Passport Size Photograph')}
+      ${FILE('doc_10th','10th Marksheet / Certificate')}
+      ${FILE('doc_12th','12th Marksheet / Certificate')}
     </div>
-    <div class="form-grid">
-      ${fileField('doc_aadhar_front','Aadhaar Card (Front)')}
-      ${fileField('doc_aadhar_back','Aadhaar Card (Back)')}
-      ${fileField('doc_photo','Passport Size Photograph')}
-      ${fileField('doc_10th','10th Marksheet / Certificate')}
-      ${fileField('doc_12th','12th Marksheet / Certificate')}
-    </div>
-    <div class="cond-block" id="doc_block_scst">
+    <div class="cond show" id="dc_scst" style="display:none">
       <div class="cond-title">SC / ST — Caste Certificate</div>
-      <div class="form-grid">${fileField('doc_caste','Caste Certificate')}</div>
+      <div class="grid">${FILE('doc_caste','Caste Certificate',false)}</div>
     </div>
-    <div class="cond-block" id="doc_block_obc">
-      <div class="cond-title">OBC — Certificate</div>
-      <div class="form-grid">${fileField('doc_obc','OBC Certificate')}</div>
+    <div class="cond" id="dc_obc" style="display:none">
+      <div class="cond-title">OBC — OBC Certificate</div>
+      <div class="grid">${FILE('doc_obc','OBC Certificate',false)}</div>
     </div>
-    <div class="cond-block" id="doc_block_ews">
-      <div class="cond-title">EWS — Certificate</div>
-      <div class="form-grid">${fileField('doc_ews','EWS Certificate')}</div>
+    <div class="cond" id="dc_ews" style="display:none">
+      <div class="cond-title">EWS — EWS Certificate</div>
+      <div class="grid">${FILE('doc_ews','EWS Certificate',false)}</div>
     </div>
-    <div class="cond-block" id="doc_block_ph">
-      <div class="cond-title">PH (PwD) — Certificate</div>
-      <div class="form-grid">${fileField('doc_pwd','PwD Certificate')}</div>
+    <div class="cond" id="dc_ph" style="display:none">
+      <div class="cond-title">PH — PwD Certificate</div>
+      <div class="grid">${FILE('doc_pwd','PwD Certificate',false)}</div>
     </div>
-    <div class="cond-block" id="doc_block_ncc">
-      <div class="cond-title">NCC — Certificate</div>
-      <div class="form-grid">${fileField('doc_ncc','NCC Certificate')}</div>
-    </div>`,
+    <div class="cond" id="dc_ncc" style="display:none">
+      <div class="cond-title">NCC — NCC Certificate</div>
+      <div class="grid">${FILE('doc_ncc','NCC Certificate',false)}</div>
+    </div>`;
 
-  // STEP 7: Review
-  () => {
-    const rv = (k, l) => `<div class="review-row"><span class="rv-key">${l}</span><span class="rv-val">${formData[k]||'—'}</span></div>`;
-    const hostel = document.querySelector('input[name="hostel"]:checked');
-    const mainCat = document.querySelector('input[name="main_category"]:checked');
-    const subCat = document.querySelector('input[name="sub_category"]:checked');
-    const ll = document.querySelector('input[name="lower_limb"]:checked');
-    const catVal = mainCat ? mainCat.value : (formData.main_category||'—');
-    const subCatVal = subCat ? subCat.value : (formData.sub_category||'—');
-    const hostelVal = hostel ? hostel.value : (formData.hostel||'—');
-    const llVal = ll ? ll.value : (formData.lower_limb||'—');
+  if(step===7){
+    const g=(k)=>fd[k]||'—';
     return `
-    <div class="section-header">
-      <h2>Review &amp; Submit</h2>
-      <p>Please verify all details before final submission. Use the Back button to make changes.</p>
+    <div class="sec-hdr"><h2>Review &amp; Submit</h2><p>Check all details before submitting.</p></div>
+    <div class="rv-sec"><h3>Account</h3>
+      <div class="rv-row"><span class="rk">Email</span><span class="rv">${g('email')}</span></div>
+      <div class="rv-row"><span class="rk">Mobile</span><span class="rv">${g('mobile')}</span></div>
     </div>
-    <div class="review-section">
-      <h3>Account</h3>
-      ${rv('email','Email')}
-      ${rv('mobile','Mobile')}
+    <div class="rv-sec"><h3>CNET</h3>
+      <div class="rv-row"><span class="rk">Registration ID</span><span class="rv">${g('registration_id')}</span></div>
+      <div class="rv-row"><span class="rk">Roll No.</span><span class="rv">${g('roll_no')}</span></div>
+      <div class="rv-row"><span class="rk">Open Rank</span><span class="rv">${g('open_rank')}</span></div>
+      <div class="rv-row"><span class="rk">Percentile</span><span class="rv">${g('cnet_percentile')}</span></div>
     </div>
-    <div class="review-section">
-      <h3>CNET Details</h3>
-      ${rv('registration_id','Registration ID')}
-      ${rv('roll_no','Roll No.')}
-      ${rv('open_rank','Open Rank')}
-      ${rv('cnet_percentile','CNET Percentile')}
+    <div class="rv-sec"><h3>Personal</h3>
+      <div class="rv-row"><span class="rk">Full Name</span><span class="rv">${g('full_name')}</span></div>
+      <div class="rv-row"><span class="rk">Father's Name</span><span class="rv">${g('father_name')}</span></div>
+      <div class="rv-row"><span class="rk">Mother's Name</span><span class="rv">${g('mother_name')}</span></div>
+      <div class="rv-row"><span class="rk">Date of Birth</span><span class="rv">${g('dob')}</span></div>
+      <div class="rv-row"><span class="rk">Hostel Required</span><span class="rv">${g('hostel')}</span></div>
     </div>
-    <div class="review-section">
-      <h3>Personal</h3>
-      ${rv('full_name','Full Name')}
-      ${rv('father_name',"Father's Name")}
-      ${rv('mother_name',"Mother's Name")}
-      ${rv('dob','Date of Birth')}
-      <div class="review-row"><span class="rv-key">Hostel Required</span><span class="rv-val">${hostelVal}</span></div>
+    <div class="rv-sec"><h3>Aadhaar</h3>
+      <div class="rv-row"><span class="rk">Name on Aadhaar</span><span class="rv">${g('aadhar_name')}</span></div>
+      <div class="rv-row"><span class="rk">DOB on Aadhaar</span><span class="rv">${g('aadhar_dob')}</span></div>
     </div>
-    <div class="review-section">
-      <h3>Aadhaar</h3>
-      ${rv('aadhar_name','Name on Aadhaar')}
-      ${rv('aadhar_dob','DOB on Aadhaar')}
+    <div class="rv-sec"><h3>Category</h3>
+      <div class="rv-row"><span class="rk">Main Category</span><span class="rv">${g('main_category')}</span></div>
+      <div class="rv-row"><span class="rk">Sub Category</span><span class="rv">${g('sub_category')}</span></div>
     </div>
-    <div class="review-section">
-      <h3>Category</h3>
-      <div class="review-row"><span class="rv-key">Main Category</span><span class="rv-val">${catVal}</span></div>
-      <div class="review-row"><span class="rv-key">Sub Category</span><span class="rv-val">${subCatVal}</span></div>
+    <div class="rv-sec"><h3>Marks</h3>
+      <div class="rv-row"><span class="rk">Nursing</span><span class="rv">${g('marks_nursing')}</span></div>
+      <div class="rv-row"><span class="rk">Physics</span><span class="rv">${g('marks_physics')}</span></div>
+      <div class="rv-row"><span class="rk">Chemistry</span><span class="rv">${g('marks_chemistry')}</span></div>
+      <div class="rv-row"><span class="rk">Biology</span><span class="rv">${g('marks_biology')}</span></div>
+      <div class="rv-row"><span class="rk">English (CNET)</span><span class="rv">${g('marks_english_cnet')}</span></div>
+      <div class="rv-row"><span class="rk">10th %</span><span class="rv">${g('pct_10th')}</span></div>
+      <div class="rv-row"><span class="rk">12th Physics %</span><span class="rv">${g('pct_12_physics')}</span></div>
+      <div class="rv-row"><span class="rk">12th Chemistry %</span><span class="rv">${g('pct_12_chemistry')}</span></div>
+      <div class="rv-row"><span class="rk">12th Biology %</span><span class="rv">${g('pct_12_biology')}</span></div>
+      <div class="rv-row"><span class="rk">12th English %</span><span class="rv">${g('pct_12_english')}</span></div>
     </div>
-    <div class="review-section">
-      <h3>Marks</h3>
-      ${rv('marks_nursing','Nursing Aptitude')}
-      ${rv('marks_physics','Physics')}
-      ${rv('marks_chemistry','Chemistry')}
-      ${rv('marks_biology','Biology')}
-      ${rv('marks_english','English (CNET)')}
-      ${rv('pct_10th','10th %')}
-      ${rv('pct_12_physics','12th Physics %')}
-      ${rv('pct_12_chemistry','12th Chemistry %')}
-      ${rv('pct_12_biology','12th Biology %')}
-      ${rv('pct_12_english','12th English %')}
-    </div>
-    <p style="font-size:12px;color:var(--muted);margin-top:12px">
-      ℹ By clicking <strong>Submit Application</strong>, you confirm that all information provided is true and correct to the best of your knowledge.
-    </p>`;
+    <p style="font-size:12px;color:var(--muted);margin-top:10px">By submitting you confirm all details are true and correct.</p>`;
   }
-];
-
-// ─── CONDITIONAL CATEGORY UI ──────────────────────────────────
-function onCategoryChange() {
-  const cat = document.querySelector('input[name="main_category"]:checked')?.value || '';
-  const show = (id, visible) => {
-    const el = document.getElementById(id);
-    if (el) el.classList.toggle('visible', visible);
-  };
-  show('block_scst', cat === 'SC' || cat === 'ST');
-  show('block_obc', cat === 'OBC');
-  show('block_ews', cat === 'EWS');
-}
-function onSubCategoryChange() {
-  const sub = document.querySelector('input[name="sub_category"]:checked')?.value || '';
-  const show = (id, visible) => {
-    const el = document.getElementById(id);
-    if (el) el.classList.toggle('visible', visible);
-  };
-  show('block_ph', sub === 'PH');
-  show('block_ncc', sub === 'NCC');
-}
-// mirror for doc step
-function applyDocBlocks() {
-  const cat = formData.main_category || '';
-  const sub = formData.sub_category || '';
-  const show = (id, visible) => {
-    const el = document.getElementById(id);
-    if (el) el.classList.toggle('visible', visible);
-  };
-  show('doc_block_scst', cat === 'SC' || cat === 'ST');
-  show('doc_block_obc', cat === 'OBC');
-  show('doc_block_ews', cat === 'EWS');
-  show('doc_block_ph', sub === 'PH');
-  show('doc_block_ncc', sub === 'NCC');
+  return '';
 }
 
-// ─── COLLECT FORM DATA ────────────────────────────────────────
-function collectStep() {
-  const main = document.getElementById('mainContent');
-  const inputs = main.querySelectorAll('input:not([type=file]):not([type=radio]):not([type=checkbox]), select, textarea');
-  inputs.forEach(el => { if (el.id) formData[el.id] = el.value; });
-  const radios = main.querySelectorAll('input[type=radio]:checked');
-  radios.forEach(el => { if (el.name) formData[el.name] = el.value; });
-  const checks = main.querySelectorAll('input[type=checkbox]');
-  checks.forEach(el => { if (el.id) formData[el.id] = el.checked ? 'Yes' : 'No'; });
+// ══════════════════════════════════════════════
+//  COLLECT + RESTORE
+// ══════════════════════════════════════════════
+function collect(){
+  document.querySelectorAll('#app input:not([type=radio]):not([type=checkbox]):not([type=file]),#app select,#app textarea')
+    .forEach(el=>{ if(el.id) fd[el.id]=el.value; });
+  document.querySelectorAll('#app input[type=radio]:checked')
+    .forEach(el=>{ if(el.name) fd[el.name]=el.value; });
+  document.querySelectorAll('#app input[type=checkbox]')
+    .forEach(el=>{ if(el.id) fd[el.id]=el.checked?'Yes':'No'; });
 }
 
-// ─── VALIDATE STEP ────────────────────────────────────────────
-function validateStep() {
-  const main = document.getElementById('mainContent');
-  let ok = true;
-  let firstError = null;
+function restore(){
+  Object.entries(fd).forEach(([k,v])=>{
+    const el=document.getElementById(k);
+    if(!el) return;
+    if(el.type==='checkbox') el.checked=(v==='Yes');
+    else if(el.tagName!=='INPUT'||el.type!=='radio') el.value=v;
+  });
+  // radios
+  ['hostel','main_category','sub_category','lower_limb'].forEach(name=>{
+    if(fd[name]){
+      const r=document.querySelector(`input[name="${name}"][value="${fd[name]}"]`);
+      if(r){ r.checked=true; syncPills(name); }
+    }
+  });
+  if(step===4){ onCatChange(); onSubChange(); }
+  if(step===6){ applyDocBlocks(); }
+}
 
-  // required text/number/select/textarea
-  main.querySelectorAll('[required]:not([type=radio]):not([type=checkbox]):not([type=file])').forEach(el => {
-    // skip fields inside hidden conditional blocks
-    if (el.closest('.cond-block') && !el.closest('.cond-block').classList.contains('visible')) return;
-    const err = document.getElementById('err_' + el.id);
-    if (!el.value.trim()) {
-      if (err) err.textContent = 'This field is required.';
-      el.classList.add('error');
-      if (!firstError) firstError = el;
-      ok = false;
+// ══════════════════════════════════════════════
+//  CATEGORY CONDITIONAL
+// ══════════════════════════════════════════════
+function onCatChange(){
+  const cat=document.querySelector('input[name="main_category"]:checked')?.value||'';
+  toggle('c_scst', cat==='SC'||cat==='ST');
+  toggle('c_obc', cat==='OBC');
+  toggle('c_ews', cat==='EWS');
+}
+function onSubChange(){
+  const sub=document.querySelector('input[name="sub_category"]:checked')?.value||'';
+  toggle('c_ph', sub==='PH');
+  toggle('c_ncc', sub==='NCC');
+}
+function applyDocBlocks(){
+  const cat=fd.main_category||'';
+  const sub=fd.sub_category||'';
+  toggle('dc_scst', cat==='SC'||cat==='ST');
+  toggle('dc_obc', cat==='OBC');
+  toggle('dc_ews', cat==='EWS');
+  toggle('dc_ph', sub==='PH');
+  toggle('dc_ncc', sub==='NCC');
+}
+function toggle(id, show){
+  const el=document.getElementById(id);
+  if(el) el.style.display=show?'block':'none';
+}
+
+// ══════════════════════════════════════════════
+//  VALIDATE
+// ══════════════════════════════════════════════
+function validate(){
+  let ok=true, first=null;
+  // text/number/select/textarea
+  document.querySelectorAll('#app [required]:not([type=radio]):not([type=checkbox]):not([type=file])').forEach(el=>{
+    const emsg=document.getElementById('e_'+el.id);
+    if(!el.value.trim()){
+      if(emsg) emsg.textContent='Required.';
+      el.classList.add('err');
+      if(!first) first=el;
+      ok=false;
     } else {
-      if (err) err.textContent = '';
-      el.classList.remove('error');
+      if(emsg) emsg.textContent='';
+      el.classList.remove('err');
     }
   });
-
-  // required radios — only check visible groups
-  const radioNames = new Set();
-  main.querySelectorAll('input[type=radio][required]').forEach(el => {
-    // skip radios inside hidden conditional blocks
-    if (el.closest('.cond-block') && !el.closest('.cond-block').classList.contains('visible')) return;
-    radioNames.add(el.name);
+  // radios — only visible groups
+  const rnames=new Set();
+  document.querySelectorAll('#app input[type=radio][required]').forEach(el=>{
+    if(el.closest('.cond')&&el.closest('.cond').style.display==='none') return;
+    rnames.add(el.name);
   });
-  radioNames.forEach(name => {
-    if (!main.querySelector(`input[name="${name}"]:checked`)) {
-      ok = false;
-      // highlight the radio group label
-      const group = main.querySelector(`input[name="${name}"]`);
-      if (group && !firstError) firstError = group;
+  rnames.forEach(name=>{
+    if(!document.querySelector(`#app input[name="${name}"]:checked`)){
+      const emsg=document.getElementById('e_'+name);
+      if(emsg) emsg.textContent='Please select an option.';
+      if(!first) first=document.querySelector(`#app input[name="${name}"]`);
+      ok=false;
+    } else {
+      const emsg=document.getElementById('e_'+name);
+      if(emsg) emsg.textContent='';
     }
   });
-
-  if (!ok && firstError) {
-    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
   // password match
-  const pw = document.getElementById('password');
-  const cpw = document.getElementById('confirm_password');
-  if (pw && cpw && pw.value && pw.value !== cpw.value) {
-    const err = document.getElementById('err_confirm_password');
-    if (err) err.textContent = 'Passwords do not match.';
-    cpw.classList.add('error');
-    ok = false;
+  const pw=document.getElementById('password');
+  const cpw=document.getElementById('confirm_password');
+  if(pw&&cpw&&pw.value&&pw.value!==cpw.value){
+    const emsg=document.getElementById('e_confirm_password');
+    if(emsg) emsg.textContent='Passwords do not match.';
+    cpw.classList.add('err');
+    if(!first) first=cpw;
+    ok=false;
   }
+  if(!ok&&first) first.scrollIntoView({behavior:'smooth',block:'center'});
   return ok;
 }
 
-// ─── NAVIGATION ───────────────────────────────────────────────
-function renderStep() {
-  const main = document.getElementById('mainContent');
-  main.innerHTML = stepRenders[currentStep]();
-
-  // nav buttons
-  const navRow = document.createElement('div');
-  navRow.className = 'nav-row';
-  navRow.innerHTML = `
-    ${currentStep > 0
-      ? `<button class="btn btn-secondary" onclick="goBack()">← Back</button>`
-      : `<span></span>`}
-    ${currentStep < STEPS.length - 1
-      ? `<button class="btn btn-primary" onclick="goNext()">Next →</button>`
-      : `<button class="btn btn-gold" onclick="submitForm()">Submit Application ✓</button>`}
-  `;
-  main.appendChild(navRow);
-
-  // restore values
-  Object.entries(formData).forEach(([k, v]) => {
-    const el = document.getElementById(k);
-    if (!el) return;
-    if (el.type === 'checkbox') el.checked = v === 'Yes';
-    else el.value = v;
-  });
-  // restore radios
-  ['hostel','main_category','sub_category','lower_limb','ncc_cert_type','ncc_cert_grade'].forEach(name => {
-    if (formData[name]) {
-      const r = document.querySelector(`input[name="${name}"][value="${formData[name]}"]`);
-      if (r) r.checked = true;
-    }
-  });
-
-  // restore conditional visibility
-  if (currentStep === 4) { onCategoryChange(); onSubCategoryChange(); }
-  if (currentStep === 6) { applyDocBlocks(); }
-
-  renderProgress();
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-
-function goNext() {
-  collectStep();
-  if (!validateStep()) return;
-  currentStep++;
-  renderStep();
-}
-
-function goBack() {
-  collectStep();
-  currentStep--;
-  renderStep();
-}
-
-// ─── GOOGLE SHEETS URL ────────────────────────────────────────
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzgR-bPXTTLsasZhd7DvI4ASE6J9Uqvj0HEWCg-uGx6M1UC3M9PrNiJR362e0NrcSb7/exec';
-
-// ─── SEND VIA IFRAME (bypasses CORS) ─────────────────────────
-function sendToSheetViaIframe(payload, onDone) {
-  // Build a hidden form that POSTs to Google Apps Script
-  // Google redirects back to our iframe — we detect load = success
-  const iframe = document.createElement('iframe');
-  iframe.name = 'hidden_iframe';
-  iframe.style.display = 'none';
-  document.body.appendChild(iframe);
-
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = SHEET_URL;
-  form.target = 'hidden_iframe';
-  form.style.display = 'none';
-
-  // Send all data as a single JSON field
-  const input = document.createElement('input');
-  input.type = 'hidden';
-  input.name = 'payload';
-  input.value = JSON.stringify(payload);
-  form.appendChild(input);
-  document.body.appendChild(form);
-
-  let done = false;
-  iframe.onload = () => {
-    if (!done) { done = true; onDone(true); }
-    document.body.removeChild(iframe);
-    document.body.removeChild(form);
-  };
-  setTimeout(() => {
-    if (!done) { done = true; onDone(false); }
-  }, 8000);
-
-  form.submit();
-}
-
-// ─── SUBMIT ───────────────────────────────────────────────────
-function submitForm() {
-  collectStep();
-  if (!validateStep()) return;
-
-  const id = saveApplication({...formData});
-  const main = document.getElementById('mainContent');
-
-  // Show loading state
-  main.innerHTML = `
-    <div class="success-screen visible">
-      <div class="success-icon">⏳</div>
-      <h2>Submitting...</h2>
-      <p>Please wait while your application is being saved to the server.</p>
+// ══════════════════════════════════════════════
+//  RENDER STEP
+// ══════════════════════════════════════════════
+function render(){
+  showProg(); renderProg();
+  const app=document.getElementById('app');
+  const isLast=step===STEPS.length-1;
+  app.innerHTML=stepHTML()+`
+    <div class="nav-row">
+      ${step>0?`<button class="btn btn-outline" onclick="goBack()">← Back</button>`:`<span></span>`}
+      ${isLast
+        ?`<button class="btn btn-gold" onclick="doSubmit()">${editId?'Save Changes ✓':'Submit Application ✓'}</button>`
+        :`<button class="btn btn-primary" onclick="goNext()">Next →</button>`}
     </div>`;
-  document.querySelector('.progress-bar-wrap').style.display = 'none';
-  document.getElementById('stepLabels').innerHTML = '';
-
-  const payload = {...formData, _id: id, _submittedAt: new Date().toLocaleString('en-IN')};
-  sendToSheetViaIframe(payload, (success) => showSuccess(id, success));
+  restore();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function showSuccess(id, sentToSheet) {
-  const main = document.getElementById('mainContent');
-  const sheetNote = sentToSheet
-    ? `<p style="color:var(--success);font-weight:600;margin-bottom:8px">✓ Data sent to Google Sheets successfully</p>`
-    : `<p style="color:var(--error);font-weight:500;margin-bottom:8px">⚠ Could not reach Google Sheets — data saved locally only</p>`;
+function goNext(){ collect(); if(!validate()) return; step++; render(); }
+function goBack(){ collect(); step--; render(); }
 
-  main.innerHTML = `
-    <div class="success-screen visible">
-      <div class="success-icon">🎓</div>
-      <h2>Application Submitted!</h2>
-      <p>Your CNET admission application has been received. Please note your application ID.</p>
-      <div class="app-id-badge">${id}</div>
-      ${sheetNote}
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="location.reload()">Submit Another</button>
-        <button class="btn btn-gold" onclick="exportJSON()">⬇ Download Local Records</button>
+// ══════════════════════════════════════════════
+//  SUBMIT / UPDATE
+// ══════════════════════════════════════════════
+function doSubmit(){
+  collect();
+  if(!validate()) return;
+  const app=document.getElementById('app');
+  app.innerHTML=`<div class="loading"><div class="spinner"></div><p>Saving your application…</p></div>`;
+  hideProg();
+  document.getElementById('editBanner').style.display='none';
+
+  let appId;
+  let payload;
+  if(editId){
+    updateApp(editId, fd);
+    appId=editId;
+    payload={...fd, _id:appId, _action:'UPDATE', _updatedAt:new Date().toLocaleString('en-IN')};
+  } else {
+    appId=addApp(fd);
+    payload={...fd, _id:appId, _submittedAt:new Date().toLocaleString('en-IN')};
+  }
+
+  sendToSheet(payload, (sent)=>{
+    const action = editId ? 'Updated' : 'Submitted';
+    app.innerHTML=`<div class="success">
+      <div style="font-size:52px">${editId?'✅':'🎓'}</div>
+      <h2>Application ${action}!</h2>
+      <p>Note your Application ID for future reference.</p>
+      <div class="app-id">${appId}</div>
+      <p style="margin-bottom:6px;font-size:13px;${sent?'color:var(--ok)':'color:var(--err)'}">
+        ${sent?'✓ Data saved to Google Sheets successfully':'⚠ Could not reach Google Sheets — saved locally only'}
+      </p>
+      <div class="btn-row" style="margin-top:18px">
+        <button class="btn btn-primary" onclick="showLanding()">Home</button>
+        ${!editId?`<button class="btn btn-outline" onclick="startNew()">Submit Another</button>`:''}
+        <button class="btn btn-gold" onclick="startEdit('${appId}')">Edit This Application</button>
       </div>
-    </div>
-    <div class="admin-toggle">
-      <button onclick="toggleAdmin()">View locally saved applications</button>
-    </div>
-    <div class="admin-panel" id="adminPanel"></div>
-  `;
-  renderAdminPanel();
-}
-
-// ─── ADMIN ────────────────────────────────────────────────────
-function toggleAdmin() {
-  const p = document.getElementById('adminPanel');
-  if (!p) return;
-  p.classList.toggle('visible');
-  if (p.classList.contains('visible')) renderAdminPanel();
-}
-
-function renderAdminPanel() {
-  const p = document.getElementById('adminPanel');
-  if (!p) return;
-  const apps = loadApplications();
-  if (!apps.length) {
-    p.innerHTML = `<h3>Saved Applications</h3><div class="no-entries">No applications yet.</div>`;
-    return;
-  }
-  const cols = ['_id','_submittedAt','full_name','email','mobile','roll_no','open_rank','cnet_percentile','main_category','sub_category'];
-  const labels = ['App ID','Submitted','Full Name','Email','Mobile','Roll No.','Open Rank','Percentile','Category','Sub-Cat'];
-  let rows = apps.map(a =>
-    `<tr>${cols.map(c => `<td>${a[c]||'—'}</td>`).join('')}</tr>`
-  ).join('');
-  p.innerHTML = `
-    <h3>Saved Applications (${apps.length})</h3>
-    <div style="overflow-x:auto">
-      <table class="entries-table">
-        <thead><tr>${labels.map(l=>`<th>${l}</th>`).join('')}</tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>
-    <div style="margin-top:14px;display:flex;gap:12px;flex-wrap:wrap">
-      <button class="btn btn-gold" onclick="exportJSON()">⬇ Export JSON</button>
-      <button class="btn btn-secondary" style="color:#c0392b;border-color:#c0392b" onclick="clearAllData()">🗑 Clear All</button>
     </div>`;
+    editId=null;
+  });
 }
 
-// ─── EDIT MODE STATE ──────────────────────────────────────────
-let isEditMode = false;
-let editAppId = null;
-
-// ─── UPDATE APPLICATION (local) ───────────────────────────────
-function updateApplication(id, data) {
-  const apps = loadApplications();
-  const idx = apps.findIndex(a => a._id === id);
-  if (idx > -1) {
-    data._id = id;
-    data._updatedAt = new Date().toLocaleString('en-IN');
-    data._submittedAt = apps[idx]._submittedAt;
-    apps[idx] = data;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
-    return true;
-  }
-  return false;
-}
-
-function findApplicationById(id) {
-  const apps = loadApplications();
-  return apps.find(a => a._id === id.trim().toUpperCase()) || null;
-}
-
-// ─── LANDING SCREEN ───────────────────────────────────────────
-function showLanding() {
-  isEditMode = false;
-  editAppId = null;
-  document.getElementById('editBanner').style.display = 'none';
-  document.querySelector('.progress-bar-wrap').style.display = 'none';
-  document.getElementById('stepLabels').innerHTML = '';
-  document.getElementById('mainContent').innerHTML = `
-    <div class="landing-screen">
-      <div class="land-icon">🎓</div>
+// ══════════════════════════════════════════════
+//  LANDING
+// ══════════════════════════════════════════════
+function showLanding(){
+  editId=null; step=0; fd={};
+  hideProg();
+  document.getElementById('editBanner').style.display='none';
+  document.getElementById('app').innerHTML=`
+    <div class="land">
+      <div style="font-size:50px">🎓</div>
       <h2>CNET Admission Portal</h2>
-      <p>Submit a new application or update an existing one using your Application ID.</p>
-      <div class="landing-cards">
-        <div class="land-card" onclick="startNewApplication()">
-          <div class="lc-icon">📝</div>
+      <p>Submit a new application or update an existing one.</p>
+      <div class="land-cards">
+        <div class="land-card" onclick="startNew()">
+          <div class="lci">📝</div>
           <h3>New Application</h3>
-          <p>Fill and submit a fresh application form</p>
+          <p>Fill and submit a fresh application</p>
         </div>
         <div class="land-card" onclick="showLookup()">
-          <div class="lc-icon">✏️</div>
+          <div class="lci">✏️</div>
           <h3>Edit Application</h3>
-          <p>Update your existing application using your App ID</p>
+          <p>Update using your Application ID</p>
         </div>
       </div>
     </div>`;
 }
 
-function startNewApplication() {
-  isEditMode = false;
-  editAppId = null;
-  currentStep = 0;
-  Object.keys(formData).forEach(k => delete formData[k]);
-  document.querySelector('.progress-bar-wrap').style.display = 'block';
-  document.getElementById('editBanner').style.display = 'none';
-  renderStep();
+function startNew(){
+  editId=null; step=0; fd={};
+  document.getElementById('editBanner').style.display='none';
+  render();
 }
 
-// ─── LOOKUP SCREEN ────────────────────────────────────────────
-function showLookup() {
-  document.querySelector('.progress-bar-wrap').style.display = 'none';
-  document.getElementById('stepLabels').innerHTML = '';
-  document.getElementById('mainContent').innerHTML = `
+// ══════════════════════════════════════════════
+//  LOOKUP / EDIT
+// ══════════════════════════════════════════════
+function showLookup(){
+  hideProg();
+  document.getElementById('editBanner').style.display='none';
+  document.getElementById('app').innerHTML=`
     <div class="lookup-box">
-      <h3>🔍 Find Your Application</h3>
-      <p>Enter your Application ID to load and edit your submission.</p>
-      <div class="lookup-input-row">
-        <input type="text" id="lookupId" placeholder="e.g. CNETMQTBH8KV"
-          onkeydown="if(event.key==='Enter') doLookup()"
-          oninput="this.value=this.value.toUpperCase()"/>
+      <h3>✏️ Edit Your Application</h3>
+      <p>Enter your Application ID to load and update your submission.</p>
+      <div class="lookup-row">
+        <input id="lid" placeholder="e.g. CNETMQTBH8KV"
+          oninput="this.value=this.value.toUpperCase()"
+          onkeydown="if(event.key==='Enter')doLookup()"/>
         <button class="btn btn-primary" onclick="doLookup()">Find</button>
       </div>
-      <div class="lookup-err" id="lookupErr"></div>
-      <div style="margin-top:20px">
-        <button class="btn btn-secondary" onclick="showLanding()">← Back</button>
-      </div>
+      <div class="lookup-err" id="lerr"></div>
+      <div style="margin-top:18px"><button class="btn btn-outline" onclick="showLanding()">← Back</button></div>
     </div>`;
 }
 
-function doLookup() {
-  const raw = document.getElementById('lookupId').value.trim().toUpperCase();
-  const errEl = document.getElementById('lookupErr');
-  if (!raw) { errEl.textContent = 'Please enter your Application ID.'; return; }
-
-  const app = findApplicationById(raw);
-  if (!app) {
-    errEl.textContent = '❌ No application found with this ID on this device. Make sure you are using the same device/browser you submitted from.';
-    return;
-  }
-
-  // Load data into formData
-  Object.keys(formData).forEach(k => delete formData[k]);
-  Object.assign(formData, app);
-  isEditMode = true;
-  editAppId = app._id;
-  currentStep = 0;
-
-  // Show edit banner
-  const banner = document.getElementById('editBanner');
-  banner.style.display = 'block';
-  banner.innerHTML = `
-    <div class="edit-banner">
-      <span>✏️ Editing application <strong>${editAppId}</strong> — submitted on ${app._submittedAt}</span>
-      <button class="edit-banner-btn" onclick="showLanding()">✕ Cancel Edit</button>
-    </div>`;
-
-  document.querySelector('.progress-bar-wrap').style.display = 'block';
-  renderStep();
+function doLookup(){
+  const val=document.getElementById('lid').value.trim().toUpperCase();
+  const err=document.getElementById('lerr');
+  if(!val){ err.textContent='Please enter your Application ID.'; return; }
+  const rec=findApp(val);
+  if(!rec){ err.textContent='❌ No application found with this ID on this device.'; return; }
+  startEdit(val);
 }
 
-// ─── OVERRIDE submitForm for edit mode ────────────────────────
-const _originalSubmitForm = submitForm;
-function submitForm() {
-  if (!isEditMode) { _originalSubmitForm(); return; }
-
-  collectStep();
-  if (!validateStep()) return;
-
-  const main = document.getElementById('mainContent');
-  main.innerHTML = `
-    <div class="success-screen visible">
-      <div class="success-icon">⏳</div>
-      <h2>Saving changes...</h2>
-      <p>Please wait while your application is being updated.</p>
-    </div>`;
-  document.querySelector('.progress-bar-wrap').style.display = 'none';
-  document.getElementById('editBanner').style.display = 'none';
-  document.getElementById('stepLabels').innerHTML = '';
-
-  // Update locally
-  updateApplication(editAppId, {...formData});
-
-  // Send updated data to Google Sheets via iframe
-  const payload = {...formData, _id: editAppId,
-    _submittedAt: formData._submittedAt,
-    _updatedAt: new Date().toLocaleString('en-IN'),
-    _action: 'UPDATE'
-  };
-  sendToSheetViaIframe(payload, (success) => {
-    main.innerHTML = `
-      <div class="success-screen visible">
-        <div class="success-icon">✅</div>
-        <h2>Application Updated!</h2>
-        <p>Your changes have been saved successfully.</p>
-        <div class="app-id-badge">${editAppId}</div>
-        ${success
-          ? '<p style="color:var(--success);font-weight:600">✓ Changes sent to Google Sheets</p>'
-          : '<p style="color:var(--error);font-weight:500">⚠ Could not reach Google Sheets — changes saved locally</p>'}
-        <div class="btn-row" style="margin-top:20px">
-          <button class="btn btn-primary" onclick="showLanding()">← Back to Home</button>
-          <button class="btn btn-gold" onclick="doLookup2('${editAppId}')">Edit Again</button>
-        </div>
-      </div>`;
-    isEditMode = false;
-    editAppId = null;
-  });
+function startEdit(id){
+  const rec=findApp(id);
+  if(!rec){ showLookup(); return; }
+  editId=id; step=0;
+  fd={}; Object.assign(fd,rec);
+  const banner=document.getElementById('editBanner');
+  banner.style.display='block';
+  banner.innerHTML=`<div class="edit-banner">
+    <span>✏️ Editing <strong>${id}</strong> — submitted ${rec._submittedAt||''}</span>
+    <button class="eb-btn" onclick="showLanding()">✕ Cancel</button>
+  </div>`;
+  render();
 }
 
-function doLookup2(id) {
-  showLookup();
-  setTimeout(() => {
-    document.getElementById('lookupId').value = id;
-    doLookup();
-  }, 100);
-}
-
-// ─── INIT ─────────────────────────────────────────────────────
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
 showLanding();
 </script>
-
 </body>
 </html>
