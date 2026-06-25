@@ -906,36 +906,64 @@ function goBack() {
   renderStep();
 }
 
+// ─── GOOGLE SHEETS URL ────────────────────────────────────────
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzO0LMUv_CpXa_t1jh1dl-5cybkUDTx6Mv7ieddocKVKHlXsMBlMqeVrYEVmNggFWE/exec';
+
 // ─── SUBMIT ───────────────────────────────────────────────────
 function submitForm() {
   collectStep();
   if (!validateStep()) return;
-  const id = saveApplication({...formData});
 
-  // show success
+  const id = saveApplication({...formData});
   const main = document.getElementById('mainContent');
+
+  // Show loading state
+  main.innerHTML = `
+    <div class="success-screen visible">
+      <div class="success-icon">⏳</div>
+      <h2>Submitting...</h2>
+      <p>Please wait while your application is being saved to the server.</p>
+    </div>`;
+  document.querySelector('.progress-bar-wrap').style.display = 'none';
+  document.getElementById('stepLabels').innerHTML = '';
+
+  // Send to Google Sheets
+  const payload = {...formData, _id: id, _submittedAt: new Date().toLocaleString('en-IN')};
+
+  fetch(SHEET_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(() => showSuccess(id, true))
+  .catch(() => showSuccess(id, false));
+}
+
+function showSuccess(id, sentToSheet) {
+  const main = document.getElementById('mainContent');
+  const sheetNote = sentToSheet
+    ? `<p style="color:var(--success);font-weight:600;margin-bottom:8px">✓ Data sent to Google Sheets successfully</p>`
+    : `<p style="color:var(--error);font-weight:500;margin-bottom:8px">⚠ Could not reach Google Sheets — data saved locally only</p>`;
+
   main.innerHTML = `
     <div class="success-screen visible">
       <div class="success-icon">🎓</div>
       <h2>Application Submitted!</h2>
-      <p>Your CNET admission application has been received. Please note your application ID for future reference.</p>
+      <p>Your CNET admission application has been received. Please note your application ID.</p>
       <div class="app-id-badge">${id}</div>
-      <p style="margin-bottom:8px">A copy of your application has been saved to this device.</p>
+      ${sheetNote}
       <div class="btn-row">
         <button class="btn btn-primary" onclick="location.reload()">Submit Another</button>
-        <button class="btn btn-gold" onclick="exportJSON()">⬇ Download All Records</button>
+        <button class="btn btn-gold" onclick="exportJSON()">⬇ Download Local Records</button>
       </div>
     </div>
     <div class="admin-toggle">
-      <button onclick="toggleAdmin()">View saved applications</button>
+      <button onclick="toggleAdmin()">View locally saved applications</button>
     </div>
     <div class="admin-panel" id="adminPanel"></div>
   `;
   renderAdminPanel();
-
-  // hide progress header background
-  document.querySelector('.progress-bar-wrap').style.display = 'none';
-  document.getElementById('stepLabels').innerHTML = '';
 }
 
 // ─── ADMIN ────────────────────────────────────────────────────
