@@ -223,13 +223,16 @@ function updateApp(id, data){
 function findApp(id){ return loadApps().find(a=>a._id===id.trim().toUpperCase())||null; }
 
 // ══════════════════════════════════════════════
-//  GOOGLE SHEETS — POST via no-cors fetch
+//  GOOGLE SHEETS — POST via form-encoded (works with no-cors)
 // ══════════════════════════════════════════════
 function sendToSheet(payload, cb){
+  // Encode as URL form data — this is the only method
+  // that reliably works cross-origin with Apps Script
+  const body = 'data=' + encodeURIComponent(JSON.stringify(payload));
   fetch(SHEET_URL, {
     method:'POST', mode:'no-cors',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify(payload)
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body: body
   }).then(()=>cb(true)).catch(()=>cb(false));
 }
 
@@ -651,42 +654,79 @@ function goBack(){ collect(); step--; render(); }
 //  SUBMIT / UPDATE
 // ══════════════════════════════════════════════
 function doSubmit(){
-  collect();
-  if(!validate()) return;
-  const app=document.getElementById('app');
-  app.innerHTML=`<div class="loading"><div class="spinner"></div><p>Saving your application…</p></div>`;
-  hideProg();
-  document.getElementById('editBanner').style.display='none';
+  try {
+    collect();
+  } catch(ex){ alert('Collect error: '+ex.message); return; }
 
+  const app=document.getElementById('app');
+
+  // Generate ID first
   let appId;
   let payload;
-  if(editId){
-    updateApp(editId, fd);
-    appId=editId;
-    payload={...fd, _id:appId, _action:'UPDATE', _updatedAt:new Date().toLocaleString('en-IN')};
-  } else {
-    appId=addApp(fd);
-    payload={...fd, _id:appId, _submittedAt:new Date().toLocaleString('en-IN')};
-  }
+  let isEdit = !!editId;
 
-  sendToSheet(payload, (sent)=>{
-    const action = editId ? 'Updated' : 'Submitted';
+  try {
+    if(isEdit){
+      updateApp(editId, fd);
+      appId = editId;
+      payload = Object.assign({}, fd, {
+        _id: appId,
+        _action: 'UPDATE',
+        _updatedAt: new Date().toLocaleString('en-IN')
+      });
+    } else {
+      appId = addApp(fd);
+      payload = Object.assign({}, fd, {
+        _id: appId,
+        _submittedAt: new Date().toLocaleString('en-IN')
+      });
+    }
+  } catch(ex){ alert('Save error: '+ex.message); return; }
+
+  // Show loading
+  hideProg();
+  document.getElementById('editBanner').style.display='none';
+  app.innerHTML='<div class="loading"><div class="spinner"></div><p>Saving your application…</p></div>';
+
+  // Send to sheet with 10s timeout fallback
+  let done = false;
+  function finish(sent){
+    if(done) return;
+    done = true;
+    const action = isEdit ? 'Updated' : 'Submitted';
     app.innerHTML=`<div class="success">
-      <div style="font-size:52px">${editId?'✅':'🎓'}</div>
+      <div style="font-size:52px">${isEdit?'✅':'🎓'}</div>
       <h2>Application ${action}!</h2>
       <p>Note your Application ID for future reference.</p>
       <div class="app-id">${appId}</div>
-      <p style="margin-bottom:6px;font-size:13px;${sent?'color:var(--ok)':'color:var(--err)'}">
-        ${sent?'✓ Data saved to Google Sheets successfully':'⚠ Could not reach Google Sheets — saved locally only'}
+      <p style="margin-bottom:6px;font-size:13px;color:${sent?'var(--ok)':'var(--err)'}">
+        ${sent
+          ? '✓ Data saved to Google Sheets successfully'
+          : '⚠ Could not reach Google Sheets — data saved on this device only'}
       </p>
       <div class="btn-row" style="margin-top:18px">
         <button class="btn btn-primary" onclick="showLanding()">Home</button>
-        ${!editId?`<button class="btn btn-outline" onclick="startNew()">Submit Another</button>`:''}
-        <button class="btn btn-gold" onclick="startEdit('${appId}')">Edit This Application</button>
+        ${!isEdit?'<button class="btn btn-outline" onclick="startNew()">Submit Another</button>':''}
+        <button class="btn btn-gold" onclick="startEdit(''+appId+'')">Edit This Application</button>
       </div>
     </div>`;
-    editId=null;
-  });
+    editId = null;
+  }
+
+  // Timeout fallback — show success after 10s even if fetch hangs
+  setTimeout(()=>finish(false), 10000);
+
+  try {
+    const body = 'data=' + encodeURIComponent(JSON.stringify(payload));
+    fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: body
+    }).then(()=>finish(true)).catch(()=>finish(false));
+  } catch(ex){
+    finish(false);
+  }
 }
 
 // ══════════════════════════════════════════════
