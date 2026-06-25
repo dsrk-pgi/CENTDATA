@@ -352,6 +352,70 @@
     .radio-group { flex-direction: column; gap: 8px; }
     .radio-pill { width: 100%; min-width: unset; padding: 12px 16px; font-size: 15px; }
   }
+
+  /* ── LANDING SCREEN ── */
+  .landing-screen {
+    max-width: 500px; margin: 60px auto; text-align: center; padding: 0 16px;
+  }
+  .landing-screen .land-icon { font-size: 52px; margin-bottom: 16px; }
+  .landing-screen h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; color: var(--navy); margin-bottom: 8px;
+  }
+  .landing-screen p { color: var(--muted); font-size: 14px; margin-bottom: 32px; }
+
+  .landing-cards {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; text-align: left;
+  }
+  .land-card {
+    background: var(--white); border: 2px solid var(--border);
+    border-radius: 14px; padding: 24px 20px;
+    cursor: pointer; transition: border-color .2s, box-shadow .2s;
+  }
+  .land-card:hover { border-color: var(--gold); box-shadow: 0 4px 20px rgba(200,151,42,.15); }
+  .land-card .lc-icon { font-size: 28px; margin-bottom: 10px; }
+  .land-card h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .land-card p { font-size: 12px; color: var(--muted); margin: 0; }
+
+  /* lookup box */
+  .lookup-box {
+    background: var(--white); border-radius: 14px;
+    padding: 32px; max-width: 460px; margin: 40px auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,.08);
+    text-align: center;
+  }
+  .lookup-box h3 { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .lookup-box p { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+  .lookup-input-row { display: flex; gap: 10px; }
+  .lookup-input-row input {
+    flex: 1; padding: 11px 14px;
+    border: 1.5px solid var(--border); border-radius: 8px;
+    font-family: 'Inter', sans-serif; font-size: 14px; outline: none;
+    text-transform: uppercase; letter-spacing: 1px;
+    transition: border-color .15s;
+  }
+  .lookup-input-row input:focus { border-color: var(--gold); }
+  .lookup-err { color: var(--error); font-size: 12px; margin-top: 8px; }
+
+  /* edit mode banner */
+  .edit-banner {
+    background: linear-gradient(135deg, #1a2744, #2a3d6e);
+    color: var(--white); padding: 10px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px; flex-wrap: wrap; gap: 8px;
+  }
+  .edit-banner strong { color: var(--gold); }
+  .edit-banner-btn {
+    padding: 6px 14px; border-radius: 6px;
+    background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3);
+    color: var(--white); font-size: 12px; font-weight: 600;
+    cursor: pointer; font-family: 'Inter', sans-serif;
+  }
+  .edit-banner-btn:hover { background: rgba(255,255,255,.25); }
+
+  @media (max-width: 500px) {
+    .landing-cards { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -372,6 +436,7 @@
     </div>
   </div>
 </header>
+<div id="editBanner" style="display:none"></div>
 
 <main id="mainContent">
   <!-- Steps rendered by JS -->
@@ -933,6 +998,42 @@ function goBack() {
 // ─── GOOGLE SHEETS URL ────────────────────────────────────────
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzgR-bPXTTLsasZhd7DvI4ASE6J9Uqvj0HEWCg-uGx6M1UC3M9PrNiJR362e0NrcSb7/exec';
 
+// ─── SEND VIA IFRAME (bypasses CORS) ─────────────────────────
+function sendToSheetViaIframe(payload, onDone) {
+  // Build a hidden form that POSTs to Google Apps Script
+  // Google redirects back to our iframe — we detect load = success
+  const iframe = document.createElement('iframe');
+  iframe.name = 'hidden_iframe';
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = SHEET_URL;
+  form.target = 'hidden_iframe';
+  form.style.display = 'none';
+
+  // Send all data as a single JSON field
+  const input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = 'payload';
+  input.value = JSON.stringify(payload);
+  form.appendChild(input);
+  document.body.appendChild(form);
+
+  let done = false;
+  iframe.onload = () => {
+    if (!done) { done = true; onDone(true); }
+    document.body.removeChild(iframe);
+    document.body.removeChild(form);
+  };
+  setTimeout(() => {
+    if (!done) { done = true; onDone(false); }
+  }, 8000);
+
+  form.submit();
+}
+
 // ─── SUBMIT ───────────────────────────────────────────────────
 function submitForm() {
   collectStep();
@@ -951,17 +1052,8 @@ function submitForm() {
   document.querySelector('.progress-bar-wrap').style.display = 'none';
   document.getElementById('stepLabels').innerHTML = '';
 
-  // Send to Google Sheets
   const payload = {...formData, _id: id, _submittedAt: new Date().toLocaleString('en-IN')};
-
-  fetch(SHEET_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  })
-  .then(() => showSuccess(id, true))
-  .catch(() => showSuccess(id, false));
+  sendToSheetViaIframe(payload, (success) => showSuccess(id, success));
 }
 
 function showSuccess(id, sentToSheet) {
@@ -1025,8 +1117,177 @@ function renderAdminPanel() {
     </div>`;
 }
 
+// ─── EDIT MODE STATE ──────────────────────────────────────────
+let isEditMode = false;
+let editAppId = null;
+
+// ─── UPDATE APPLICATION (local) ───────────────────────────────
+function updateApplication(id, data) {
+  const apps = loadApplications();
+  const idx = apps.findIndex(a => a._id === id);
+  if (idx > -1) {
+    data._id = id;
+    data._updatedAt = new Date().toLocaleString('en-IN');
+    data._submittedAt = apps[idx]._submittedAt;
+    apps[idx] = data;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
+    return true;
+  }
+  return false;
+}
+
+function findApplicationById(id) {
+  const apps = loadApplications();
+  return apps.find(a => a._id === id.trim().toUpperCase()) || null;
+}
+
+// ─── LANDING SCREEN ───────────────────────────────────────────
+function showLanding() {
+  isEditMode = false;
+  editAppId = null;
+  document.getElementById('editBanner').style.display = 'none';
+  document.querySelector('.progress-bar-wrap').style.display = 'none';
+  document.getElementById('stepLabels').innerHTML = '';
+  document.getElementById('mainContent').innerHTML = `
+    <div class="landing-screen">
+      <div class="land-icon">🎓</div>
+      <h2>CNET Admission Portal</h2>
+      <p>Submit a new application or update an existing one using your Application ID.</p>
+      <div class="landing-cards">
+        <div class="land-card" onclick="startNewApplication()">
+          <div class="lc-icon">📝</div>
+          <h3>New Application</h3>
+          <p>Fill and submit a fresh application form</p>
+        </div>
+        <div class="land-card" onclick="showLookup()">
+          <div class="lc-icon">✏️</div>
+          <h3>Edit Application</h3>
+          <p>Update your existing application using your App ID</p>
+        </div>
+      </div>
+    </div>`;
+}
+
+function startNewApplication() {
+  isEditMode = false;
+  editAppId = null;
+  currentStep = 0;
+  Object.keys(formData).forEach(k => delete formData[k]);
+  document.querySelector('.progress-bar-wrap').style.display = 'block';
+  document.getElementById('editBanner').style.display = 'none';
+  renderStep();
+}
+
+// ─── LOOKUP SCREEN ────────────────────────────────────────────
+function showLookup() {
+  document.querySelector('.progress-bar-wrap').style.display = 'none';
+  document.getElementById('stepLabels').innerHTML = '';
+  document.getElementById('mainContent').innerHTML = `
+    <div class="lookup-box">
+      <h3>🔍 Find Your Application</h3>
+      <p>Enter your Application ID to load and edit your submission.</p>
+      <div class="lookup-input-row">
+        <input type="text" id="lookupId" placeholder="e.g. CNETMQTBH8KV"
+          onkeydown="if(event.key==='Enter') doLookup()"
+          oninput="this.value=this.value.toUpperCase()"/>
+        <button class="btn btn-primary" onclick="doLookup()">Find</button>
+      </div>
+      <div class="lookup-err" id="lookupErr"></div>
+      <div style="margin-top:20px">
+        <button class="btn btn-secondary" onclick="showLanding()">← Back</button>
+      </div>
+    </div>`;
+}
+
+function doLookup() {
+  const raw = document.getElementById('lookupId').value.trim().toUpperCase();
+  const errEl = document.getElementById('lookupErr');
+  if (!raw) { errEl.textContent = 'Please enter your Application ID.'; return; }
+
+  const app = findApplicationById(raw);
+  if (!app) {
+    errEl.textContent = '❌ No application found with this ID on this device. Make sure you are using the same device/browser you submitted from.';
+    return;
+  }
+
+  // Load data into formData
+  Object.keys(formData).forEach(k => delete formData[k]);
+  Object.assign(formData, app);
+  isEditMode = true;
+  editAppId = app._id;
+  currentStep = 0;
+
+  // Show edit banner
+  const banner = document.getElementById('editBanner');
+  banner.style.display = 'block';
+  banner.innerHTML = `
+    <div class="edit-banner">
+      <span>✏️ Editing application <strong>${editAppId}</strong> — submitted on ${app._submittedAt}</span>
+      <button class="edit-banner-btn" onclick="showLanding()">✕ Cancel Edit</button>
+    </div>`;
+
+  document.querySelector('.progress-bar-wrap').style.display = 'block';
+  renderStep();
+}
+
+// ─── OVERRIDE submitForm for edit mode ────────────────────────
+const _originalSubmitForm = submitForm;
+function submitForm() {
+  if (!isEditMode) { _originalSubmitForm(); return; }
+
+  collectStep();
+  if (!validateStep()) return;
+
+  const main = document.getElementById('mainContent');
+  main.innerHTML = `
+    <div class="success-screen visible">
+      <div class="success-icon">⏳</div>
+      <h2>Saving changes...</h2>
+      <p>Please wait while your application is being updated.</p>
+    </div>`;
+  document.querySelector('.progress-bar-wrap').style.display = 'none';
+  document.getElementById('editBanner').style.display = 'none';
+  document.getElementById('stepLabels').innerHTML = '';
+
+  // Update locally
+  updateApplication(editAppId, {...formData});
+
+  // Send updated data to Google Sheets via iframe
+  const payload = {...formData, _id: editAppId,
+    _submittedAt: formData._submittedAt,
+    _updatedAt: new Date().toLocaleString('en-IN'),
+    _action: 'UPDATE'
+  };
+  sendToSheetViaIframe(payload, (success) => {
+    main.innerHTML = `
+      <div class="success-screen visible">
+        <div class="success-icon">✅</div>
+        <h2>Application Updated!</h2>
+        <p>Your changes have been saved successfully.</p>
+        <div class="app-id-badge">${editAppId}</div>
+        ${success
+          ? '<p style="color:var(--success);font-weight:600">✓ Changes sent to Google Sheets</p>'
+          : '<p style="color:var(--error);font-weight:500">⚠ Could not reach Google Sheets — changes saved locally</p>'}
+        <div class="btn-row" style="margin-top:20px">
+          <button class="btn btn-primary" onclick="showLanding()">← Back to Home</button>
+          <button class="btn btn-gold" onclick="doLookup2('${editAppId}')">Edit Again</button>
+        </div>
+      </div>`;
+    isEditMode = false;
+    editAppId = null;
+  });
+}
+
+function doLookup2(id) {
+  showLookup();
+  setTimeout(() => {
+    document.getElementById('lookupId').value = id;
+    doLookup();
+  }, 100);
+}
+
 // ─── INIT ─────────────────────────────────────────────────────
-renderStep();
+showLanding();
 </script>
 
 </body>
