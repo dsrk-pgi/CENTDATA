@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CNET Admin Panel</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+  :root {
+    --navy: #1a2744;
+    --navy2: #223060;
+    --gold: #c8972a;
+    --gold-light: #f0e0b0;
+    --cream: #fdfaf4;
+    --white: #ffffff;
+    --text: #1e2330;
+    --muted: #6b7280;
+    --border: #dde3ee;
+    --error: #c0392b;
+    --success: #1a7a4a;
+    --bg: #f0f3f9;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* ── LOGIN ── */
+  .login-wrap {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--navy);
+  }
+  .login-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 44px 40px;
+    width: 100%; max-width: 380px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.3);
+  }
+  .login-logo {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; color: var(--navy); font-weight: 700;
+    margin: 0 auto 20px;
+  }
+  .login-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; color: var(--navy);
+    text-align: center; margin-bottom: 4px;
+  }
+  .login-card p {
+    text-align: center; color: var(--muted);
+    font-size: 13px; margin-bottom: 28px;
+  }
+  .login-field { margin-bottom: 16px; }
+  .login-field label {
+    display: block; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .4px;
+    color: var(--navy); margin-bottom: 6px;
+  }
+  .login-field input {
+    width: 100%; padding: 11px 14px;
+    border: 1.5px solid var(--border); border-radius: 8px;
+    font-family: 'Inter', sans-serif; font-size: 14px;
+    outline: none; transition: border-color .15s;
+  }
+  .login-field input:focus { border-color: var(--gold); }
+  .login-btn {
+    width: 100%; padding: 13px;
+    background: var(--navy); color: var(--white);
+    border: none; border-radius: 8px;
+    font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+    cursor: pointer; margin-top: 8px;
+    transition: opacity .15s;
+  }
+  .login-btn:hover { opacity: .88; }
+  .login-error {
+    color: var(--error); font-size: 12px;
+    text-align: center; margin-top: 10px; display: none;
+  }
+
+  /* ── DASHBOARD ── */
+  .dashboard { display: none; min-height: 100vh; }
+
+  /* sidebar */
+  .sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0;
+    width: 220px; background: var(--navy);
+    display: flex; flex-direction: column;
+    z-index: 100;
+  }
+  .sidebar-logo {
+    padding: 22px 20px 18px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .sidebar-logo .s-circle {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; color: var(--navy); font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .sidebar-logo h1 { font-size: 14px; color: var(--white); font-weight: 700; }
+  .sidebar-logo p { font-size: 10px; color: rgba(255,255,255,.5); margin-top: 2px; }
+
+  .sidebar-nav { flex: 1; padding: 16px 0; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 11px 20px;
+    color: rgba(255,255,255,.6);
+    font-size: 13px; font-weight: 500;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+    border-left: 3px solid transparent;
+  }
+  .nav-item:hover { background: rgba(255,255,255,.07); color: var(--white); }
+  .nav-item.active {
+    background: rgba(200,151,42,.15);
+    color: var(--gold); border-left-color: var(--gold);
+  }
+  .nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
+
+  .sidebar-footer {
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255,255,255,.1);
+  }
+  .logout-btn {
+    width: 100%; padding: 9px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 7px;
+    color: rgba(255,255,255,.7);
+    font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: background .15s;
+  }
+  .logout-btn:hover { background: rgba(255,255,255,.15); }
+
+  /* main area */
+  .main-area {
+    margin-left: 220px;
+    padding: 28px 28px 60px;
+    min-height: 100vh;
+  }
+
+  /* topbar */
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+  }
+  .topbar h2 { font-size: 22px; font-weight: 700; color: var(--navy); }
+  .topbar-right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+  /* stat cards */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  .stat-card {
+    background: var(--white); border-radius: 12px;
+    padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  }
+  .stat-card .s-label { font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); font-weight: 600; }
+  .stat-card .s-value { font-size: 32px; font-weight: 700; color: var(--navy); margin: 6px 0 2px; }
+  .stat-card .s-sub { font-size: 12px; color: var(--muted); }
+  .stat-card.gold .s-value { color: var(--gold); }
+
+  /* search & filter bar */
+  .filter-bar {
+    background: var(--white); border-radius: 12px;
+    padding: 16px 20px; margin-bottom: 18px;
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  }
+  .filter-bar input, .filter-bar select {
+    padding: 9px 13px; border: 1.5px solid var(--border);
+    border-radius: 8px; font-family: 'Inter', sans-serif;
+    font-size: 13px; outline: none;
+    transition: border-color .15s;
+  }
+  .filter-bar input:focus, .filter-bar select:focus { border-color: var(--gold); }
+  .filter-bar input { flex: 1; min-width: 200px; }
+  .clear-btn {
+    padding: 9px 16px; background: transparent;
+    border: 1.5px solid var(--border); border-radius: 8px;
+    font-family: 'Inter', sans-serif; font-size: 13px;
+    cursor: pointer; color: var(--muted);
+  }
+  .clear-btn:hover { border-color: var(--error); color: var(--error); }
+
+  /* table */
+  .table-card {
+    background: var(--white); border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    overflow: hidden;
+  }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th {
+    background: var(--navy); color: var(--white);
+    padding: 12px 14px; text-align: left;
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .4px;
+    white-space: nowrap; cursor: pointer;
+    user-select: none;
+  }
+  thead th:hover { background: var(--navy2); }
+  thead th .sort-icon { margin-left: 4px; opacity: .5; }
+  tbody tr { border-bottom: 1px solid var(--border); transition: background .1s; }
+  tbody tr:hover { background: #f5f8ff; }
+  tbody td { padding: 11px 14px; vertical-align: middle; white-space: nowrap; }
+  tbody td.wrap { white-space: normal; max-width: 180px; }
+
+  .badge {
+    display: inline-block; padding: 3px 9px; border-radius: 20px;
+    font-size: 11px; font-weight: 600;
+  }
+  .badge-ur { background: #e8f4fd; color: #1a6fa8; }
+  .badge-sc { background: #fde8e8; color: #a81a1a; }
+  .badge-st { background: #fde8f8; color: #8a1a8a; }
+  .badge-obc { background: #e8fde8; color: #1a6a1a; }
+  .badge-ews { background: #fdf5e8; color: #8a5a1a; }
+
+  .view-btn {
+    padding: 5px 12px; border-radius: 6px;
+    background: var(--navy); color: var(--white);
+    border: none; font-size: 11px; font-weight: 600;
+    cursor: pointer; transition: opacity .15s;
+  }
+  .view-btn:hover { opacity: .8; }
+
+  /* table footer */
+  .table-footer {
+    padding: 14px 20px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 10px;
+  }
+  .table-footer span { font-size: 12px; color: var(--muted); }
+  .pagination { display: flex; gap: 6px; }
+  .page-btn {
+    width: 30px; height: 30px; border-radius: 6px;
+    border: 1.5px solid var(--border); background: var(--white);
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s;
+  }
+  .page-btn.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
+  .page-btn:hover:not(.active) { background: var(--bg); }
+
+  /* modal */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,.5);
+    z-index: 200; display: none; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--white); border-radius: 16px;
+    width: 100%; max-width: 640px; max-height: 90vh;
+    overflow-y: auto; box-shadow: 0 30px 80px rgba(0,0,0,.3);
+  }
+  .modal-header {
+    padding: 20px 24px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; background: var(--white); z-index: 1;
+  }
+  .modal-header h3 { font-size: 17px; font-weight: 700; color: var(--navy); }
+  .modal-close {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: none; background: var(--bg); cursor: pointer;
+    font-size: 16px; display: flex; align-items: center; justify-content: center;
+  }
+  .modal-body { padding: 20px 24px; }
+  .modal-section { margin-bottom: 20px; }
+  .modal-section h4 {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .5px;
+    color: var(--gold); font-weight: 700; margin-bottom: 10px;
+    padding-bottom: 6px; border-bottom: 1px solid var(--gold-light);
+  }
+  .detail-row {
+    display: grid; grid-template-columns: 140px 1fr;
+    gap: 4px 12px; padding: 5px 0;
+    border-bottom: 1px solid #f0f0f0; font-size: 13px;
+  }
+  .detail-row .dk { color: var(--muted); font-weight: 500; }
+  .detail-row .dv { color: var(--text); font-weight: 600; word-break: break-all; }
+
+  /* btn styles */
+  .btn {
+    padding: 9px 18px; border-radius: 8px;
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+    cursor: pointer; border: none; transition: opacity .15s;
+  }
+  .btn:hover { opacity: .88; }
+  .btn-navy { background: var(--navy); color: var(--white); }
+  .btn-gold { background: var(--gold); color: var(--white); }
+  .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--text); }
+
+  /* loading / empty */
+  .loading-state, .empty-state {
+    text-align: center; padding: 60px 20px; color: var(--muted);
+  }
+  .loading-state .spinner {
+    width: 36px; height: 36px; border: 3px solid var(--border);
+    border-top-color: var(--gold); border-radius: 50%;
+    animation: spin 1s linear infinite; margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .empty-state .empty-icon { font-size: 40px; margin-bottom: 12px; }
+
+  /* refresh indicator */
+  .refresh-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--success); display: inline-block;
+    margin-right: 6px; animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  @media (max-width: 768px) {
+    .sidebar { width: 100%; height: auto; position: relative; flex-direction: row; flex-wrap: wrap; }
+    .main-area { margin-left: 0; padding: 16px; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .sidebar-nav { display: flex; flex-wrap: wrap; padding: 8px; }
+    .nav-item { padding: 8px 12px; border-left: none; border-bottom: 3px solid transparent; }
+    .nav-item.active { border-bottom-color: var(--gold); border-left-color: transparent; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-card">
+    <div class="login-logo">C</div>
+    <h2>Admin Login</h2>
+    <p>CNET Admission Portal · Restricted Access</p>
+    <div class="login-field">
+      <label>Username</label>
+      <input type="text" id="loginUser" placeholder="Enter username" autocomplete="username"/>
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="Enter password" autocomplete="current-password"
+        onkeydown="if(event.key==='Enter') doLogin()"/>
+    </div>
+    <button class="login-btn" onclick="doLogin()">Sign In →</button>
+    <div class="login-error" id="loginError">Incorrect username or password.</div>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ── -->
+<div class="dashboard" id="dashboard">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="s-circle">C</div>
+      <h1>CNET Portal</h1>
+      <p>Admin Dashboard</p>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" onclick="setTab('applications')">
+        <span class="icon">📋</span> Applications
+      </div>
+      <div class="nav-item" onclick="setTab('stats')">
+        <span class="icon">📊</span> Statistics
+      </div>
+      <div class="nav-item" onclick="fetchData()">
+        <span class="icon">🔄</span> Refresh Data
+      </div>
+      <div class="nav-item" onclick="exportCSV()">
+        <span class="icon">⬇</span> Export CSV
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="doLogout()">⎋ Logout</button>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main-area">
+
+    <!-- Applications Tab -->
+    <div id="tab-applications">
+      <div class="topbar">
+        <h2>All Applications</h2>
+        <div class="topbar-right">
+          <span style="font-size:12px;color:var(--muted)">
+            <span class="refresh-dot"></span>Live from Google Sheets
+          </span>
+          <button class="btn btn-gold" onclick="fetchData()">🔄 Refresh</button>
+          <button class="btn btn-navy" onclick="exportCSV()">⬇ Export CSV</button>
+        </div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="s-label">Total Applications</div>
+          <div class="s-value" id="statTotal">—</div>
+          <div class="s-sub">All submissions</div>
+        </div>
+        <div class="stat-card gold">
+          <div class="s-label">Today</div>
+          <div class="s-value" id="statToday">—</div>
+          <div class="s-sub">Submitted today</div>
+        </div>
+        <div class="stat-card">
+          <div class="s-label">Categories</div>
+          <div class="s-value" id="statCats">—</div>
+          <div class="s-sub">Unique categories</div>
+        </div>
+        <div class="stat-card">
+          <div class="s-label">Avg Percentile</div>
+          <div class="s-value" id="statPerc">—</div>
+          <div class="s-sub">CNET average</div>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <input type="text" id="searchInput" placeholder="🔍  Search by name, roll no., email, app ID…" oninput="applyFilters()"/>
+        <select id="filterCat" onchange="applyFilters()">
+          <option value="">All Categories</option>
+          <option>UR</option><option>EWS</option>
+          <option>OBC</option><option>SC</option><option>ST</option>
+        </select>
+        <select id="filterSub" onchange="applyFilters()">
+          <option value="">All Sub-Categories</option>
+          <option>OPEN</option><option>PH</option>
+          <option>EX</option><option>FF</option><option>NCC</option>
+        </select>
+        <select id="filterHostel" onchange="applyFilters()">
+          <option value="">Hostel: All</option>
+          <option value="Yes">Hostel: Yes</option>
+          <option value="No">Hostel: No</option>
+        </select>
+        <button class="clear-btn" onclick="clearFilters()">✕ Clear</button>
+      </div>
+
+      <!-- Table -->
+      <div class="table-card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th onclick="sortBy('_id')">#  App ID <span class="sort-icon">↕</span></th>
+                <th onclick="sortBy('full_name')">Full Name <span class="sort-icon">↕</span></th>
+                <th onclick="sortBy('roll_no')">Roll No. <span class="sort-icon">↕</span></th>
+                <th onclick="sortBy('mobile')">Mobile</th>
+                <th onclick="sortBy('open_rank')">Open Rank <span class="sort-icon">↕</span></th>
+                <th onclick="sortBy('cnet_percentile')">Percentile <span class="sort-icon">↕</span></th>
+                <th onclick="sortBy('main_category')">Category <span class="sort-icon">↕</span></th>
+                <th onclick="sortBy('hostel')">Hostel</th>
+                <th onclick="sortBy('_submittedAt')">Submitted <span class="sort-icon">↕</span></th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <tr><td colspan="10"><div class="loading-state"><div class="spinner"></div><p>Loading applications…</p></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-footer">
+          <span id="tableInfo">Loading…</span>
+          <div class="pagination" id="pagination"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Tab -->
+    <div id="tab-stats" style="display:none">
+      <div class="topbar"><h2>Statistics</h2></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;flex-wrap:wrap" id="statsContent">
+        <div class="table-card" style="padding:24px">
+          <h3 style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:16px">Category Breakdown</h3>
+          <div id="catBreakdown"></div>
+        </div>
+        <div class="table-card" style="padding:24px">
+          <h3 style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:16px">Sub-Category Breakdown</h3>
+          <div id="subCatBreakdown"></div>
+        </div>
+        <div class="table-card" style="padding:24px">
+          <h3 style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:16px">Hostel Demand</h3>
+          <div id="hostelBreakdown"></div>
+        </div>
+        <div class="table-card" style="padding:24px">
+          <h3 style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:16px">Marks Overview</h3>
+          <div id="marksOverview"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── DETAIL MODAL ── -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalBox">
+    <div class="modal-header">
+      <h3 id="modalTitle">Application Details</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ────────────────────────────────────────────────────
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzO0LMUv_CpXa_t1jh1dl-5cybkUDTx6Mv7ieddocKVKHlXsMBlMqeVrYEVmNggFWE/exec';
+const ADMIN_USER = 'dsrk-pgi';
+const ADMIN_PASS = 'cnet@2025';   // ← Change this password!
+
+// ── STATE ─────────────────────────────────────────────────────
+let allData = [];
+let filtered = [];
+let sortKey = '_submittedAt';
+let sortDir = -1;
+let page = 1;
+const PER_PAGE = 15;
+
+// ── LOGIN ─────────────────────────────────────────────────────
+function doLogin() {
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value;
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    fetchData();
+  } else {
+    const err = document.getElementById('loginError');
+    err.style.display = 'block';
+    setTimeout(() => err.style.display = 'none', 3000);
+  }
+}
+
+function doLogout() {
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+}
+
+// ── TABS ──────────────────────────────────────────────────────
+function setTab(name) {
+  document.getElementById('tab-applications').style.display = name === 'applications' ? 'block' : 'none';
+  document.getElementById('tab-stats').style.display = name === 'stats' ? 'block' : 'none';
+  document.querySelectorAll('.nav-item').forEach((el, i) => {
+    el.classList.toggle('active', i === (name === 'applications' ? 0 : 1));
+  });
+  if (name === 'stats') renderStats();
+}
+
+// ── FETCH DATA ────────────────────────────────────────────────
+async function fetchData() {
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = `<tr><td colspan="10"><div class="loading-state"><div class="spinner"></div><p>Fetching from Google Sheets…</p></div></td></tr>`;
+
+  try {
+    const res = await fetch(SHEET_URL + '?t=' + Date.now());
+    const data = await res.json();
+    allData = Array.isArray(data) ? data : [];
+    applyFilters();
+    updateStats();
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="10"><div class="empty-state">
+      <div class="empty-icon">⚠️</div>
+      <p style="color:var(--error)">Could not fetch data. Make sure your Apps Script is deployed with <strong>doGet</strong> function and access set to <strong>Anyone</strong>.</p>
+      <button class="btn btn-navy" style="margin-top:12px" onclick="fetchData()">Retry</button>
+    </div></td></tr>`;
+  }
+}
+
+// ── FILTERS ───────────────────────────────────────────────────
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const cat = document.getElementById('filterCat').value;
+  const sub = document.getElementById('filterSub').value;
+  const hostel = document.getElementById('filterHostel').value;
+
+  filtered = allData.filter(r => {
+    const matchQ = !q || [r._id, r.full_name, r.email, r.roll_no, r.mobile, r.registration_id]
+      .some(v => String(v||'').toLowerCase().includes(q));
+    const matchCat = !cat || r.main_category === cat;
+    const matchSub = !sub || r.sub_category === sub;
+    const matchHostel = !hostel || r.hostel === hostel;
+    return matchQ && matchCat && matchSub && matchHostel;
+  });
+
+  // sort
+  filtered.sort((a, b) => {
+    const av = a[sortKey] || '', bv = b[sortKey] || '';
+    return av < bv ? sortDir : av > bv ? -sortDir : 0;
+  });
+
+  page = 1;
+  renderTable();
+}
+
+function clearFilters() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('filterCat').value = '';
+  document.getElementById('filterSub').value = '';
+  document.getElementById('filterHostel').value = '';
+  applyFilters();
+}
+
+function sortBy(key) {
+  if (sortKey === key) sortDir *= -1;
+  else { sortKey = key; sortDir = 1; }
+  applyFilters();
+}
+
+// ── RENDER TABLE ──────────────────────────────────────────────
+function renderTable() {
+  const tbody = document.getElementById('tableBody');
+  const start = (page - 1) * PER_PAGE;
+  const pageData = filtered.slice(start, start + PER_PAGE);
+
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="10"><div class="empty-state">
+      <div class="empty-icon">📭</div>
+      <p>No applications found. ${allData.length ? 'Try clearing filters.' : 'No submissions yet.'}</p>
+    </div></td></tr>`;
+    document.getElementById('tableInfo').textContent = '0 records';
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+
+  const catBadge = c => {
+    const cls = {UR:'badge-ur',SC:'badge-sc',ST:'badge-st',OBC:'badge-obc',EWS:'badge-ews'}[c] || 'badge-ur';
+    return `<span class="badge ${cls}">${c||'—'}</span>`;
+  };
+
+  tbody.innerHTML = pageData.map((r, i) => `
+    <tr>
+      <td style="font-size:11px;color:var(--muted)">${r._id||'—'}</td>
+      <td style="font-weight:600">${r.full_name||'—'}</td>
+      <td>${r.roll_no||'—'}</td>
+      <td>${r.mobile||r.mobile_personal||'—'}</td>
+      <td>${r.open_rank||'—'}</td>
+      <td><strong>${r.cnet_percentile||'—'}</strong></td>
+      <td>${catBadge(r.main_category)}</td>
+      <td>${r.hostel === 'Yes' ? '✅' : r.hostel === 'No' ? '❌' : '—'}</td>
+      <td style="font-size:11px;color:var(--muted)">${r._submittedAt||'—'}</td>
+      <td><button class="view-btn" onclick="viewDetail(${start + i})">View</button></td>
+    </tr>
+  `).join('');
+
+  // footer info
+  document.getElementById('tableInfo').textContent =
+    `Showing ${start + 1}–${Math.min(start + PER_PAGE, filtered.length)} of ${filtered.length} records`;
+
+  // pagination
+  const totalPages = Math.ceil(filtered.length / PER_PAGE);
+  let pg = '';
+  for (let p2 = 1; p2 <= totalPages; p2++) {
+    pg += `<button class="page-btn ${p2 === page ? 'active' : ''}" onclick="goPage(${p2})">${p2}</button>`;
+  }
+  document.getElementById('pagination').innerHTML = pg;
+}
+
+function goPage(p2) { page = p2; renderTable(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+// ── STATS ─────────────────────────────────────────────────────
+function updateStats() {
+  document.getElementById('statTotal').textContent = allData.length;
+
+  const today = new Date().toLocaleDateString('en-IN');
+  const todayCount = allData.filter(r => r._submittedAt && r._submittedAt.includes(today.split('/')[0])).length;
+  document.getElementById('statToday').textContent = todayCount;
+
+  const cats = new Set(allData.map(r => r.main_category).filter(Boolean));
+  document.getElementById('statCats').textContent = cats.size;
+
+  const percs = allData.map(r => parseFloat(r.cnet_percentile)).filter(v => !isNaN(v));
+  const avg = percs.length ? (percs.reduce((a,b)=>a+b,0)/percs.length).toFixed(1) : '—';
+  document.getElementById('statPerc').textContent = avg;
+}
+
+function renderStats() {
+  const breakdown = (field, el) => {
+    const counts = {};
+    allData.forEach(r => { const v = r[field]||'Unknown'; counts[v] = (counts[v]||0)+1; });
+    const total = allData.length || 1;
+    document.getElementById(el).innerHTML = Object.entries(counts)
+      .sort((a,b)=>b[1]-a[1])
+      .map(([k,v]) => `
+        <div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
+            <span style="font-weight:600">${k}</span>
+            <span style="color:var(--muted)">${v} (${((v/total)*100).toFixed(1)}%)</span>
+          </div>
+          <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden">
+            <div style="height:100%;width:${(v/total)*100}%;background:var(--gold);border-radius:4px"></div>
+          </div>
+        </div>`).join('') || '<p style="color:var(--muted);font-size:13px">No data</p>';
+  };
+
+  breakdown('main_category', 'catBreakdown');
+  breakdown('sub_category', 'subCatBreakdown');
+  breakdown('hostel', 'hostelBreakdown');
+
+  // marks
+  const markFields = [
+    ['marks_nursing','Nursing Aptitude',24],
+    ['marks_physics','Physics',24],
+    ['marks_chemistry','Chemistry',24],
+    ['marks_biology','Biology',24],
+    ['marks_english','English',24],
+  ];
+  document.getElementById('marksOverview').innerHTML = markFields.map(([f,l,mx]) => {
+    const vals = allData.map(r => parseFloat(r[f])).filter(v => !isNaN(v));
+    const avg = vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(2) : '—';
+    return `<div class="detail-row"><span class="dk">${l}</span><span class="dv">Avg: ${avg} / ${mx}</span></div>`;
+  }).join('');
+}
+
+// ── DETAIL MODAL ──────────────────────────────────────────────
+function viewDetail(idx) {
+  const r = filtered[idx];
+  if (!r) return;
+  document.getElementById('modalTitle').textContent = `Application — ${r._id || ''}`;
+
+  const det = (label, val) => `
+    <div class="detail-row">
+      <span class="dk">${label}</span>
+      <span class="dv">${val || '—'}</span>
+    </div>`;
+
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-section">
+      <h4>Account</h4>
+      ${det('App ID', r._id)}
+      ${det('Submitted At', r._submittedAt)}
+      ${det('Email', r.email)}
+      ${det('Mobile', r.mobile)}
+    </div>
+    <div class="modal-section">
+      <h4>CNET / Exam</h4>
+      ${det('Registration ID', r.registration_id)}
+      ${det('Roll No.', r.roll_no)}
+      ${det('Open Rank', r.open_rank)}
+      ${det('Category Rank', r.category_rank)}
+      ${det('CNET Percentile', r.cnet_percentile)}
+    </div>
+    <div class="modal-section">
+      <h4>Personal</h4>
+      ${det('Full Name', r.full_name)}
+      ${det("Father's Name", r.father_name)}
+      ${det("Mother's Name", r.mother_name)}
+      ${det('Date of Birth', r.dob)}
+      ${det('Email (Personal)', r.email_personal)}
+      ${det('Mobile (Personal)', r.mobile_personal)}
+      ${det('Residential Address', r.address)}
+      ${det('Hostel Required', r.hostel)}
+    </div>
+    <div class="modal-section">
+      <h4>Aadhaar</h4>
+      ${det('Name on Aadhaar', r.aadhar_name)}
+      ${det('DOB on Aadhaar', r.aadhar_dob)}
+      ${det('Address on Aadhaar', r.aadhar_address)}
+    </div>
+    <div class="modal-section">
+      <h4>Category</h4>
+      ${det('Main Category', r.main_category)}
+      ${det('Sub Category', r.sub_category)}
+    </div>
+    <div class="modal-section">
+      <h4>CNET Marks (/ 24 each)</h4>
+      ${det('Nursing Aptitude', r.marks_nursing)}
+      ${det('Physics', r.marks_physics)}
+      ${det('Chemistry', r.marks_chemistry)}
+      ${det('Biology', r.marks_biology)}
+      ${det('English', r.marks_english)}
+    </div>
+    <div class="modal-section">
+      <h4>Academic Marks</h4>
+      ${det('10th Total %', r.pct_10th)}
+      ${det('12th Physics %', r.pct_12_physics)}
+      ${det('12th Chemistry %', r.pct_12_chemistry)}
+      ${det('12th Biology %', r.pct_12_biology)}
+      ${det('12th English %', r.pct_12_english)}
+      ${det('English Passed Individually', r.english_passed)}
+    </div>
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+}
+
+// ── EXPORT CSV ────────────────────────────────────────────────
+function exportCSV() {
+  if (!allData.length) { alert('No data to export.'); return; }
+  const headers = Object.keys(allData[0]);
+  const rows = allData.map(r => headers.map(h => `"${String(r[h]||'').replace(/"/g,'""')}"`).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'cnet_applications_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+</script>
+</body>
+</html>
