@@ -223,17 +223,55 @@ function updateApp(id, data){
 function findApp(id){ return loadApps().find(a=>a._id===id.trim().toUpperCase())||null; }
 
 // ══════════════════════════════════════════════
-//  GOOGLE SHEETS — POST via form-encoded (works with no-cors)
+//  GOOGLE SHEETS — hidden iframe form POST
+//  This is the only reliable way to POST to
+//  Google Apps Script from an external domain
 // ══════════════════════════════════════════════
 function sendToSheet(payload, cb){
-  // Encode as URL form data — this is the only method
-  // that reliably works cross-origin with Apps Script
-  const body = 'data=' + encodeURIComponent(JSON.stringify(payload));
-  fetch(SHEET_URL, {
-    method:'POST', mode:'no-cors',
-    headers:{'Content-Type':'application/x-www-form-urlencoded'},
-    body: body
-  }).then(()=>cb(true)).catch(()=>cb(false));
+  // Remove any previous iframe/form
+  ['__gs_iframe','__gs_form'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.parentNode.removeChild(el);
+  });
+
+  // Create hidden iframe
+  const iframe = document.createElement('iframe');
+  iframe.id = '__gs_iframe';
+  iframe.name = '__gs_iframe';
+  iframe.style.cssText = 'display:none;width:0;height:0;border:0;';
+  document.body.appendChild(iframe);
+
+  // Create hidden form targeting the iframe
+  const form = document.createElement('form');
+  form.id = '__gs_form';
+  form.method = 'POST';
+  form.action = SHEET_URL;
+  form.target = '__gs_iframe';
+  form.style.display = 'none';
+
+  // Single input with all data as JSON string
+  const inp = document.createElement('input');
+  inp.type = 'hidden';
+  inp.name = 'data';
+  inp.value = JSON.stringify(payload);
+  form.appendChild(inp);
+  document.body.appendChild(form);
+
+  // Listen for iframe load = Google received the POST
+  let called = false;
+  function done(ok){
+    if(called) return;
+    called = true;
+    try{ document.body.removeChild(iframe); }catch(e){}
+    try{ document.body.removeChild(form); }catch(e){}
+    cb(ok);
+  }
+
+  iframe.onload = ()=> done(true);
+  // Timeout fallback
+  setTimeout(()=> done(false), 12000);
+
+  form.submit();
 }
 
 // ══════════════════════════════════════════════
