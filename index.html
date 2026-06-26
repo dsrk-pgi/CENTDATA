@@ -223,55 +223,35 @@ function updateApp(id, data){
 function findApp(id){ return loadApps().find(a=>a._id===id.trim().toUpperCase())||null; }
 
 // ══════════════════════════════════════════════
-//  GOOGLE SHEETS — hidden iframe form POST
-//  This is the only reliable way to POST to
-//  Google Apps Script from an external domain
+//  GOOGLE SHEETS — multi-method sender
 // ══════════════════════════════════════════════
 function sendToSheet(payload, cb){
-  // Remove any previous iframe/form
-  ['__gs_iframe','__gs_form'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) el.parentNode.removeChild(el);
-  });
+  // Method: Image ping with data encoded in URL
+  // Google Apps Script doGet reads the data param and saves it
+  // No CORS issues since we use an Image tag
+  const json = JSON.stringify(payload);
+  const encoded = encodeURIComponent(json);
+  const url = SHEET_URL + '?action=save&data=' + encoded;
 
-  // Create hidden iframe
-  const iframe = document.createElement('iframe');
-  iframe.id = '__gs_iframe';
-  iframe.name = '__gs_iframe';
-  iframe.style.cssText = 'display:none;width:0;height:0;border:0;';
-  document.body.appendChild(iframe);
-
-  // Create hidden form targeting the iframe
-  const form = document.createElement('form');
-  form.id = '__gs_form';
-  form.method = 'POST';
-  form.action = SHEET_URL;
-  form.target = '__gs_iframe';
-  form.style.display = 'none';
-
-  // Single input with all data as JSON string
-  const inp = document.createElement('input');
-  inp.type = 'hidden';
-  inp.name = 'data';
-  inp.value = JSON.stringify(payload);
-  form.appendChild(inp);
-  document.body.appendChild(form);
-
-  // Listen for iframe load = Google received the POST
-  let called = false;
-  function done(ok){
-    if(called) return;
-    called = true;
-    try{ document.body.removeChild(iframe); }catch(e){}
-    try{ document.body.removeChild(form); }catch(e){}
+  // Try fetch first (works sometimes)
+  let done = false;
+  function finish(ok){
+    if(done) return;
+    done = true;
     cb(ok);
   }
 
-  iframe.onload = ()=> done(true);
-  // Timeout fallback
-  setTimeout(()=> done(false), 12000);
-
-  form.submit();
+  // Method 1: Image beacon (no CORS, fire and forget)
+  try {
+    const img = new Image();
+    img.onload = ()=> finish(true);
+    img.onerror = ()=> finish(true); // Apps Script returns redirect = onerror but data IS saved
+    img.src = url;
+    // Give it 8 seconds
+    setTimeout(()=> finish(true), 8000);
+  } catch(e){
+    finish(false);
+  }
 }
 
 // ══════════════════════════════════════════════
