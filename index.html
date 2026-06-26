@@ -3,189 +3,110 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CNET Admission Portal 2025–26</title>
+<title>CNET Admission Portal 2025-26</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
-:root{
-  --navy:#1a2744;--navy2:#243260;--gold:#c8972a;--gold-light:#f5e8c8;
-  --cream:#fdfaf4;--white:#fff;--text:#1e2330;--muted:#6b7280;
-  --border:#dde3ee;--err:#c0392b;--ok:#1a7a4a;--bg:#f0f3f9;
-}
+:root{--navy:#1a2744;--gold:#c8972a;--gold-light:#f5e8c8;--cream:#fdfaf4;--white:#fff;--text:#1e2330;--muted:#6b7280;--border:#dde3ee;--err:#c0392b;--ok:#1a7a4a;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;}
-
-/* HEADER */
 header{background:var(--navy);position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,.3);}
 .hdr{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:13px 20px;}
-.logo{width:42px;height:42px;border-radius:50%;background:var(--gold);display:flex;align-items:center;
-  justify-content:center;font-family:'Playfair Display',serif;font-size:20px;color:var(--navy);font-weight:700;flex-shrink:0;}
+.logo{width:42px;height:42px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;color:var(--navy);font-weight:700;flex-shrink:0;}
 .hdr-txt h1{font-size:17px;color:#fff;font-family:'Playfair Display',serif;}
 .hdr-txt p{font-size:10px;color:var(--gold-light);margin-top:1px;letter-spacing:.5px;}
-
-/* PROGRESS */
 .prog-wrap{background:var(--navy);padding:0 20px 14px;}
 .prog-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;}
-.step-dot-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:52px;}
-.step-dot{width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,.25);
-  display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(255,255,255,.5);font-weight:600;}
-.step-dot.done{background:var(--gold);border-color:var(--gold);color:var(--navy);}
-.step-dot.active{background:var(--gold);border-color:var(--gold);color:var(--navy);}
-.step-lbl{font-size:9px;color:rgba(255,255,255,.45);text-align:center;line-height:1.2;}
-.step-lbl.active{color:var(--gold);}
-.step-lbl.done{color:rgba(255,255,255,.65);}
-.prog-line{flex:1;height:2px;background:rgba(255,255,255,.15);}
-.prog-line.done{background:var(--gold);}
-
-/* EDIT BANNER */
-.edit-banner{background:linear-gradient(135deg,#243260,#1a2744);padding:10px 20px;
-  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:13px;color:#fff;}
+.sdw{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:52px;}
+.sd{width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(255,255,255,.5);font-weight:600;}
+.sd.done,.sd.active{background:var(--gold);border-color:var(--gold);color:var(--navy);}
+.sl{font-size:9px;color:rgba(255,255,255,.45);text-align:center;line-height:1.2;}
+.sl.active{color:var(--gold);}
+.sl.done{color:rgba(255,255,255,.65);}
+.pl{flex:1;height:2px;background:rgba(255,255,255,.15);}
+.pl.done{background:var(--gold);}
+.edit-banner{background:#243260;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:13px;color:#fff;}
 .edit-banner strong{color:var(--gold);}
-.eb-btn{padding:5px 14px;border-radius:6px;background:rgba(255,255,255,.15);
-  border:1px solid rgba(255,255,255,.3);color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;}
-
-/* MAIN */
+.eb-btn{padding:5px 14px;border-radius:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;}
 main{max-width:860px;margin:0 auto;padding:24px 20px 80px;}
-
-/* LANDING */
 .land{text-align:center;padding:40px 0;}
 .land h2{font-family:'Playfair Display',serif;font-size:24px;color:var(--navy);margin:14px 0 8px;}
 .land p{color:var(--muted);font-size:14px;margin-bottom:28px;}
 .land-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:440px;margin:0 auto;text-align:left;}
-.land-card{background:var(--white);border:2px solid var(--border);border-radius:14px;
-  padding:22px 18px;cursor:pointer;transition:border-color .2s,box-shadow .2s;}
+.land-card{background:var(--white);border:2px solid var(--border);border-radius:14px;padding:22px 18px;cursor:pointer;transition:border-color .2s,box-shadow .2s;}
 .land-card:hover{border-color:var(--gold);box-shadow:0 4px 20px rgba(200,151,42,.15);}
 .land-card .lci{font-size:26px;margin-bottom:8px;}
 .land-card h3{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px;}
 .land-card p{font-size:12px;color:var(--muted);margin:0;}
-
-/* LOOKUP */
-.lookup-box{background:var(--white);border-radius:14px;padding:30px;max-width:440px;
-  margin:40px auto;box-shadow:0 4px 24px rgba(0,0,0,.08);text-align:center;}
+.lookup-box{background:var(--white);border-radius:14px;padding:30px;max-width:440px;margin:40px auto;box-shadow:0 4px 24px rgba(0,0,0,.08);text-align:center;}
 .lookup-box h3{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:6px;}
 .lookup-box p{font-size:13px;color:var(--muted);margin-bottom:18px;}
 .lookup-row{display:flex;gap:8px;}
-.lookup-row input{flex:1;padding:10px 13px;border:1.5px solid var(--border);border-radius:8px;
-  font-family:'Inter',sans-serif;font-size:14px;outline:none;text-transform:uppercase;letter-spacing:1px;}
+.lookup-row input{flex:1;padding:10px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:14px;outline:none;text-transform:uppercase;letter-spacing:1px;}
 .lookup-row input:focus{border-color:var(--gold);}
 .lookup-err{color:var(--err);font-size:12px;margin-top:8px;text-align:left;}
-
-/* SECTION HEADER */
 .sec-hdr{border-left:4px solid var(--gold);padding-left:13px;margin-bottom:22px;}
 .sec-hdr h2{font-size:19px;font-weight:700;color:var(--navy);}
 .sec-hdr p{font-size:13px;color:var(--muted);margin-top:3px;}
-
-/* FORM GRID */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 22px;}
 .grid .full{grid-column:1/-1;}
-
-/* FIELD */
 .fld{display:flex;flex-direction:column;gap:5px;}
 .fld label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--navy);}
 .fld label .req{color:var(--gold);margin-left:2px;}
-.fld input,.fld select,.fld textarea{
-  border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;
-  font-family:'Inter',sans-serif;font-size:14px;color:var(--text);background:var(--white);
-  outline:none;transition:border-color .15s,box-shadow .15s;width:100%;}
+.fld input,.fld select,.fld textarea{border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Inter',sans-serif;font-size:14px;color:var(--text);background:var(--white);outline:none;transition:border-color .15s;width:100%;}
 .fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,151,42,.1);}
 .fld input.err,.fld select.err{border-color:var(--err);}
 .fld textarea{resize:vertical;min-height:70px;}
 .fld .emsg{font-size:11px;color:var(--err);}
-
-/* MARK FIELD */
 .mark-wrap{position:relative;}
 .mark-wrap input{padding-right:48px;}
-.mark-badge{position:absolute;right:11px;top:50%;transform:translateY(-50%);
-  font-size:10px;color:var(--muted);font-weight:700;pointer-events:none;}
-
-/* RADIO PILLS */
+.mark-badge{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--muted);font-weight:700;pointer-events:none;}
 .radio-grp{display:flex;gap:8px;flex-wrap:wrap;}
-.pill{display:flex;align-items:center;gap:8px;padding:10px 16px;
-  border:1.5px solid var(--border);border-radius:30px;cursor:pointer;
-  font-size:14px;font-weight:500;background:var(--white);user-select:none;transition:border-color .15s,background .15s;}
+.pill{display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid var(--border);border-radius:30px;cursor:pointer;font-size:14px;font-weight:500;background:var(--white);user-select:none;transition:border-color .15s,background .15s;}
 .pill input[type=radio]{width:15px;height:15px;accent-color:var(--gold);flex-shrink:0;}
 .pill.checked{border-color:var(--gold);background:rgba(200,151,42,.09);font-weight:700;color:var(--navy);}
-
-/* CHECKBOX */
-.chk-row{display:flex;align-items:center;gap:10px;padding:11px 13px;
-  border:1.5px solid var(--border);border-radius:8px;background:var(--white);cursor:pointer;}
+.chk-row{display:flex;align-items:center;gap:10px;padding:11px 13px;border:1.5px solid var(--border);border-radius:8px;background:var(--white);cursor:pointer;}
 .chk-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--gold);}
 .chk-row span{font-size:13px;}
-
-/* CONDITIONAL BLOCK */
-.cond{background:#f8f5ee;border:1.5px solid var(--gold-light);border-radius:10px;
-  padding:16px;margin-top:14px;display:none;}
-.cond.show{display:block;}
-.cond-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;
-  color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.cond{background:#f8f5ee;border:1.5px solid var(--gold-light);border-radius:10px;padding:16px;margin-top:14px;display:none;}
+.cond-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:7px;}
 .cond-title::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;}
-
-/* FILE UPLOAD */
-.file-area{border:2px dashed var(--border);border-radius:10px;padding:16px;
-  text-align:center;background:var(--white);cursor:pointer;position:relative;transition:border-color .15s;}
+.file-area{border:2px dashed var(--border);border-radius:10px;padding:16px;text-align:center;background:var(--white);cursor:pointer;position:relative;transition:border-color .15s;}
 .file-area:hover{border-color:var(--gold);}
 .file-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
 .file-area .fi{font-size:22px;}
 .file-area p{font-size:11px;color:var(--muted);margin-top:3px;}
 .file-name{font-size:12px;color:var(--ok);margin-top:5px;font-weight:600;}
-
-/* DIVIDER */
 hr.div{border:none;border-top:1.5px solid var(--border);margin:22px 0;}
-
-/* NAV */
 .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:28px;}
-.btn{padding:11px 24px;border-radius:8px;font-family:'Inter',sans-serif;
-  font-size:14px;font-weight:600;cursor:pointer;border:none;transition:opacity .15s,transform .1s;}
-.btn:active{transform:scale(.98);}
+.btn{padding:11px 24px;border-radius:8px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:opacity .15s;}
 .btn-primary{background:var(--navy);color:#fff;}
 .btn-primary:hover{opacity:.88;}
 .btn-outline{background:transparent;color:var(--navy);border:1.5px solid var(--border);}
-.btn-outline:hover{background:rgba(0,0,0,.04);}
 .btn-gold{background:var(--gold);color:#fff;}
 .btn-gold:hover{opacity:.88;}
-
-/* REVIEW */
 .rv-sec{margin-bottom:18px;}
-.rv-sec h3{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--navy);
-  font-weight:700;border-bottom:2px solid var(--gold);padding-bottom:5px;margin-bottom:8px;}
-.rv-row{display:grid;grid-template-columns:1fr 1.5fr;gap:3px 12px;
-  padding:5px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.rv-sec h3{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--navy);font-weight:700;border-bottom:2px solid var(--gold);padding-bottom:5px;margin-bottom:8px;}
+.rv-row{display:grid;grid-template-columns:1fr 1.5fr;gap:3px 12px;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px;}
 .rv-row .rk{color:var(--muted);}
 .rv-row .rv{color:var(--text);font-weight:500;word-break:break-all;}
-
-/* SUCCESS */
 .success{text-align:center;padding:50px 20px;}
 .success h2{font-family:'Playfair Display',serif;font-size:26px;color:var(--navy);margin:14px 0 8px;}
 .success p{color:var(--muted);font-size:14px;max-width:380px;margin:0 auto 20px;}
-.app-id{display:inline-block;background:var(--gold-light);border:1.5px solid var(--gold);
-  border-radius:8px;padding:10px 22px;font-size:18px;font-weight:700;color:var(--navy);
-  letter-spacing:1px;margin-bottom:20px;}
+.app-id{display:inline-block;background:var(--gold-light);border:1.5px solid var(--gold);border-radius:8px;padding:10px 22px;font-size:18px;font-weight:700;color:var(--navy);letter-spacing:1px;margin-bottom:20px;}
 .btn-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-
-/* LOADING */
 .loading{text-align:center;padding:50px;}
-.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--gold);
-  border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 14px;}
+.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 14px;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
-@media(max-width:580px){
-  .grid{grid-template-columns:1fr;}
-  .grid .full{grid-column:1;}
-  .land-cards{grid-template-columns:1fr;}
-  .radio-grp{flex-direction:column;}
-  .pill{width:100%;}
-  .rv-row{grid-template-columns:1fr;}
-  main{padding:18px 14px 80px;}
-}
+@media(max-width:580px){.grid{grid-template-columns:1fr;}.grid .full{grid-column:1;}.land-cards{grid-template-columns:1fr;}.radio-grp{flex-direction:column;}.pill{width:100%;}.rv-row{grid-template-columns:1fr;}main{padding:18px 14px 80px;}}
 </style>
 </head>
 <body>
-
 <header>
   <div class="hdr">
     <div class="logo">C</div>
     <div class="hdr-txt">
       <h1>CNET Admission Portal</h1>
-      <p>ONLINE APPLICATION FORM · 2025–26</p>
+      <p>ONLINE APPLICATION FORM - 2025-26</p>
     </div>
   </div>
   <div class="prog-wrap" id="progWrap" style="display:none">
@@ -194,639 +115,542 @@ hr.div{border:none;border-top:1.5px solid var(--border);margin:22px 0;}
 </header>
 <div id="editBanner" style="display:none"></div>
 <main id="app"></main>
-
 <script>
-// ══════════════════════════════════════════════
-//  CONFIG
-// ══════════════════════════════════════════════
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzgR-bPXTTLsasZhd7DvI4ASE6J9Uqvj0HEWCg-uGx6M1UC3M9PrNiJR362e0NrcSb7/exec';
-const STORE_KEY = 'cnet_apps_v2';
+var FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSfpI4h3CJMKBWYqoES77bVnOm0JvBpj1ZLcd9unvNsrYulxhg/formResponse';
+var ENTRY_MAP = {
+  '_id':                'entry.826164708',
+  '_submittedAt':       'entry.1032630200',
+  'email':              'entry.1649872010',
+  'mobile':             'entry.1904812106',
+  'registration_id':    'entry.522148965',
+  'roll_no':            'entry.1620081417',
+  'open_rank':          'entry.982695413',
+  'cnet_percentile':    'entry.2144604313',
+  'full_name':          'entry.1736095583',
+  'father_name':        'entry.1027435323',
+  'mother_name':        'entry.1775472755',
+  'dob':                'entry.852042417',
+  'address':            'entry.1777908116',
+  'hostel':             'entry.304482716',
+  'aadhar_name':        'entry.1869915269',
+  'aadhar_dob':         'entry.921195160',
+  'main_category':      'entry.965093396',
+  'sub_category':       'entry.1044623172',
+  'marks_nursing':      'entry.1512022397',
+  'marks_physics':      'entry.365273044',
+  'marks_chemistry':    'entry.1403639923',
+  'marks_biology':      'entry.1433419352',
+  'marks_english_cnet': 'entry.526011333',
+  'pct_10th':           'entry.577359863',
+  'pct_12_physics':     'entry.53508013',
+  'pct_12_chemistry':   'entry.1280854917',
+  'pct_12_biology':     'entry.1076865003',
+  'pct_12_english':     'entry.1130163735'
+};
+var STORE_KEY = 'cnet_apps_v3';
+var STEPS = ['Account','CNET','Personal','Aadhaar','Category','Marks','Documents','Review'];
+var step = 0;
+var editId = null;
+var fd = {};
 
-// ══════════════════════════════════════════════
-//  LOCAL STORAGE
-// ══════════════════════════════════════════════
-function loadApps(){ try{ return JSON.parse(localStorage.getItem(STORE_KEY)||'[]'); }catch{ return []; } }
-function saveApps(arr){ localStorage.setItem(STORE_KEY, JSON.stringify(arr)); }
+// LOCAL STORAGE
+function loadApps(){try{return JSON.parse(localStorage.getItem(STORE_KEY)||'[]');}catch(e){return[];}}
+function saveApps(a){localStorage.setItem(STORE_KEY,JSON.stringify(a));}
 function addApp(data){
-  const apps = loadApps();
-  const id = 'CNET'+Date.now().toString(36).toUpperCase();
-  const rec = {...data, _id:id, _submittedAt:new Date().toLocaleString('en-IN')};
-  apps.push(rec); saveApps(apps); return id;
+  var apps=loadApps();
+  var id='CNET'+Date.now().toString(36).toUpperCase();
+  var rec=Object.assign({},data,{_id:id,_submittedAt:new Date().toLocaleString('en-IN')});
+  apps.push(rec);saveApps(apps);return id;
 }
-function updateApp(id, data){
-  const apps = loadApps();
-  const i = apps.findIndex(a=>a._id===id);
-  if(i<0) return false;
-  const rec = {...data, _id:id, _submittedAt:apps[i]._submittedAt, _updatedAt:new Date().toLocaleString('en-IN')};
-  apps[i]=rec; saveApps(apps); return true;
+function updateApp(id,data){
+  var apps=loadApps();
+  var i=apps.findIndex(function(a){return a._id===id;});
+  if(i<0)return false;
+  apps[i]=Object.assign({},data,{_id:id,_submittedAt:apps[i]._submittedAt,_updatedAt:new Date().toLocaleString('en-IN')});
+  saveApps(apps);return true;
 }
-function findApp(id){ return loadApps().find(a=>a._id===id.trim().toUpperCase())||null; }
+function findApp(id){
+  var apps=loadApps();
+  for(var i=0;i<apps.length;i++){if(apps[i]._id===id.trim().toUpperCase())return apps[i];}
+  return null;
+}
 
-// ══════════════════════════════════════════════
-//  GOOGLE SHEETS — multi-method sender
-// ══════════════════════════════════════════════
+// GOOGLE FORMS SUBMIT
 function sendToSheet(payload, cb){
-  // Method: Image ping with data encoded in URL
-  // Google Apps Script doGet reads the data param and saves it
-  // No CORS issues since we use an Image tag
-  const json = JSON.stringify(payload);
-  const encoded = encodeURIComponent(json);
-  const url = SHEET_URL + '?action=save&data=' + encoded;
+  var old1=document.getElementById('__gf_iframe');
+  var old2=document.getElementById('__gf_form');
+  if(old1)old1.parentNode.removeChild(old1);
+  if(old2)old2.parentNode.removeChild(old2);
 
-  // Try fetch first (works sometimes)
-  let done = false;
-  function finish(ok){
-    if(done) return;
-    done = true;
+  var iframe=document.createElement('iframe');
+  iframe.id='__gf_iframe';
+  iframe.name='__gf_iframe';
+  iframe.style.cssText='display:none;position:absolute;width:0;height:0;';
+  document.body.appendChild(iframe);
+
+  var form=document.createElement('form');
+  form.id='__gf_form';
+  form.method='POST';
+  form.action=FORM_ACTION;
+  form.target='__gf_iframe';
+  form.style.display='none';
+
+  var keys=Object.keys(ENTRY_MAP);
+  for(var i=0;i<keys.length;i++){
+    var key=keys[i];
+    var inp=document.createElement('input');
+    inp.type='hidden';
+    inp.name=ENTRY_MAP[key];
+    inp.value=payload[key]||'';
+    form.appendChild(inp);
+  }
+  document.body.appendChild(form);
+
+  var called=false;
+  function done(ok){
+    if(called)return;called=true;
+    try{document.body.removeChild(iframe);}catch(e){}
+    try{document.body.removeChild(form);}catch(e){}
     cb(ok);
   }
-
-  // Method 1: Image beacon (no CORS, fire and forget)
-  try {
-    const img = new Image();
-    img.onload = ()=> finish(true);
-    img.onerror = ()=> finish(true); // Apps Script returns redirect = onerror but data IS saved
-    img.src = url;
-    // Give it 8 seconds
-    setTimeout(()=> finish(true), 8000);
-  } catch(e){
-    finish(false);
-  }
+  iframe.onload=function(){done(true);};
+  setTimeout(function(){done(true);},10000);
+  form.submit();
 }
 
-// ══════════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════════
-let step = 0;
-let editId = null;
-let fd = {};   // form data object
-
-const STEPS = ['Account','CNET','Personal','Aadhaar','Category','Marks','Documents','Review'];
-
-// ══════════════════════════════════════════════
-//  PROGRESS BAR
-// ══════════════════════════════════════════════
-function showProg(){ document.getElementById('progWrap').style.display='block'; renderProg(); }
-function hideProg(){ document.getElementById('progWrap').style.display='none'; }
+// PROGRESS
+function showProg(){document.getElementById('progWrap').style.display='block';renderProg();}
+function hideProg(){document.getElementById('progWrap').style.display='none';}
 function renderProg(){
-  const el = document.getElementById('progInner');
-  let h='';
-  STEPS.forEach((s,i)=>{
-    const cls = i<step?'done':i===step?'active':'';
-    h+=`<div class="step-dot-wrap">
-      <div class="step-dot ${cls}">${i<step?'✓':(i+1)}</div>
-      <div class="step-lbl ${cls}">${s}</div>
-    </div>`;
-    if(i<STEPS.length-1) h+=`<div class="prog-line ${i<step?'done':''}"></div>`;
-  });
+  var el=document.getElementById('progInner');
+  var h='';
+  for(var i=0;i<STEPS.length;i++){
+    var cls=i<step?'done':i===step?'active':'';
+    var dot=i<step?'&#10003;':(i+1);
+    h+='<div class="sdw"><div class="sd '+cls+'">'+dot+'</div><div class="sl '+cls+'">'+STEPS[i]+'</div></div>';
+    if(i<STEPS.length-1)h+='<div class="pl '+(i<step?'done':'')+'"></div>';
+  }
   el.innerHTML=h;
 }
 
-// ══════════════════════════════════════════════
-//  HELPERS — build HTML
-// ══════════════════════════════════════════════
-function F(id,label,type='text',req=true,opts={}){
-  const star = req?'<span class="req">*</span>':'';
-  const ph = opts.ph||'';
-  const full = opts.full?' full':'';
-  let inp='';
+// FIELD BUILDERS
+function F(id,label,type,req,opts){
+  if(req===undefined)req=true;
+  if(opts===undefined)opts={};
+  var star=req?'<span class="req">*</span>':'';
+  var ph=opts.ph||'';
+  var full=opts.full?' full':'';
+  var inp='';
   if(type==='select'){
-    const os=(opts.options||[]).map(o=>`<option value="${o.v||o}">${o.l||o}</option>`).join('');
-    inp=`<select id="${id}" ${req?'required':''}><option value="">Select…</option>${os}</select>`;
+    var os='<option value="">Select...</option>';
+    var options=opts.options||[];
+    for(var i=0;i<options.length;i++){
+      var o=options[i];
+      os+='<option value="'+(o.v||o)+'">'+(o.l||o)+'</option>';
+    }
+    inp='<select id="'+id+'" '+(req?'required':'')+'>'+ os +'</select>';
   } else if(type==='textarea'){
-    inp=`<textarea id="${id}" placeholder="${ph}" ${req?'required':''}></textarea>`;
+    inp='<textarea id="'+id+'" placeholder="'+ph+'" '+(req?'required':'')+'></textarea>';
   } else {
-    inp=`<input type="${type}" id="${id}" placeholder="${ph}" ${req?'required':''}/>`;
+    inp='<input type="'+type+'" id="'+id+'" placeholder="'+ph+'" '+(req?'required':'')+'/>';
   }
-  return `<div class="fld${full}"><label for="${id}">${label}${star}</label>${inp}<span class="emsg" id="e_${id}"></span></div>`;
+  return '<div class="fld'+full+'"><label for="'+id+'">'+label+star+'</label>'+inp+'<span class="emsg" id="e_'+id+'"></span></div>';
 }
 
-function MF(id,label,max=24){
-  return `<div class="fld"><label for="${id}">${label}<span class="req">*</span></label>
-    <div class="mark-wrap"><input type="number" id="${id}" min="0" max="${max}" step="0.01" required placeholder="0"/>
-    <span class="mark-badge">/${max}</span></div>
-    <span class="emsg" id="e_${id}"></span></div>`;
+function MF(id,label,max){
+  if(max===undefined)max=24;
+  return '<div class="fld"><label for="'+id+'">'+label+'<span class="req">*</span></label><div class="mark-wrap"><input type="number" id="'+id+'" min="0" max="'+max+'" step="0.01" required placeholder="0"/><span class="mark-badge">/'+max+'</span></div><span class="emsg" id="e_'+id+'"></span></div>';
 }
 
-function FILE(id,label,req=true){
-  const star=req?'<span class="req">*</span>':'';
-  return `<div class="fld full"><label>${label}${star}</label>
-    <div class="file-area">
-      <input type="file" id="${id}" accept=".pdf,.jpg,.jpeg,.png" onchange="showFN('${id}')"/>
-      <div class="fi">📎</div>
-      <p>Click to upload · PDF / JPG / PNG · Max 5 MB</p>
-      <div class="file-name" id="fn_${id}"></div>
-    </div></div>`;
+function FILE(id,label,req){
+  if(req===undefined)req=true;
+  var star=req?'<span class="req">*</span>':'';
+  return '<div class="fld full"><label>'+label+star+'</label><div class="file-area"><input type="file" id="'+id+'" accept=".pdf,.jpg,.jpeg,.png" onchange="showFN(\''+id+'\')"/><div class="fi">&#128206;</div><p>Click to upload - PDF / JPG / PNG - Max 5 MB</p><div class="file-name" id="fn_'+id+'"></div></div></div>';
 }
 
 function showFN(id){
-  const f=document.getElementById(id);
-  const s=document.getElementById('fn_'+id);
-  if(f&&f.files[0]) s.textContent='✓ '+f.files[0].name;
+  var f=document.getElementById(id);
+  var s=document.getElementById('fn_'+id);
+  if(f&&f.files&&f.files[0])s.textContent='OK: '+f.files[0].name;
 }
 
-function RADIO(name,opts,req=true,onch=''){
-  return opts.map(o=>`
-    <label class="pill" id="pill_${name}_${o.v||o}">
-      <input type="radio" name="${name}" value="${o.v||o}" ${req?'required':''} onchange="syncPills('${name}');${onch}">
-      ${o.l||o}
-    </label>`).join('');
+function RADIO(name,opts,req,onch){
+  if(req===undefined)req=true;
+  if(onch===undefined)onch='';
+  var h='';
+  for(var i=0;i<opts.length;i++){
+    var o=opts[i];
+    var v=o.v||o; var l=o.l||o;
+    h+='<label class="pill" id="pill_'+name+'_'+v+'"><input type="radio" name="'+name+'" value="'+v+'" '+(req?'required':'')+' onchange="syncPills(\''+name+'\');'+onch+'">'+l+'</label>';
+  }
+  return h;
 }
 
 function syncPills(name){
-  document.querySelectorAll(`.pill input[name="${name}"]`).forEach(r=>{
-    r.closest('.pill').classList.toggle('checked',r.checked);
-  });
-}
-
-// ══════════════════════════════════════════════
-//  STEP CONTENT
-// ══════════════════════════════════════════════
-function stepHTML(){
-  if(step===0) return `
-    <div class="sec-hdr"><h2>Account Details</h2><p>Create your login credentials for this application.</p></div>
-    <div class="grid">
-      ${F('email','Email Address','email')}
-      ${F('mobile','Mobile Number','tel',true,{ph:'10-digit number'})}
-      ${F('password','Password','password')}
-      ${F('confirm_password','Confirm Password','password')}
-    </div>`;
-
-  if(step===1) return `
-    <div class="sec-hdr"><h2>CNET / Exam Details</h2><p>Enter details exactly as on your CNET scorecard.</p></div>
-    <div class="grid">
-      ${F('registration_id','Registration ID','text')}
-      ${F('roll_no','Roll Number','text')}
-      ${F('open_rank','Open Rank','number')}
-      ${F('cnet_percentile','CNET Percentile','number',true,{ph:'e.g. 87.50'})}
-      ${F('category_rank','Category Rank','number',false)}
-      ${F('sub_category_rank','Sub-Category Rank','number',false)}
-    </div>`;
-
-  if(step===2) return `
-    <div class="sec-hdr"><h2>Personal Details</h2><p>As appearing on your official documents.</p></div>
-    <div class="grid">
-      ${F('full_name','Full Name','text',true,{full:true})}
-      ${F('father_name',"Father's Name",'text')}
-      ${F('mother_name',"Mother's Name",'text')}
-      ${F('email_personal','Personal Email','email',false)}
-      ${F('mobile_personal','Personal Mobile','tel',false)}
-      ${F('name_10th','Name as per 10th Certificate','text',true,{full:true})}
-      ${F('dob_10th','DOB as per 10th Certificate','date')}
-      ${F('dob','Date of Birth','date')}
-      ${F('address','Residential Address','textarea',true,{full:true,ph:'House No., Street, City, State, PIN'})}
-      <div class="fld full">
-        <label>Hostel Facility Required<span class="req">*</span></label>
-        <div class="radio-grp">${RADIO('hostel',[{v:'Yes',l:'Yes'},{v:'No',l:'No'}])}</div>
-        <span class="emsg" id="e_hostel"></span>
-      </div>
-    </div>`;
-
-  if(step===3) return `
-    <div class="sec-hdr"><h2>Aadhaar Verification</h2><p>Exactly as printed on your Aadhaar card.</p></div>
-    <div class="grid">
-      ${F('aadhar_name','Name as on Aadhaar','text',true,{full:true})}
-      ${F('aadhar_dob','Date of Birth as on Aadhaar','date')}
-      ${F('aadhar_address','Address as on Aadhaar','textarea',true,{full:true,ph:'Full address as on Aadhaar'})}
-    </div>`;
-
-  if(step===4) return `
-    <div class="sec-hdr"><h2>Category &amp; Quota</h2><p>Select your category — extra fields appear automatically.</p></div>
-    <div class="grid">
-      <div class="fld full">
-        <label>Main Category<span class="req">*</span></label>
-        <div class="radio-grp">${RADIO('main_category',[{v:'UR',l:'UR'},{v:'EWS',l:'EWS'},{v:'OBC',l:'OBC'},{v:'SC',l:'SC'},{v:'ST',l:'ST'}],true,"onCatChange()")}</div>
-        <span class="emsg" id="e_main_category"></span>
-      </div>
-      <div class="fld full">
-        <label>Sub Category<span class="req">*</span></label>
-        <div class="radio-grp">${RADIO('sub_category',[{v:'OPEN',l:'OPEN'},{v:'PH',l:'PH'},{v:'EX',l:'EX'},{v:'FF',l:'FF'},{v:'NCC',l:'NCC'}],true,"onSubChange()")}</div>
-        <span class="emsg" id="e_sub_category"></span>
-      </div>
-    </div>
-    <div class="cond" id="c_scst">
-      <div class="cond-title">SC / ST — Caste Certificate</div>
-      <div class="grid">
-        ${F('caste_cert_name','Certificate Issued In Name Of','text',false)}
-        ${F('caste_cert_date','Certificate Issue Date','date',false)}
-      </div>
-    </div>
-    <div class="cond" id="c_obc">
-      <div class="cond-title">OBC — Certificate (Year 2025)</div>
-      <div class="grid">${F('obc_cert_date','OBC Certificate Issue Date','date',false)}</div>
-    </div>
-    <div class="cond" id="c_ews">
-      <div class="cond-title">EWS — Certificate (on or after 1 Apr 2026)</div>
-      <div class="grid">${F('ews_cert_date','EWS Certificate Issue Date','date',false)}</div>
-    </div>
-    <div class="cond" id="c_ph">
-      <div class="cond-title">Sub-Category: PH (PwD)</div>
-      <div class="grid">
-        ${F('pwd_percent','Disability Percentage (%)','number',false)}
-        ${F('pwd_type','Disability Type','text',false)}
-        <div class="fld full">
-          <label>Lower Limb Disability Confirmed?</label>
-          <div class="radio-grp">${RADIO('lower_limb',[{v:'Yes',l:'Yes'},{v:'No',l:'No'}],false,'')}</div>
-        </div>
-      </div>
-    </div>
-    <div class="cond" id="c_ncc">
-      <div class="cond-title">Sub-Category: NCC</div>
-      <div class="grid">
-        ${F('ncc_cert_type','NCC Certificate Type','select',false,{options:['C']})}
-        ${F('ncc_cert_grade','NCC Certificate Grade','select',false,{options:['B']})}
-      </div>
-    </div>`;
-
-  if(step===5) return `
-    <div class="sec-hdr"><h2>Marks</h2><p>Enter marks as on certificates. CNET subjects are out of 24.</p></div>
-    <p style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:12px">CNET Subject Marks</p>
-    <div class="grid">
-      ${MF('marks_nursing','Nursing Aptitude',24)}
-      ${MF('marks_physics','Physics',24)}
-      ${MF('marks_chemistry','Chemistry',24)}
-      ${MF('marks_biology','Biology',24)}
-      ${MF('marks_english_cnet','English (CNET)',24)}
-    </div>
-    <hr class="div"/>
-    <p style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:12px">Board / Academic Marks</p>
-    <div class="grid">
-      ${MF('pct_10th','10th Total Percentage',100)}
-      ${MF('pct_12_physics','12th Physics %',100)}
-      ${MF('pct_12_chemistry','12th Chemistry %',100)}
-      ${MF('pct_12_biology','12th Biology %',100)}
-      ${MF('pct_12_english','12th English %',100)}
-      <div class="fld full">
-        <label class="chk-row">
-          <input type="checkbox" id="english_passed"/>
-          <span>12th English passed as separate subject<span class="req">*</span></span>
-        </label>
-      </div>
-    </div>`;
-
-  if(step===6) return `
-    <div class="sec-hdr"><h2>Document Uploads</h2><p>PDF / JPG / PNG · Max 5 MB each.</p></div>
-    <div class="grid">
-      ${FILE('doc_aadhar_front','Aadhaar Card (Front)')}
-      ${FILE('doc_aadhar_back','Aadhaar Card (Back)')}
-      ${FILE('doc_photo','Passport Size Photograph')}
-      ${FILE('doc_10th','10th Marksheet / Certificate')}
-      ${FILE('doc_12th','12th Marksheet / Certificate')}
-    </div>
-    <div class="cond show" id="dc_scst" style="display:none">
-      <div class="cond-title">SC / ST — Caste Certificate</div>
-      <div class="grid">${FILE('doc_caste','Caste Certificate',false)}</div>
-    </div>
-    <div class="cond" id="dc_obc" style="display:none">
-      <div class="cond-title">OBC — OBC Certificate</div>
-      <div class="grid">${FILE('doc_obc','OBC Certificate',false)}</div>
-    </div>
-    <div class="cond" id="dc_ews" style="display:none">
-      <div class="cond-title">EWS — EWS Certificate</div>
-      <div class="grid">${FILE('doc_ews','EWS Certificate',false)}</div>
-    </div>
-    <div class="cond" id="dc_ph" style="display:none">
-      <div class="cond-title">PH — PwD Certificate</div>
-      <div class="grid">${FILE('doc_pwd','PwD Certificate',false)}</div>
-    </div>
-    <div class="cond" id="dc_ncc" style="display:none">
-      <div class="cond-title">NCC — NCC Certificate</div>
-      <div class="grid">${FILE('doc_ncc','NCC Certificate',false)}</div>
-    </div>`;
-
-  if(step===7){
-    const g=(k)=>fd[k]||'—';
-    return `
-    <div class="sec-hdr"><h2>Review &amp; Submit</h2><p>Check all details before submitting.</p></div>
-    <div class="rv-sec"><h3>Account</h3>
-      <div class="rv-row"><span class="rk">Email</span><span class="rv">${g('email')}</span></div>
-      <div class="rv-row"><span class="rk">Mobile</span><span class="rv">${g('mobile')}</span></div>
-    </div>
-    <div class="rv-sec"><h3>CNET</h3>
-      <div class="rv-row"><span class="rk">Registration ID</span><span class="rv">${g('registration_id')}</span></div>
-      <div class="rv-row"><span class="rk">Roll No.</span><span class="rv">${g('roll_no')}</span></div>
-      <div class="rv-row"><span class="rk">Open Rank</span><span class="rv">${g('open_rank')}</span></div>
-      <div class="rv-row"><span class="rk">Percentile</span><span class="rv">${g('cnet_percentile')}</span></div>
-    </div>
-    <div class="rv-sec"><h3>Personal</h3>
-      <div class="rv-row"><span class="rk">Full Name</span><span class="rv">${g('full_name')}</span></div>
-      <div class="rv-row"><span class="rk">Father's Name</span><span class="rv">${g('father_name')}</span></div>
-      <div class="rv-row"><span class="rk">Mother's Name</span><span class="rv">${g('mother_name')}</span></div>
-      <div class="rv-row"><span class="rk">Date of Birth</span><span class="rv">${g('dob')}</span></div>
-      <div class="rv-row"><span class="rk">Hostel Required</span><span class="rv">${g('hostel')}</span></div>
-    </div>
-    <div class="rv-sec"><h3>Aadhaar</h3>
-      <div class="rv-row"><span class="rk">Name on Aadhaar</span><span class="rv">${g('aadhar_name')}</span></div>
-      <div class="rv-row"><span class="rk">DOB on Aadhaar</span><span class="rv">${g('aadhar_dob')}</span></div>
-    </div>
-    <div class="rv-sec"><h3>Category</h3>
-      <div class="rv-row"><span class="rk">Main Category</span><span class="rv">${g('main_category')}</span></div>
-      <div class="rv-row"><span class="rk">Sub Category</span><span class="rv">${g('sub_category')}</span></div>
-    </div>
-    <div class="rv-sec"><h3>Marks</h3>
-      <div class="rv-row"><span class="rk">Nursing</span><span class="rv">${g('marks_nursing')}</span></div>
-      <div class="rv-row"><span class="rk">Physics</span><span class="rv">${g('marks_physics')}</span></div>
-      <div class="rv-row"><span class="rk">Chemistry</span><span class="rv">${g('marks_chemistry')}</span></div>
-      <div class="rv-row"><span class="rk">Biology</span><span class="rv">${g('marks_biology')}</span></div>
-      <div class="rv-row"><span class="rk">English (CNET)</span><span class="rv">${g('marks_english_cnet')}</span></div>
-      <div class="rv-row"><span class="rk">10th %</span><span class="rv">${g('pct_10th')}</span></div>
-      <div class="rv-row"><span class="rk">12th Physics %</span><span class="rv">${g('pct_12_physics')}</span></div>
-      <div class="rv-row"><span class="rk">12th Chemistry %</span><span class="rv">${g('pct_12_chemistry')}</span></div>
-      <div class="rv-row"><span class="rk">12th Biology %</span><span class="rv">${g('pct_12_biology')}</span></div>
-      <div class="rv-row"><span class="rk">12th English %</span><span class="rv">${g('pct_12_english')}</span></div>
-    </div>
-    <p style="font-size:12px;color:var(--muted);margin-top:10px">By submitting you confirm all details are true and correct.</p>`;
+  var pills=document.querySelectorAll('.pill input[name="'+name+'"]');
+  for(var i=0;i<pills.length;i++){
+    pills[i].closest('.pill').classList.toggle('checked',pills[i].checked);
   }
-  return '';
 }
 
-// ══════════════════════════════════════════════
-//  COLLECT + RESTORE
-// ══════════════════════════════════════════════
+// STEP HTML
+function stepHTML(){
+  var h='';
+  if(step===0){
+    h='<div class="sec-hdr"><h2>Account Details</h2><p>Create your login credentials.</p></div>';
+    h+='<div class="grid">';
+    h+=F('email','Email Address','email');
+    h+=F('mobile','Mobile Number','tel',true,{ph:'10-digit number'});
+    h+=F('password','Password','password');
+    h+=F('confirm_password','Confirm Password','password');
+    h+='</div>';
+  } else if(step===1){
+    h='<div class="sec-hdr"><h2>CNET / Exam Details</h2><p>Exactly as on your scorecard.</p></div>';
+    h+='<div class="grid">';
+    h+=F('registration_id','Registration ID','text');
+    h+=F('roll_no','Roll Number','text');
+    h+=F('open_rank','Open Rank','number');
+    h+=F('cnet_percentile','CNET Percentile','number',true,{ph:'e.g. 87.50'});
+    h+=F('category_rank','Category Rank','number',false);
+    h+=F('sub_category_rank','Sub-Category Rank','number',false);
+    h+='</div>';
+  } else if(step===2){
+    h='<div class="sec-hdr"><h2>Personal Details</h2><p>As on official documents.</p></div>';
+    h+='<div class="grid">';
+    h+=F('full_name','Full Name','text',true,{full:true});
+    h+=F('father_name',"Father's Name",'text');
+    h+=F('mother_name',"Mother's Name",'text');
+    h+=F('email_personal','Personal Email','email',false);
+    h+=F('mobile_personal','Personal Mobile','tel',false);
+    h+=F('name_10th','Name as per 10th Certificate','text',true,{full:true});
+    h+=F('dob_10th','DOB as per 10th Certificate','date');
+    h+=F('dob','Date of Birth','date');
+    h+=F('address','Residential Address','textarea',true,{full:true,ph:'House No., Street, City, State, PIN'});
+    h+='<div class="fld full"><label>Hostel Required<span class="req">*</span></label>';
+    h+='<div class="radio-grp">'+RADIO('hostel',[{v:'Yes',l:'Yes'},{v:'No',l:'No'}])+'</div>';
+    h+='<span class="emsg" id="e_hostel"></span></div>';
+    h+='</div>';
+  } else if(step===3){
+    h='<div class="sec-hdr"><h2>Aadhaar Verification</h2><p>Exactly as on Aadhaar card.</p></div>';
+    h+='<div class="grid">';
+    h+=F('aadhar_name','Name as on Aadhaar','text',true,{full:true});
+    h+=F('aadhar_dob','DOB as on Aadhaar','date');
+    h+=F('aadhar_address','Address as on Aadhaar','textarea',true,{full:true,ph:'Full address as on Aadhaar'});
+    h+='</div>';
+  } else if(step===4){
+    h='<div class="sec-hdr"><h2>Category &amp; Quota</h2><p>Extra fields appear automatically.</p></div>';
+    h+='<div class="grid">';
+    h+='<div class="fld full"><label>Main Category<span class="req">*</span></label>';
+    h+='<div class="radio-grp">'+RADIO('main_category',[{v:'UR',l:'UR'},{v:'EWS',l:'EWS'},{v:'OBC',l:'OBC'},{v:'SC',l:'SC'},{v:'ST',l:'ST'}],true,'onCatChange()')+'</div>';
+    h+='<span class="emsg" id="e_main_category"></span></div>';
+    h+='<div class="fld full"><label>Sub Category<span class="req">*</span></label>';
+    h+='<div class="radio-grp">'+RADIO('sub_category',[{v:'OPEN',l:'OPEN'},{v:'PH',l:'PH'},{v:'EX',l:'EX'},{v:'FF',l:'FF'},{v:'NCC',l:'NCC'}],true,'onSubChange()')+'</div>';
+    h+='<span class="emsg" id="e_sub_category"></span></div>';
+    h+='</div>';
+    h+='<div class="cond" id="c_scst"><div class="cond-title">SC / ST - Caste Certificate</div><div class="grid">'+F('caste_cert_name','Certificate Name Of','text',false)+F('caste_cert_date','Issue Date','date',false)+'</div></div>';
+    h+='<div class="cond" id="c_obc"><div class="cond-title">OBC - Certificate (Year 2025)</div><div class="grid">'+F('obc_cert_date','OBC Certificate Date','date',false)+'</div></div>';
+    h+='<div class="cond" id="c_ews"><div class="cond-title">EWS - Certificate</div><div class="grid">'+F('ews_cert_date','EWS Certificate Date','date',false)+'</div></div>';
+    h+='<div class="cond" id="c_ph"><div class="cond-title">PH (PwD)</div><div class="grid">'+F('pwd_percent','Disability %','number',false)+F('pwd_type','Disability Type','text',false)+'</div></div>';
+    h+='<div class="cond" id="c_ncc"><div class="cond-title">NCC</div><div class="grid">'+F('ncc_cert_type','NCC Cert Type','text',false)+F('ncc_cert_grade','NCC Grade','text',false)+'</div></div>';
+  } else if(step===5){
+    h='<div class="sec-hdr"><h2>Marks</h2><p>CNET subjects out of 24.</p></div>';
+    h+='<p style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:12px">CNET Marks</p>';
+    h+='<div class="grid">';
+    h+=MF('marks_nursing','Nursing Aptitude',24);
+    h+=MF('marks_physics','Physics',24);
+    h+=MF('marks_chemistry','Chemistry',24);
+    h+=MF('marks_biology','Biology',24);
+    h+=MF('marks_english_cnet','English (CNET)',24);
+    h+='</div><hr class="div"/>';
+    h+='<p style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:12px">Board Marks</p>';
+    h+='<div class="grid">';
+    h+=MF('pct_10th','10th Percentage',100);
+    h+=MF('pct_12_physics','12th Physics %',100);
+    h+=MF('pct_12_chemistry','12th Chemistry %',100);
+    h+=MF('pct_12_biology','12th Biology %',100);
+    h+=MF('pct_12_english','12th English %',100);
+    h+='<div class="fld full"><label class="chk-row"><input type="checkbox" id="english_passed"/><span>12th English passed as separate subject<span class="req">*</span></span></label></div>';
+    h+='</div>';
+  } else if(step===6){
+    h='<div class="sec-hdr"><h2>Document Uploads</h2><p>PDF / JPG / PNG - Max 5 MB each.</p></div>';
+    h+='<div class="grid">';
+    h+=FILE('doc_aadhar_front','Aadhaar Card (Front)');
+    h+=FILE('doc_aadhar_back','Aadhaar Card (Back)');
+    h+=FILE('doc_photo','Passport Size Photograph');
+    h+=FILE('doc_10th','10th Marksheet');
+    h+=FILE('doc_12th','12th Marksheet');
+    h+='</div>';
+    h+='<div class="cond" id="dc_scst"><div class="cond-title">SC/ST - Caste Certificate</div><div class="grid">'+FILE('doc_caste','Caste Certificate',false)+'</div></div>';
+    h+='<div class="cond" id="dc_obc"><div class="cond-title">OBC - OBC Certificate</div><div class="grid">'+FILE('doc_obc','OBC Certificate',false)+'</div></div>';
+    h+='<div class="cond" id="dc_ews"><div class="cond-title">EWS - EWS Certificate</div><div class="grid">'+FILE('doc_ews','EWS Certificate',false)+'</div></div>';
+    h+='<div class="cond" id="dc_ph"><div class="cond-title">PH - PwD Certificate</div><div class="grid">'+FILE('doc_pwd','PwD Certificate',false)+'</div></div>';
+    h+='<div class="cond" id="dc_ncc"><div class="cond-title">NCC - NCC Certificate</div><div class="grid">'+FILE('doc_ncc','NCC Certificate',false)+'</div></div>';
+  } else if(step===7){
+    function g(k){return fd[k]||'---';}
+    h='<div class="sec-hdr"><h2>Review &amp; Submit</h2><p>Check all details before submitting.</p></div>';
+    h+='<div class="rv-sec"><h3>Account</h3>';
+    h+='<div class="rv-row"><span class="rk">Email</span><span class="rv">'+g('email')+'</span></div>';
+    h+='<div class="rv-row"><span class="rk">Mobile</span><span class="rv">'+g('mobile')+'</span></div></div>';
+    h+='<div class="rv-sec"><h3>CNET</h3>';
+    h+='<div class="rv-row"><span class="rk">Reg. ID</span><span class="rv">'+g('registration_id')+'</span></div>';
+    h+='<div class="rv-row"><span class="rk">Roll No.</span><span class="rv">'+g('roll_no')+'</span></div>';
+    h+='<div class="rv-row"><span class="rk">Open Rank</span><span class="rv">'+g('open_rank')+'</span></div>';
+    h+='<div class="rv-row"><span class="rk">Percentile</span><span class="rv">'+g('cnet_percentile')+'</span></div></div>';
+    h+='<div class="rv-sec"><h3>Personal</h3>';
+    h+='<div class="rv-row"><span class="rk">Full Name</span><span class="rv">'+g('full_name')+'</span></div>';
+    h+='<div class="rv-row"><span class="rk">Father</span><span class="rv">'+g('father_name')+'</span></div>';
+    h+='<div class="rv-row"><span class="rk">Mother</span><span class="rv">'+g('mother_name')+'</span></div>';
+    h+='<div class="rv-row"><span class="rk">DOB</span><span class="rv">'+g('dob')+'</span></div>';
+    h+='<div class="rv-row"><span class="rk">Hostel</span><span class="rv">'+g('hostel')+'</span></div></div>';
+    h+='<div class="rv-sec"><h3>Category</h3>';
+    h+='<div class="rv-row"><span class="rk">Main</span><span class="rv">'+g('main_category')+'</span></div>';
+    h+='<div class="rv-row"><span class="rk">Sub</span><span class="rv">'+g('sub_category')+'</span></div></div>';
+    h+='<div class="rv-sec"><h3>Marks</h3>';
+    h+='<div class="rv-row"><span class="rk">Nursing</span><span class="rv">'+g('marks_nursing')+'</span></div>';
+    h+='<div class="rv-row"><span class="rk">Physics</span><span class="rv">'+g('marks_physics')+'</span></div>';
+    h+='<div class="rv-row"><span class="rk">Chemistry</span><span class="rv">'+g('marks_chemistry')+'</span></div>';
+    h+='<div class="rv-row"><span class="rk">Biology</span><span class="rv">'+g('marks_biology')+'</span></div>';
+    h+='<div class="rv-row"><span class="rk">English</span><span class="rv">'+g('marks_english_cnet')+'</span></div>';
+    h+='<div class="rv-row"><span class="rk">10th %</span><span class="rv">'+g('pct_10th')+'</span></div></div>';
+    h+='<p style="font-size:12px;color:var(--muted);margin-top:10px">By submitting you confirm all details are true and correct.</p>';
+  }
+  return h;
+}
+
+// COLLECT
 function collect(){
-  document.querySelectorAll('#app input:not([type=radio]):not([type=checkbox]):not([type=file]),#app select,#app textarea')
-    .forEach(el=>{ if(el.id) fd[el.id]=el.value; });
-  document.querySelectorAll('#app input[type=radio]:checked')
-    .forEach(el=>{ if(el.name) fd[el.name]=el.value; });
-  document.querySelectorAll('#app input[type=checkbox]')
-    .forEach(el=>{ if(el.id) fd[el.id]=el.checked?'Yes':'No'; });
+  var inputs=document.querySelectorAll('#app input:not([type=radio]):not([type=checkbox]):not([type=file]),#app select,#app textarea');
+  for(var i=0;i<inputs.length;i++){var el=inputs[i];if(el.id)fd[el.id]=el.value;}
+  var radios=document.querySelectorAll('#app input[type=radio]:checked');
+  for(var i=0;i<radios.length;i++){var el=radios[i];if(el.name)fd[el.name]=el.value;}
+  var checks=document.querySelectorAll('#app input[type=checkbox]');
+  for(var i=0;i<checks.length;i++){var el=checks[i];if(el.id)fd[el.id]=el.checked?'Yes':'No';}
 }
 
+// RESTORE
 function restore(){
-  Object.entries(fd).forEach(([k,v])=>{
-    const el=document.getElementById(k);
-    if(!el) return;
-    if(el.type==='checkbox') el.checked=(v==='Yes');
-    else if(el.tagName!=='INPUT'||el.type!=='radio') el.value=v;
-  });
-  // radios
-  ['hostel','main_category','sub_category','lower_limb'].forEach(name=>{
+  var keys=Object.keys(fd);
+  for(var i=0;i<keys.length;i++){
+    var k=keys[i]; var v=fd[k];
+    var el=document.getElementById(k);
+    if(!el)continue;
+    if(el.type==='checkbox')el.checked=(v==='Yes');
+    else if(el.tagName!=='INPUT'||el.type!=='radio')el.value=v;
+  }
+  var rnames=['hostel','main_category','sub_category','lower_limb'];
+  for(var i=0;i<rnames.length;i++){
+    var name=rnames[i];
     if(fd[name]){
-      const r=document.querySelector(`input[name="${name}"][value="${fd[name]}"]`);
-      if(r){ r.checked=true; syncPills(name); }
+      var r=document.querySelector('input[name="'+name+'"][value="'+fd[name]+'"]');
+      if(r){r.checked=true;syncPills(name);}
     }
-  });
-  if(step===4){ onCatChange(); onSubChange(); }
-  if(step===6){ applyDocBlocks(); }
+  }
+  if(step===4){onCatChange();onSubChange();}
+  if(step===6){applyDocBlocks();}
 }
 
-// ══════════════════════════════════════════════
-//  CATEGORY CONDITIONAL
-// ══════════════════════════════════════════════
-function onCatChange(){
-  const cat=document.querySelector('input[name="main_category"]:checked')?.value||'';
-  toggle('c_scst', cat==='SC'||cat==='ST');
-  toggle('c_obc', cat==='OBC');
-  toggle('c_ews', cat==='EWS');
-}
-function onSubChange(){
-  const sub=document.querySelector('input[name="sub_category"]:checked')?.value||'';
-  toggle('c_ph', sub==='PH');
-  toggle('c_ncc', sub==='NCC');
-}
-function applyDocBlocks(){
-  const cat=fd.main_category||'';
-  const sub=fd.sub_category||'';
-  toggle('dc_scst', cat==='SC'||cat==='ST');
-  toggle('dc_obc', cat==='OBC');
-  toggle('dc_ews', cat==='EWS');
-  toggle('dc_ph', sub==='PH');
-  toggle('dc_ncc', sub==='NCC');
-}
-function toggle(id, show){
-  const el=document.getElementById(id);
-  if(el) el.style.display=show?'block':'none';
-}
-
-// ══════════════════════════════════════════════
-//  VALIDATE
-// ══════════════════════════════════════════════
+// VALIDATE
 function validate(){
-  let ok=true, first=null;
-  // text/number/select/textarea
-  document.querySelectorAll('#app [required]:not([type=radio]):not([type=checkbox]):not([type=file])').forEach(el=>{
-    const emsg=document.getElementById('e_'+el.id);
+  var ok=true; var first=null;
+  var reqs=document.querySelectorAll('#app [required]:not([type=radio]):not([type=checkbox]):not([type=file])');
+  for(var i=0;i<reqs.length;i++){
+    var el=reqs[i];
+    var emsg=document.getElementById('e_'+el.id);
     if(!el.value.trim()){
-      if(emsg) emsg.textContent='Required.';
+      if(emsg)emsg.textContent='Required.';
       el.classList.add('err');
-      if(!first) first=el;
+      if(!first)first=el;
       ok=false;
     } else {
-      if(emsg) emsg.textContent='';
+      if(emsg)emsg.textContent='';
       el.classList.remove('err');
     }
-  });
-  // radios — only visible groups
-  const rnames=new Set();
-  document.querySelectorAll('#app input[type=radio][required]').forEach(el=>{
-    if(el.closest('.cond')&&el.closest('.cond').style.display==='none') return;
+  }
+  var rnames=new Set();
+  var radios=document.querySelectorAll('#app input[type=radio][required]');
+  for(var i=0;i<radios.length;i++){
+    var el=radios[i];
+    var cond=el.closest('.cond');
+    if(cond&&cond.style.display==='none')continue;
     rnames.add(el.name);
-  });
-  rnames.forEach(name=>{
-    if(!document.querySelector(`#app input[name="${name}"]:checked`)){
-      const emsg=document.getElementById('e_'+name);
-      if(emsg) emsg.textContent='Please select an option.';
-      if(!first) first=document.querySelector(`#app input[name="${name}"]`);
+  }
+  rnames.forEach(function(name){
+    if(!document.querySelector('#app input[name="'+name+'"]:checked')){
+      var emsg=document.getElementById('e_'+name);
+      if(emsg)emsg.textContent='Please select one.';
       ok=false;
     } else {
-      const emsg=document.getElementById('e_'+name);
-      if(emsg) emsg.textContent='';
+      var emsg=document.getElementById('e_'+name);
+      if(emsg)emsg.textContent='';
     }
   });
-  // password match
-  const pw=document.getElementById('password');
-  const cpw=document.getElementById('confirm_password');
-  if(pw&&cpw&&pw.value&&pw.value!==cpw.value){
-    const emsg=document.getElementById('e_confirm_password');
-    if(emsg) emsg.textContent='Passwords do not match.';
-    cpw.classList.add('err');
-    if(!first) first=cpw;
-    ok=false;
+  if(step===0){
+    var pw=document.getElementById('password');
+    var cpw=document.getElementById('confirm_password');
+    if(pw&&cpw&&pw.value&&pw.value!==cpw.value){
+      var emsg=document.getElementById('e_confirm_password');
+      if(emsg)emsg.textContent='Passwords do not match.';
+      cpw.classList.add('err');
+      if(!first)first=cpw;
+      ok=false;
+    }
   }
-  if(!ok&&first) first.scrollIntoView({behavior:'smooth',block:'center'});
+  if(!ok&&first)first.scrollIntoView({behavior:'smooth',block:'center'});
   return ok;
 }
 
-// ══════════════════════════════════════════════
-//  RENDER STEP
-// ══════════════════════════════════════════════
+// RENDER
 function render(){
-  showProg(); renderProg();
-  const app=document.getElementById('app');
-  const isLast=step===STEPS.length-1;
-  app.innerHTML=stepHTML()+`
-    <div class="nav-row">
-      ${step>0?`<button class="btn btn-outline" onclick="goBack()">← Back</button>`:`<span></span>`}
-      ${isLast
-        ?`<button class="btn btn-gold" onclick="doSubmit()">${editId?'Save Changes ✓':'Submit Application ✓'}</button>`
-        :`<button class="btn btn-primary" onclick="goNext()">Next →</button>`}
-    </div>`;
+  showProg();renderProg();
+  var app=document.getElementById('app');
+  var isLast=(step===STEPS.length-1);
+  var btnLabel=isLast?(editId?'Save Changes':'Submit Application'):'Next';
+  var btnCls=isLast?'btn-gold':'btn-primary';
+  var backBtn=step>0?'<button class="btn btn-outline" onclick="goBack()">Back</button>':'<span></span>';
+  var nextBtn='<button class="btn '+btnCls+'" onclick="'+(isLast?'doSubmit()':'goNext()')+'">'+btnLabel+'</button>';
+  app.innerHTML=stepHTML()+'<div class="nav-row">'+backBtn+nextBtn+'</div>';
   restore();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function goNext(){ collect(); if(!validate()) return; step++; render(); }
-function goBack(){ collect(); step--; render(); }
+function goNext(){collect();if(!validate())return;step++;render();}
+function goBack(){collect();step--;render();}
 
-// ══════════════════════════════════════════════
-//  SUBMIT / UPDATE
-// ══════════════════════════════════════════════
-function doSubmit(){
-  try {
-    collect();
-  } catch(ex){ alert('Collect error: '+ex.message); return; }
-
-  const app=document.getElementById('app');
-
-  // Generate ID first
-  let appId;
-  let payload;
-  let isEdit = !!editId;
-
-  try {
-    if(isEdit){
-      updateApp(editId, fd);
-      appId = editId;
-      payload = Object.assign({}, fd, {
-        _id: appId,
-        _action: 'UPDATE',
-        _updatedAt: new Date().toLocaleString('en-IN')
-      });
-    } else {
-      appId = addApp(fd);
-      payload = Object.assign({}, fd, {
-        _id: appId,
-        _submittedAt: new Date().toLocaleString('en-IN')
-      });
-    }
-  } catch(ex){ alert('Save error: '+ex.message); return; }
-
-  // Show loading
-  hideProg();
-  document.getElementById('editBanner').style.display='none';
-  app.innerHTML='<div class="loading"><div class="spinner"></div><p>Saving your application…</p></div>';
-
-  // Send to sheet with 10s timeout fallback
-  let done = false;
-  function finish(sent){
-    if(done) return;
-    done = true;
-    const action = isEdit ? 'Updated' : 'Submitted';
-    app.innerHTML=`<div class="success">
-      <div style="font-size:52px">${isEdit?'✅':'🎓'}</div>
-      <h2>Application ${action}!</h2>
-      <p>Note your Application ID for future reference.</p>
-      <div class="app-id">${appId}</div>
-      <p style="margin-bottom:6px;font-size:13px;color:${sent?'var(--ok)':'var(--err)'}">
-        ${sent
-          ? '✓ Data saved to Google Sheets successfully'
-          : '⚠ Could not reach Google Sheets — data saved on this device only'}
-      </p>
-      <div class="btn-row" style="margin-top:18px">
-        <button class="btn btn-primary" onclick="showLanding()">Home</button>
-        ${!isEdit?'<button class="btn btn-outline" onclick="startNew()">Submit Another</button>':''}
-        <button class="btn btn-gold" onclick="startEdit(''+appId+'')">Edit This Application</button>
-      </div>
-    </div>`;
-    editId = null;
-  }
-
-  // Timeout fallback — show success after 10s even if fetch hangs
-  setTimeout(()=>finish(false), 10000);
-
-  try {
-    const body = 'data=' + encodeURIComponent(JSON.stringify(payload));
-    fetch(SHEET_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: body
-    }).then(()=>finish(true)).catch(()=>finish(false));
-  } catch(ex){
-    finish(false);
-  }
+// CATEGORY CONDITIONALS
+function onCatChange(){
+  var cat='';
+  var r=document.querySelector('input[name="main_category"]:checked');
+  if(r)cat=r.value;
+  toggle('c_scst',cat==='SC'||cat==='ST');
+  toggle('c_obc',cat==='OBC');
+  toggle('c_ews',cat==='EWS');
+}
+function onSubChange(){
+  var sub='';
+  var r=document.querySelector('input[name="sub_category"]:checked');
+  if(r)sub=r.value;
+  toggle('c_ph',sub==='PH');
+  toggle('c_ncc',sub==='NCC');
+}
+function applyDocBlocks(){
+  var cat=fd.main_category||'';
+  var sub=fd.sub_category||'';
+  toggle('dc_scst',cat==='SC'||cat==='ST');
+  toggle('dc_obc',cat==='OBC');
+  toggle('dc_ews',cat==='EWS');
+  toggle('dc_ph',sub==='PH');
+  toggle('dc_ncc',sub==='NCC');
+}
+function toggle(id,show){
+  var el=document.getElementById(id);
+  if(el)el.style.display=show?'block':'none';
 }
 
-// ══════════════════════════════════════════════
-//  LANDING
-// ══════════════════════════════════════════════
-function showLanding(){
-  editId=null; step=0; fd={};
+// SUBMIT
+function doSubmit(){
+  collect();
+  if(!validate())return;
+  var app=document.getElementById('app');
   hideProg();
   document.getElementById('editBanner').style.display='none';
-  document.getElementById('app').innerHTML=`
-    <div class="land">
-      <div style="font-size:50px">🎓</div>
-      <h2>CNET Admission Portal</h2>
-      <p>Submit a new application or update an existing one.</p>
-      <div class="land-cards">
-        <div class="land-card" onclick="startNew()">
-          <div class="lci">📝</div>
-          <h3>New Application</h3>
-          <p>Fill and submit a fresh application</p>
-        </div>
-        <div class="land-card" onclick="showLookup()">
-          <div class="lci">✏️</div>
-          <h3>Edit Application</h3>
-          <p>Update using your Application ID</p>
-        </div>
-      </div>
-    </div>`;
+  app.innerHTML='<div class="loading"><div class="spinner"></div><p>Saving your application...</p></div>';
+
+  var isEdit=!!editId;
+  var appId;
+  if(isEdit){
+    updateApp(editId,fd);
+    appId=editId;
+  } else {
+    appId=addApp(fd);
+  }
+
+  var payload=Object.assign({},fd,{
+    _id:appId,
+    _submittedAt:new Date().toLocaleString('en-IN')
+  });
+
+  sendToSheet(payload,function(sent){
+    var action=isEdit?'Updated':'Submitted';
+    var statusMsg=sent
+      ?'<p style="color:var(--ok);font-weight:600;font-size:13px">Data saved to Google Sheets successfully</p>'
+      :'<p style="color:var(--err);font-weight:500;font-size:13px">Could not reach Google Sheets - saved locally</p>';
+    app.innerHTML='<div class="success">'
+      +'<div style="font-size:52px">'+(isEdit?'&#9989;':'&#127891;')+'</div>'
+      +'<h2>Application '+action+'!</h2>'
+      +'<p>Note your Application ID for future reference.</p>'
+      +'<div class="app-id">'+appId+'</div>'
+      +statusMsg
+      +'<div class="btn-row" style="margin-top:18px">'
+      +'<button class="btn btn-primary" onclick="showLanding()">Home</button>'
+      +(!isEdit?'<button class="btn btn-outline" onclick="startNew()">Submit Another</button>':'')
+      +'<button class="btn btn-gold" onclick="startEdit(\''+appId+'\')">Edit This</button>'
+      +'</div></div>';
+    editId=null;
+  });
+}
+
+// LANDING
+function showLanding(){
+  editId=null;step=0;fd={};
+  hideProg();
+  document.getElementById('editBanner').style.display='none';
+  document.getElementById('app').innerHTML=
+    '<div class="land">'
+    +'<div style="font-size:50px">&#127891;</div>'
+    +'<h2>CNET Admission Portal</h2>'
+    +'<p>Submit a new application or update an existing one.</p>'
+    +'<div class="land-cards">'
+    +'<div class="land-card" onclick="startNew()"><div class="lci">&#128221;</div><h3>New Application</h3><p>Fill and submit a fresh application</p></div>'
+    +'<div class="land-card" onclick="showLookup()"><div class="lci">&#9998;</div><h3>Edit Application</h3><p>Update using your Application ID</p></div>'
+    +'</div></div>';
 }
 
 function startNew(){
-  editId=null; step=0; fd={};
+  editId=null;step=0;fd={};
   document.getElementById('editBanner').style.display='none';
   render();
 }
 
-// ══════════════════════════════════════════════
-//  LOOKUP / EDIT
-// ══════════════════════════════════════════════
+// LOOKUP
 function showLookup(){
   hideProg();
   document.getElementById('editBanner').style.display='none';
-  document.getElementById('app').innerHTML=`
-    <div class="lookup-box">
-      <h3>✏️ Edit Your Application</h3>
-      <p>Enter your Application ID to load and update your submission.</p>
-      <div class="lookup-row">
-        <input id="lid" placeholder="e.g. CNETMQTBH8KV"
-          oninput="this.value=this.value.toUpperCase()"
-          onkeydown="if(event.key==='Enter')doLookup()"/>
-        <button class="btn btn-primary" onclick="doLookup()">Find</button>
-      </div>
-      <div class="lookup-err" id="lerr"></div>
-      <div style="margin-top:18px"><button class="btn btn-outline" onclick="showLanding()">← Back</button></div>
-    </div>`;
+  document.getElementById('app').innerHTML=
+    '<div class="lookup-box">'
+    +'<h3>Find Your Application</h3>'
+    +'<p>Enter your Application ID to load and edit your submission.</p>'
+    +'<div class="lookup-row">'
+    +'<input id="lid" placeholder="e.g. CNETMQTBH8KV" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key===\'Enter\')doLookup()"/>'
+    +'<button class="btn btn-primary" onclick="doLookup()">Find</button>'
+    +'</div>'
+    +'<div class="lookup-err" id="lerr"></div>'
+    +'<div style="margin-top:18px"><button class="btn btn-outline" onclick="showLanding()">Back</button></div>'
+    +'</div>';
 }
 
 function doLookup(){
-  const val=document.getElementById('lid').value.trim().toUpperCase();
-  const err=document.getElementById('lerr');
-  if(!val){ err.textContent='Please enter your Application ID.'; return; }
-  const rec=findApp(val);
-  if(!rec){ err.textContent='❌ No application found with this ID on this device.'; return; }
+  var val=document.getElementById('lid').value.trim().toUpperCase();
+  var err=document.getElementById('lerr');
+  if(!val){err.textContent='Please enter your Application ID.';return;}
+  var rec=findApp(val);
+  if(!rec){err.textContent='No application found with this ID on this device.';return;}
   startEdit(val);
 }
 
 function startEdit(id){
-  const rec=findApp(id);
-  if(!rec){ showLookup(); return; }
-  editId=id; step=0;
-  fd={}; Object.assign(fd,rec);
-  const banner=document.getElementById('editBanner');
+  var rec=findApp(id);
+  if(!rec){showLookup();return;}
+  editId=id;step=0;
+  fd={};
+  var keys=Object.keys(rec);
+  for(var i=0;i<keys.length;i++)fd[keys[i]]=rec[keys[i]];
+  var banner=document.getElementById('editBanner');
   banner.style.display='block';
-  banner.innerHTML=`<div class="edit-banner">
-    <span>✏️ Editing <strong>${id}</strong> — submitted ${rec._submittedAt||''}</span>
-    <button class="eb-btn" onclick="showLanding()">✕ Cancel</button>
-  </div>`;
+  banner.innerHTML='<div class="edit-banner"><span>Editing <strong>'+id+'</strong></span><button class="eb-btn" onclick="showLanding()">Cancel</button></div>';
   render();
 }
 
-// ══════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════
+// INIT
 showLanding();
 </script>
 </body>
