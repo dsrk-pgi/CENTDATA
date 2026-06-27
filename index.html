@@ -1,657 +1,422 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>CNET Admission Portal 2025-26</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
-:root{--navy:#1a2744;--gold:#c8972a;--gold-light:#f5e8c8;--cream:#fdfaf4;--white:#fff;--text:#1e2330;--muted:#6b7280;--border:#dde3ee;--err:#c0392b;--ok:#1a7a4a;}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;}
-header{background:var(--navy);position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,.3);}
-.hdr{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:13px 20px;}
-.logo{width:42px;height:42px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;color:var(--navy);font-weight:700;flex-shrink:0;}
-.hdr-txt h1{font-size:17px;color:#fff;font-family:'Playfair Display',serif;}
-.hdr-txt p{font-size:10px;color:var(--gold-light);margin-top:1px;letter-spacing:.5px;}
-.prog-wrap{background:var(--navy);padding:0 20px 14px;}
-.prog-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;}
-.sdw{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:52px;}
-.sd{width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(255,255,255,.5);font-weight:600;}
-.sd.done,.sd.active{background:var(--gold);border-color:var(--gold);color:var(--navy);}
-.sl{font-size:9px;color:rgba(255,255,255,.45);text-align:center;line-height:1.2;}
-.sl.active{color:var(--gold);}
-.sl.done{color:rgba(255,255,255,.65);}
-.pl{flex:1;height:2px;background:rgba(255,255,255,.15);}
-.pl.done{background:var(--gold);}
-.edit-banner{background:#243260;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:13px;color:#fff;}
-.edit-banner strong{color:var(--gold);}
-.eb-btn{padding:5px 14px;border-radius:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;}
-main{max-width:860px;margin:0 auto;padding:24px 20px 80px;}
-.land{text-align:center;padding:40px 0;}
-.land h2{font-family:'Playfair Display',serif;font-size:24px;color:var(--navy);margin:14px 0 8px;}
-.land p{color:var(--muted);font-size:14px;margin-bottom:28px;}
-.land-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:440px;margin:0 auto;text-align:left;}
-.land-card{background:var(--white);border:2px solid var(--border);border-radius:14px;padding:22px 18px;cursor:pointer;transition:border-color .2s,box-shadow .2s;}
-.land-card:hover{border-color:var(--gold);box-shadow:0 4px 20px rgba(200,151,42,.15);}
-.land-card .lci{font-size:26px;margin-bottom:8px;}
-.land-card h3{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px;}
-.land-card p{font-size:12px;color:var(--muted);margin:0;}
-.lookup-box{background:var(--white);border-radius:14px;padding:30px;max-width:440px;margin:40px auto;box-shadow:0 4px 24px rgba(0,0,0,.08);text-align:center;}
-.lookup-box h3{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:6px;}
-.lookup-box p{font-size:13px;color:var(--muted);margin-bottom:18px;}
-.lookup-row{display:flex;gap:8px;}
-.lookup-row input{flex:1;padding:10px 13px;border:1.5px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:14px;outline:none;text-transform:uppercase;letter-spacing:1px;}
-.lookup-row input:focus{border-color:var(--gold);}
-.lookup-err{color:var(--err);font-size:12px;margin-top:8px;text-align:left;}
-.sec-hdr{border-left:4px solid var(--gold);padding-left:13px;margin-bottom:22px;}
-.sec-hdr h2{font-size:19px;font-weight:700;color:var(--navy);}
-.sec-hdr p{font-size:13px;color:var(--muted);margin-top:3px;}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 22px;}
-.grid .full{grid-column:1/-1;}
-.fld{display:flex;flex-direction:column;gap:5px;}
-.fld label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--navy);}
-.fld label .req{color:var(--gold);margin-left:2px;}
-.fld input,.fld select,.fld textarea{border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'Inter',sans-serif;font-size:14px;color:var(--text);background:var(--white);outline:none;transition:border-color .15s;width:100%;}
-.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,151,42,.1);}
-.fld input.err,.fld select.err{border-color:var(--err);}
-.fld textarea{resize:vertical;min-height:70px;}
-.fld .emsg{font-size:11px;color:var(--err);}
-.mark-wrap{position:relative;}
-.mark-wrap input{padding-right:48px;}
-.mark-badge{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--muted);font-weight:700;pointer-events:none;}
-.radio-grp{display:flex;gap:8px;flex-wrap:wrap;}
-.pill{display:flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid var(--border);border-radius:30px;cursor:pointer;font-size:14px;font-weight:500;background:var(--white);user-select:none;transition:border-color .15s,background .15s;}
-.pill input[type=radio]{width:15px;height:15px;accent-color:var(--gold);flex-shrink:0;}
-.pill.checked{border-color:var(--gold);background:rgba(200,151,42,.09);font-weight:700;color:var(--navy);}
-.chk-row{display:flex;align-items:center;gap:10px;padding:11px 13px;border:1.5px solid var(--border);border-radius:8px;background:var(--white);cursor:pointer;}
-.chk-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--gold);}
-.chk-row span{font-size:13px;}
-.cond{background:#f8f5ee;border:1.5px solid var(--gold-light);border-radius:10px;padding:16px;margin-top:14px;display:none;}
-.cond-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:7px;}
-.cond-title::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;}
-.file-area{border:2px dashed var(--border);border-radius:10px;padding:16px;text-align:center;background:var(--white);cursor:pointer;position:relative;transition:border-color .15s;}
-.file-area:hover{border-color:var(--gold);}
-.file-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-.file-area .fi{font-size:22px;}
-.file-area p{font-size:11px;color:var(--muted);margin-top:3px;}
-.file-name{font-size:12px;color:var(--ok);margin-top:5px;font-weight:600;}
-hr.div{border:none;border-top:1.5px solid var(--border);margin:22px 0;}
-.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:28px;}
-.btn{padding:11px 24px;border-radius:8px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:opacity .15s;}
-.btn-primary{background:var(--navy);color:#fff;}
-.btn-primary:hover{opacity:.88;}
-.btn-outline{background:transparent;color:var(--navy);border:1.5px solid var(--border);}
-.btn-gold{background:var(--gold);color:#fff;}
-.btn-gold:hover{opacity:.88;}
-.rv-sec{margin-bottom:18px;}
-.rv-sec h3{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--navy);font-weight:700;border-bottom:2px solid var(--gold);padding-bottom:5px;margin-bottom:8px;}
-.rv-row{display:grid;grid-template-columns:1fr 1.5fr;gap:3px 12px;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px;}
-.rv-row .rk{color:var(--muted);}
-.rv-row .rv{color:var(--text);font-weight:500;word-break:break-all;}
-.success{text-align:center;padding:50px 20px;}
-.success h2{font-family:'Playfair Display',serif;font-size:26px;color:var(--navy);margin:14px 0 8px;}
-.success p{color:var(--muted);font-size:14px;max-width:380px;margin:0 auto 20px;}
-.app-id{display:inline-block;background:var(--gold-light);border:1.5px solid var(--gold);border-radius:8px;padding:10px 22px;font-size:18px;font-weight:700;color:var(--navy);letter-spacing:1px;margin-bottom:20px;}
-.btn-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-.loading{text-align:center;padding:50px;}
-.spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 14px;}
-@keyframes spin{to{transform:rotate(360deg);}}
-@media(max-width:580px){.grid{grid-template-columns:1fr;}.grid .full{grid-column:1;}.land-cards{grid-template-columns:1fr;}.radio-grp{flex-direction:column;}.pill{width:100%;}.rv-row{grid-template-columns:1fr;}main{padding:18px 14px 80px;}}
-</style>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>CNET Admission Portal 2025-26</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+        :root{--navy: #1a2744;--gold:#c8972a;--gold-light:#f5e8c8;--cream:#fdfaf4;--white:#fff;--text:#1e2330;--muted:#6b7280;--border:#dde3ee;--err:#c0392b;--ok:#1a7a4a;}
+        *,*::before,*::after{box-sizing: border-box; margin:0;padding:0;}
+        body{font-family: 'Inter', sans-serif; background:var(--cream);color:var(--text); min-height:100vh;}
+        header {background: var(--navy); position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,.3); color:#fff;}
+        .hdr{max-width: 860px; margin:0 auto;display: flex; align-items:center; gap: 14px;padding:13px 20px;}
+        .logo{width:42px;height:42px; border-radius: 50%; background:var(--gold); display: flex; align-items:center; justify-content:center;font-family: 'Playfair Display', serif;font-size:20px;color:var(--navy); font-weight:700; flex-shrink:0;}
+        .hdr-txt h1{font-size:17px;font-family: 'Playfair Display', serif;}
+        .hdr-txt p{font-size:10px;color:var(--gold-light); margin-top:1px; letter-spacing:.5px;}
+        main{max-width:860px; margin:0 auto; padding: 24px 20px 80px;}
+        .sec-hdr{border-left:4px solid var(--gold); padding-left:13px;margin-bottom:22px; margin-top: 25px;}
+        .sec-hdr h2{font-size:19px;font-weight:700;color:var(--navy);}
+        .sec-hdr p{font-size:13px;color:var(--muted); margin-top:3px;}
+        .grid{display:grid; grid-template-columns:1fr 1fr; gap:16px 22px;}
+        .full{grid-column:1/-1;}
+        .fld{display: flex; flex-direction:column; gap:5px;}
+        .fld label{font-size:11px;font-weight:700;text-transform:uppercase; letter-spacing:.3px;color:var(--navy);}
+        .fld label .req{color:var(--gold); margin-left:2px;}
+        .fld input, .fld select, .fld textarea{border:1.5px solid var(--border); border-radius: 8px;padding:10px 12px; font-family: 'Inter', sans-serif; font-size:14px;color:var(--text); background: var(--white); outline: none; transition:border-color .15s;width:100%;}
+        .fld input:focus, .fld select:focus, .fld textarea:focus {border-color:var(--gold); box-shadow:0 0 0 3px rgba(200,151,42,.1);}
+        .fld input.err, .fld textarea.err{border-color:var(--err);}
+        .emsg{font-size:11px;color:var(--err); margin-top: 2px; font-weight: 500;}
+        .radio-grp{display: flex; gap:8px; flex-wrap:wrap;}
+        .pill{display: flex; align-items:center; gap:8px;padding:10px 16px; border:1.5px solid var(--border); border-radius: 30px; cursor:pointer;font-size:14px;font-weight:500;background: var(--white); user-select:none;transition: all .15s;}
+        .pill input[type=radio]{width:15px;height:15px; accent-color:var(--gold); flex-shrink:0;}
+        .pill.checked{border-color:var(--gold); background:rgba(200,151,42,.09); font-weight:700;color:var(--navy);}
+        .cond{background:#f8f5ee;border:1.5px solid var(--gold-light); border-radius:10px;padding:16px;margin-top:14px;display:none;}
+        .cond-title{font-size:11px; font-weight:700;text-transform:uppercase; letter-spacing:1px;color:var(--navy); margin-bottom: 12px; display: flex; align-items:center; gap:7px;}
+        .cond-title::before{content:'';width:6px;height:6px;border-radius:50%; background: var(--gold); display:inline-block;}
+        .nav-row{display: flex; justify-content: flex-end; margin-top:35px;}
+        .btn{padding:12px 32px; border-radius:8px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer; border:none; transition:opacity .15s;}
+        .btn-gold{background: var(--gold); color:#fff;}
+        .btn-gold:hover{opacity:.88;}
+        @media (max-width: 580px){.grid{grid-template-columns:1fr;}.full{grid-column:1;}.radio-grp{flex-direction: column;}.pill{width:100%;}}
+    </style>
 </head>
 <body>
+
 <header>
-  <div class="hdr">
-    <div class="logo">C</div>
-    <div class="hdr-txt">
-      <h1>CNET Admission Portal</h1>
-      <p>ONLINE APPLICATION FORM - 2025-26</p>
+    <div class="hdr">
+        <div class="logo">C</div>
+        <div class="hdr-txt">
+            <h1>CNET Admission Portal</h1>
+            <p>ONLINE APPLICATION FORM 2025-26</p>
+        </div>
     </div>
-  </div>
-  <div class="prog-wrap" id="progWrap" style="display:none">
-    <div class="prog-inner" id="progInner"></div>
-  </div>
 </header>
-<div id="editBanner" style="display:none"></div>
-<main id="app"></main>
+
+<main>
+    <div id="form-wrapper">
+        <form id="admissionForm" onsubmit="event.preventDefault(); validateAndSubmit();">
+            
+            <div class="sec-hdr">
+                <h2>Account Details</h2>
+                <p>Create your primary communication and login records.</p>
+            </div>
+            <div class="grid">
+                <div class="fld">
+                    <label for="email">Email Address <span class="req">*</span></label>
+                    <input type="email" id="email" required placeholder="name@domain.com">
+                    <span class="emsg" id="e_email"></span>
+                </div>
+                <div class="fld">
+                    <label for="mobile">Mobile Number <span class="req">*</span></label>
+                    <input type="tel" id="mobile" required pattern="[0-9]{10}" placeholder="10-digit number">
+                    <span class="emsg" id="e_mobile"></span>
+                </div>
+            </div>
+
+            <div class="sec-hdr">
+                <h2>CNET / Exam Details</h2>
+                <p>Provide exact matching figures verified against your administrative metrics scorecard.</p>
+            </div>
+            <div class="grid">
+                <div class="fld">
+                    <label for="registration_id">Registration ID <span class="req">*</span></label>
+                    <input type="text" id="registration_id" required placeholder="CNET Reg ID">
+                    <span class="emsg" id="e_registration_id"></span>
+                </div>
+                <div class="fld">
+                    <label for="roll_no">Roll Number <span class="req">*</span></label>
+                    <input type="text" id="roll_no" required placeholder="Exam Roll No">
+                    <span class="emsg" id="e_roll_no"></span>
+                </div>
+                <div class="fld">
+                    <label for="open_rank">Open Rank <span class="req">*</span></label>
+                    <input type="number" id="open_rank" required min="1" placeholder="Overall Merit Rank">
+                    <span class="emsg" id="e_open_rank"></span>
+                </div>
+                <div class="fld">
+                    <label for="cnet_percentile">CNET Percentile <span class="req">*</span></label>
+                    <input type="number" id="cnet_percentile" required min="0" max="100" step="0.01" placeholder="e.g. 87.50">
+                    <span class="emsg" id="e_cnet_percentile"></span>
+                </div>
+            </div>
+
+            <div class="sec-hdr">
+                <h2>Personal Details</h2>
+                <p>Ensure these details line up with your high school records.</p>
+            </div>
+            <div class="grid">
+                <div class="fld full">
+                    <label for="full_name">Full Name <span class="req">*</span></label>
+                    <input type="text" id="full_name" required placeholder="First Middle Last">
+                    <span class="emsg" id="e_full_name"></span>
+                </div>
+                <div class="fld">
+                    <label for="father_name">Father's Name <span class="req">*</span></label>
+                    <input type="text" id="father_name" required>
+                    <span class="emsg" id="e_father_name"></span>
+                </div>
+                <div class="fld">
+                    <label for="mother_name">Mother's Name <span class="req">*</span></label>
+                    <input type="text" id="mother_name" required>
+                    <span class="emsg" id="e_mother_name"></span>
+                </div>
+                <div class="fld">
+                    <label for="dob">Date of Birth <span class="req">*</span></label>
+                    <input type="date" id="dob" required>
+                    <span class="emsg" id="e_dob"></span>
+                </div>
+                <div class="fld">
+                    <label>Hostel Required? <span class="req">*</span></label>
+                    <div class="radio-grp">
+                        <label class="pill"><input type="radio" name="hostel" value="Yes" required onchange="syncPillClass('hostel')"> Yes</label>
+                        <label class="pill"><input type="radio" name="hostel" value="No" onchange="syncPillClass('hostel')"> No</label>
+                    </div>
+                    <span class="emsg" id="e_hostel"></span>
+                </div>
+                <div class="fld full">
+                    <label for="address">Residential Address <span class="req">*</span></label>
+                    <textarea id="address" required rows="3" placeholder="Full residential layout (House No, Street, Locality, City, State, PIN)"></textarea>
+                    <span class="emsg" id="e_address"></span>
+                </div>
+            </div>
+
+            <div class="sec-hdr">
+                <h2>Aadhaar Verification</h2>
+                <p>Values provided below will be strictly cross-checked using browser logic against the standard fields.</p>
+            </div>
+            <div class="grid">
+                <div class="fld full">
+                    <label for="aadhar_name">Name as on Aadhaar <span class="req">*</span></label>
+                    <input type="text" id="aadhar_name" required placeholder="Exact textual mapping from card">
+                    <span class="emsg" id="e_aadhar_name"></span>
+                </div>
+                <div class="fld">
+                    <label for="aadhar_dob">DOB as on Aadhaar <span class="req">*</span></label>
+                    <input type="date" id="aadhar_dob" required>
+                    <span class="emsg" id="e_aadhar_dob"></span>
+                </div>
+                <div class="fld full">
+                    <label for="aadhar_address">Address as on Aadhaar <span class="req">*</span></label>
+                    <textarea id="aadhar_address" required rows="3" placeholder="Exact structural address mapping printed on card back"></textarea>
+                    <span class="emsg" id="e_aadhar_address"></span>
+                </div>
+            </div>
+
+            <div class="sec-hdr">
+                <h2>Category &amp; Quota Details</h2>
+                <p>Select fields matching your functional category parameters.</p>
+            </div>
+            <div class="grid">
+                <div class="fld full">
+                    <label>Main Category <span class="req">*</span></label>
+                    <div class="radio-grp">
+                        <label class="pill"><input type="radio" name="main_category" value="UR" required onchange="syncPillClass('main_category'); handleCategoryLogic();"> UR</label>
+                        <label class="pill"><input type="radio" name="main_category" value="EWS" onchange="syncPillClass('main_category'); handleCategoryLogic();"> EWS</label>
+                        <label class="pill"><input type="radio" name="main_category" value="OBC" onchange="syncPillClass('main_category'); handleCategoryLogic();"> OBC</label>
+                        <label class="pill"><input type="radio" name="main_category" value="SC" onchange="syncPillClass('main_category'); handleCategoryLogic();"> SC</label>
+                        <label class="pill"><input type="radio" name="main_category" value="ST" onchange="syncPillClass('main_category'); handleCategoryLogic();"> ST</label>
+                    </div>
+                    <span class="emsg" id="e_main_category"></span>
+                </div>
+                <div class="fld full">
+                    <label>Sub Category <span class="req">*</span></label>
+                    <div class="radio-grp">
+                        <label class="pill"><input type="radio" name="sub_category" value="OPEN" required onchange="syncPillClass('sub_category'); handleCategoryLogic();"> OPEN</label>
+                        <label class="pill"><input type="radio" name="sub_category" value="PH" onchange="syncPillClass('sub_category'); handleCategoryLogic();"> PH (PwD)</label>
+                        <label class="pill"><input type="radio" name="sub_category" value="EX" onchange="syncPillClass('sub_category'); handleCategoryLogic();"> EX-Serviceman</label>
+                        <label class="pill"><input type="radio" name="sub_category" value="FF" onchange="syncPillClass('sub_category'); handleCategoryLogic();"> Freedom Fighter</label>
+                        <label class="pill"><input type="radio" name="sub_category" value="NCC" onchange="syncPillClass('sub_category'); handleCategoryLogic();"> NCC</label>
+                    </div>
+                    <span class="emsg" id="e_sub_category"></span>
+                </div>
+            </div>
+
+            <div class="cond" id="block_reserved">
+                <div class="cond-title">Caste/Category Verification Required</div>
+                <p style="font-size: 12px; color: var(--muted); margin-bottom: 10px;">Provide data confirming validation parameters for non-UR selections.</p>
+            </div>
+            <div class="cond" id="block_ph">
+                <div class="cond-title">Medical Board Disability Verification Details</div>
+                <p style="font-size: 12px; color: var(--muted); margin-bottom: 10px;">Provide functional metrics evaluated for disability classification.</p>
+            </div>
+
+            <div class="sec-hdr">
+                <h2>Academic Score Matrices</h2>
+                <p>Provide verified component scores out of 24 maximum marks for CNET metrics, followed by qualifying board percentage levels.</p>
+            </div>
+            <p style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-bottom:10px;">CNET Exam Subject Scores (Max: 24 Each)</p>
+            <div class="grid">
+                <div class="fld">
+                    <label for="marks_nursing">Nursing Aptitude Score</label>
+                    <input type="number" id="marks_nursing" required min="0" max="24" step="0.01" placeholder="/24">
+                    <span class="emsg" id="e_marks_nursing"></span>
+                </div>
+                <div class="fld">
+                    <label for="marks_physics">Physics Score</label>
+                    <input type="number" id="marks_physics" required min="0" max="24" step="0.01" placeholder="/24">
+                    <span class="emsg" id="e_marks_physics"></span>
+                </div>
+                <div class="fld">
+                    <label for="marks_chemistry">Chemistry Score</label>
+                    <input type="number" id="marks_chemistry" required min="0" max="24" step="0.01" placeholder="/24">
+                    <span class="emsg" id="e_marks_chemistry"></span>
+                </div>
+                <div class="fld">
+                    <label for="marks_biology">Biology Score</label>
+                    <input type="number" id="marks_biology" required min="0" max="24" step="0.01" placeholder="/24">
+                    <span class="emsg" id="e_marks_biology"></span>
+                </div>
+                <div class="fld">
+                    <label for="marks_english_cnet">English (CNET) Score</label>
+                    <input type="number" id="marks_english_cnet" required min="0" max="24" step="0.01" placeholder="/24">
+                    <span class="emsg" id="e_marks_english_cnet"></span>
+                </div>
+            </div>
+
+            <p style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; margin-top:20px; margin-bottom:10px;">Qualifying Secondary Board Percentages</p>
+            <div class="grid">
+                <div class="fld">
+                    <label for="pct_10th">10th Aggregate Percentage</label>
+                    <input type="number" id="pct_10th" required min="0" max="100" step="0.01" placeholder="Overall %">
+                    <span class="emsg" id="e_pct_10th"></span>
+                </div>
+                <div class="fld">
+                    <label for="pct_12_physics">12th Physics Component %</label>
+                    <input type="number" id="pct_12_physics" required min="0" max="100" step="0.01" placeholder="Physics %">
+                    <span class="emsg" id="e_pct_12_physics"></span>
+                </div>
+                <div class="fld">
+                    <label for="pct_12_chemistry">12th Chemistry Component %</label>
+                    <input type="number" id="pct_12_chemistry" required min="0" max="100" step="0.01" placeholder="Chemistry %">
+                    <span class="emsg" id="e_pct_12_chemistry"></span>
+                </div>
+                <div class="fld">
+                    <label for="pct_12_biology">12th Biology Component %</label>
+                    <input type="number" id="pct_12_biology" required min="0" max="100" step="0.01" placeholder="Biology %">
+                    <span class="emsg" id="e_pct_12_biology"></span>
+                </div>
+                <div class="fld">
+                    <label for="pct_12_english">12th English Component %</label>
+                    <input type="number" id="pct_12_english" required min="0" max="100" step="0.01" placeholder="English %">
+                    <span class="emsg" id="e_pct_12_english"></span>
+                </div>
+            </div>
+
+            <div class="nav-row">
+                <button type="submit" class="btn btn-gold">Verify &amp; Submit Application</button>
+            </div>
+        </form>
+    </div>
+</main>
+
 <script>
-var FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSfpI4h3CJMKBWYqoES77bVnOm0JvBpj1ZLcd9unvNsrYulxhg/formResponse';
-var ENTRY_MAP = {
-  '_id':                'entry.826164708',
-  '_submittedAt':       'entry.1032630200',
-  'email':              'entry.1649872010',
-  'mobile':             'entry.1904812106',
-  'registration_id':    'entry.522148965',
-  'roll_no':            'entry.1620081417',
-  'open_rank':          'entry.982695413',
-  'cnet_percentile':    'entry.2144604313',
-  'full_name':          'entry.1736095583',
-  'father_name':        'entry.1027435323',
-  'mother_name':        'entry.1775472755',
-  'dob':                'entry.852042417',
-  'address':            'entry.1777908116',
-  'hostel':             'entry.304482716',
-  'aadhar_name':        'entry.1869915269',
-  'aadhar_dob':         'entry.921195160',
-  'main_category':      'entry.965093396',
-  'sub_category':       'entry.1044623172',
-  'marks_nursing':      'entry.1512022397',
-  'marks_physics':      'entry.365273044',
-  'marks_chemistry':    'entry.1403639923',
-  'marks_biology':      'entry.1433419352',
-  'marks_english_cnet': 'entry.526011333',
-  'pct_10th':           'entry.577359863',
-  'pct_12_physics':     'entry.53508013',
-  'pct_12_chemistry':   'entry.1280854917',
-  'pct_12_biology':     'entry.1076865003',
-  'pct_12_english':     'entry.1130163735'
-};
-var STORE_KEY = 'cnet_apps_v3';
-var STEPS = ['Account','CNET','Personal','Aadhaar','Category','Marks','Documents','Review'];
-var step = 0;
-var editId = null;
-var fd = {};
+    var FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSfpI4h3CJMKBWYqoES77bVnOm0JvBpj1ZLcd9unvNsrYulxhg/formResponse';
 
-// LOCAL STORAGE
-function loadApps(){try{return JSON.parse(localStorage.getItem(STORE_KEY)||'[]');}catch(e){return[];}}
-function saveApps(a){localStorage.setItem(STORE_KEY,JSON.stringify(a));}
-function addApp(data){
-  var apps=loadApps();
-  var id='CNET'+Date.now().toString(36).toUpperCase();
-  var rec=Object.assign({},data,{_id:id,_submittedAt:new Date().toLocaleString('en-IN')});
-  apps.push(rec);saveApps(apps);return id;
-}
-function updateApp(id,data){
-  var apps=loadApps();
-  var i=apps.findIndex(function(a){return a._id===id;});
-  if(i<0)return false;
-  apps[i]=Object.assign({},data,{_id:id,_submittedAt:apps[i]._submittedAt,_updatedAt:new Date().toLocaleString('en-IN')});
-  saveApps(apps);return true;
-}
-function findApp(id){
-  var apps=loadApps();
-  for(var i=0;i<apps.length;i++){if(apps[i]._id===id.trim().toUpperCase())return apps[i];}
-  return null;
-}
+    var ENTRY_MAP = {
+        'email': 'entry.1649872010',
+        'mobile': 'entry.1904812106',
+        'registration_id': 'entry.522148965',
+        'roll_no': 'entry.1620081417',
+        'open_rank': 'entry.982695413',
+        'cnet_percentile': 'entry.2144604313',
+        'full_name': 'entry.1736095583',
+        'father_name': 'entry.1027435323',
+        'mother_name': 'entry.1775472755',
+        'dob': 'entry.852042417',
+        'address': 'entry.1777908116',
+        'hostel': 'entry.304482716',
+        'aadhar_name': 'entry.1869915269',
+        'aadhar_dob': 'entry.921195160',
+        'aadhar_address': 'entry.1787749203', 
+        'main_category': 'entry.965093396',
+        'sub_category': 'entry.1044623172',
+        'marks_nursing': 'entry.1512022397',
+        'marks_physics': 'entry.365273044',
+        'marks_chemistry': 'entry.1403639923',
+        'marks_biology': 'entry.1433419352',
+        'marks_english_cnet': 'entry.526011333',
+        'pct_10th': 'entry.577359863',
+        'pct_12_physics': 'entry.53508013',
+        'pct_12_chemistry': 'entry.1280854917',
+        'pct_12_biology': 'entry.1076865003',
+        'pct_12_english': 'entry.1130163735'
+    };
 
-// GOOGLE FORMS SUBMIT
-function sendToSheet(payload, cb){
-  var old1=document.getElementById('__gf_iframe');
-  var old2=document.getElementById('__gf_form');
-  if(old1)old1.parentNode.removeChild(old1);
-  if(old2)old2.parentNode.removeChild(old2);
-
-  var iframe=document.createElement('iframe');
-  iframe.id='__gf_iframe';
-  iframe.name='__gf_iframe';
-  iframe.style.cssText='display:none;position:absolute;width:0;height:0;';
-  document.body.appendChild(iframe);
-
-  var form=document.createElement('form');
-  form.id='__gf_form';
-  form.method='POST';
-  form.action=FORM_ACTION;
-  form.target='__gf_iframe';
-  form.style.display='none';
-
-  var keys=Object.keys(ENTRY_MAP);
-  for(var i=0;i<keys.length;i++){
-    var key=keys[i];
-    var inp=document.createElement('input');
-    inp.type='hidden';
-    inp.name=ENTRY_MAP[key];
-    inp.value=payload[key]||'';
-    form.appendChild(inp);
-  }
-  document.body.appendChild(form);
-
-  var called=false;
-  function done(ok){
-    if(called)return;called=true;
-    try{document.body.removeChild(iframe);}catch(e){}
-    try{document.body.removeChild(form);}catch(e){}
-    cb(ok);
-  }
-  iframe.onload=function(){done(true);};
-  setTimeout(function(){done(true);},10000);
-  form.submit();
-}
-
-// PROGRESS
-function showProg(){document.getElementById('progWrap').style.display='block';renderProg();}
-function hideProg(){document.getElementById('progWrap').style.display='none';}
-function renderProg(){
-  var el=document.getElementById('progInner');
-  var h='';
-  for(var i=0;i<STEPS.length;i++){
-    var cls=i<step?'done':i===step?'active':'';
-    var dot=i<step?'&#10003;':(i+1);
-    h+='<div class="sdw"><div class="sd '+cls+'">'+dot+'</div><div class="sl '+cls+'">'+STEPS[i]+'</div></div>';
-    if(i<STEPS.length-1)h+='<div class="pl '+(i<step?'done':'')+'"></div>';
-  }
-  el.innerHTML=h;
-}
-
-// FIELD BUILDERS
-function F(id,label,type,req,opts){
-  if(req===undefined)req=true;
-  if(opts===undefined)opts={};
-  var star=req?'<span class="req">*</span>':'';
-  var ph=opts.ph||'';
-  var full=opts.full?' full':'';
-  var inp='';
-  if(type==='select'){
-    var os='<option value="">Select...</option>';
-    var options=opts.options||[];
-    for(var i=0;i<options.length;i++){
-      var o=options[i];
-      os+='<option value="'+(o.v||o)+'">'+(o.l||o)+'</option>';
+    function syncPillClass(name) {
+        var group = document.querySelectorAll(`input[name="${name}"]`);
+        group.forEach(radio => {
+            var label = radio.closest('.pill');
+            if (label) {
+                label.classList.toggle('checked', radio.checked);
+            }
+        });
     }
-    inp='<select id="'+id+'" '+(req?'required':'')+'>'+ os +'</select>';
-  } else if(type==='textarea'){
-    inp='<textarea id="'+id+'" placeholder="'+ph+'" '+(req?'required':'')+'></textarea>';
-  } else {
-    inp='<input type="'+type+'" id="'+id+'" placeholder="'+ph+'" '+(req?'required':'')+'/>';
-  }
-  return '<div class="fld'+full+'"><label for="'+id+'">'+label+star+'</label>'+inp+'<span class="emsg" id="e_'+id+'"></span></div>';
-}
 
-function MF(id,label,max){
-  if(max===undefined)max=24;
-  return '<div class="fld"><label for="'+id+'">'+label+'<span class="req">*</span></label><div class="mark-wrap"><input type="number" id="'+id+'" min="0" max="'+max+'" step="0.01" required placeholder="0"/><span class="mark-badge">/'+max+'</span></div><span class="emsg" id="e_'+id+'"></span></div>';
-}
+    function handleCategoryLogic() {
+        var cat = document.querySelector('input[name="main_category"]:checked')?.value || '';
+        var sub = document.querySelector('input[name="sub_category"]:checked')?.value || '';
 
-function FILE(id,label,req){
-  if(req===undefined)req=true;
-  var star=req?'<span class="req">*</span>':'';
-  return '<div class="fld full"><label>'+label+star+'</label><div class="file-area"><input type="file" id="'+id+'" accept=".pdf,.jpg,.jpeg,.png" onchange="showFN(\''+id+'\')"/><div class="fi">&#128206;</div><p>Click to upload - PDF / JPG / PNG - Max 5 MB</p><div class="file-name" id="fn_'+id+'"></div></div></div>';
-}
-
-function showFN(id){
-  var f=document.getElementById(id);
-  var s=document.getElementById('fn_'+id);
-  if(f&&f.files&&f.files[0])s.textContent='OK: '+f.files[0].name;
-}
-
-function RADIO(name,opts,req,onch){
-  if(req===undefined)req=true;
-  if(onch===undefined)onch='';
-  var h='';
-  for(var i=0;i<opts.length;i++){
-    var o=opts[i];
-    var v=o.v||o; var l=o.l||o;
-    h+='<label class="pill" id="pill_'+name+'_'+v+'"><input type="radio" name="'+name+'" value="'+v+'" '+(req?'required':'')+' onchange="syncPills(\''+name+'\');'+onch+'">'+l+'</label>';
-  }
-  return h;
-}
-
-function syncPills(name){
-  var pills=document.querySelectorAll('.pill input[name="'+name+'"]');
-  for(var i=0;i<pills.length;i++){
-    pills[i].closest('.pill').classList.toggle('checked',pills[i].checked);
-  }
-}
-
-// STEP HTML
-function stepHTML(){
-  var h='';
-  if(step===0){
-    h='<div class="sec-hdr"><h2>Account Details</h2><p>Create your login credentials.</p></div>';
-    h+='<div class="grid">';
-    h+=F('email','Email Address','email');
-    h+=F('mobile','Mobile Number','tel',true,{ph:'10-digit number'});
-    h+=F('password','Password','password');
-    h+=F('confirm_password','Confirm Password','password');
-    h+='</div>';
-  } else if(step===1){
-    h='<div class="sec-hdr"><h2>CNET / Exam Details</h2><p>Exactly as on your scorecard.</p></div>';
-    h+='<div class="grid">';
-    h+=F('registration_id','Registration ID','text');
-    h+=F('roll_no','Roll Number','text');
-    h+=F('open_rank','Open Rank','number');
-    h+=F('cnet_percentile','CNET Percentile','number',true,{ph:'e.g. 87.50'});
-    h+=F('category_rank','Category Rank','number',false);
-    h+=F('sub_category_rank','Sub-Category Rank','number',false);
-    h+='</div>';
-  } else if(step===2){
-    h='<div class="sec-hdr"><h2>Personal Details</h2><p>As on official documents.</p></div>';
-    h+='<div class="grid">';
-    h+=F('full_name','Full Name','text',true,{full:true});
-    h+=F('father_name',"Father's Name",'text');
-    h+=F('mother_name',"Mother's Name",'text');
-    h+=F('email_personal','Personal Email','email',false);
-    h+=F('mobile_personal','Personal Mobile','tel',false);
-    h+=F('name_10th','Name as per 10th Certificate','text',true,{full:true});
-    h+=F('dob_10th','DOB as per 10th Certificate','date');
-    h+=F('dob','Date of Birth','date');
-    h+=F('address','Residential Address','textarea',true,{full:true,ph:'House No., Street, City, State, PIN'});
-    h+='<div class="fld full"><label>Hostel Required<span class="req">*</span></label>';
-    h+='<div class="radio-grp">'+RADIO('hostel',[{v:'Yes',l:'Yes'},{v:'No',l:'No'}])+'</div>';
-    h+='<span class="emsg" id="e_hostel"></span></div>';
-    h+='</div>';
-  } else if(step===3){
-    h='<div class="sec-hdr"><h2>Aadhaar Verification</h2><p>Exactly as on Aadhaar card.</p></div>';
-    h+='<div class="grid">';
-    h+=F('aadhar_name','Name as on Aadhaar','text',true,{full:true});
-    h+=F('aadhar_dob','DOB as on Aadhaar','date');
-    h+=F('aadhar_address','Address as on Aadhaar','textarea',true,{full:true,ph:'Full address as on Aadhaar'});
-    h+='</div>';
-  } else if(step===4){
-    h='<div class="sec-hdr"><h2>Category &amp; Quota</h2><p>Extra fields appear automatically.</p></div>';
-    h+='<div class="grid">';
-    h+='<div class="fld full"><label>Main Category<span class="req">*</span></label>';
-    h+='<div class="radio-grp">'+RADIO('main_category',[{v:'UR',l:'UR'},{v:'EWS',l:'EWS'},{v:'OBC',l:'OBC'},{v:'SC',l:'SC'},{v:'ST',l:'ST'}],true,'onCatChange()')+'</div>';
-    h+='<span class="emsg" id="e_main_category"></span></div>';
-    h+='<div class="fld full"><label>Sub Category<span class="req">*</span></label>';
-    h+='<div class="radio-grp">'+RADIO('sub_category',[{v:'OPEN',l:'OPEN'},{v:'PH',l:'PH'},{v:'EX',l:'EX'},{v:'FF',l:'FF'},{v:'NCC',l:'NCC'}],true,'onSubChange()')+'</div>';
-    h+='<span class="emsg" id="e_sub_category"></span></div>';
-    h+='</div>';
-    h+='<div class="cond" id="c_scst"><div class="cond-title">SC / ST - Caste Certificate</div><div class="grid">'+F('caste_cert_name','Certificate Name Of','text',false)+F('caste_cert_date','Issue Date','date',false)+'</div></div>';
-    h+='<div class="cond" id="c_obc"><div class="cond-title">OBC - Certificate (Year 2025)</div><div class="grid">'+F('obc_cert_date','OBC Certificate Date','date',false)+'</div></div>';
-    h+='<div class="cond" id="c_ews"><div class="cond-title">EWS - Certificate</div><div class="grid">'+F('ews_cert_date','EWS Certificate Date','date',false)+'</div></div>';
-    h+='<div class="cond" id="c_ph"><div class="cond-title">PH (PwD)</div><div class="grid">'+F('pwd_percent','Disability %','number',false)+F('pwd_type','Disability Type','text',false)+'</div></div>';
-    h+='<div class="cond" id="c_ncc"><div class="cond-title">NCC</div><div class="grid">'+F('ncc_cert_type','NCC Cert Type','text',false)+F('ncc_cert_grade','NCC Grade','text',false)+'</div></div>';
-  } else if(step===5){
-    h='<div class="sec-hdr"><h2>Marks</h2><p>CNET subjects out of 24.</p></div>';
-    h+='<p style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:12px">CNET Marks</p>';
-    h+='<div class="grid">';
-    h+=MF('marks_nursing','Nursing Aptitude',24);
-    h+=MF('marks_physics','Physics',24);
-    h+=MF('marks_chemistry','Chemistry',24);
-    h+=MF('marks_biology','Biology',24);
-    h+=MF('marks_english_cnet','English (CNET)',24);
-    h+='</div><hr class="div"/>';
-    h+='<p style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:12px">Board Marks</p>';
-    h+='<div class="grid">';
-    h+=MF('pct_10th','10th Percentage',100);
-    h+=MF('pct_12_physics','12th Physics %',100);
-    h+=MF('pct_12_chemistry','12th Chemistry %',100);
-    h+=MF('pct_12_biology','12th Biology %',100);
-    h+=MF('pct_12_english','12th English %',100);
-    h+='<div class="fld full"><label class="chk-row"><input type="checkbox" id="english_passed"/><span>12th English passed as separate subject<span class="req">*</span></span></label></div>';
-    h+='</div>';
-  } else if(step===6){
-    h='<div class="sec-hdr"><h2>Document Uploads</h2><p>PDF / JPG / PNG - Max 5 MB each.</p></div>';
-    h+='<div class="grid">';
-    h+=FILE('doc_aadhar_front','Aadhaar Card (Front)');
-    h+=FILE('doc_aadhar_back','Aadhaar Card (Back)');
-    h+=FILE('doc_photo','Passport Size Photograph');
-    h+=FILE('doc_10th','10th Marksheet');
-    h+=FILE('doc_12th','12th Marksheet');
-    h+='</div>';
-    h+='<div class="cond" id="dc_scst"><div class="cond-title">SC/ST - Caste Certificate</div><div class="grid">'+FILE('doc_caste','Caste Certificate',false)+'</div></div>';
-    h+='<div class="cond" id="dc_obc"><div class="cond-title">OBC - OBC Certificate</div><div class="grid">'+FILE('doc_obc','OBC Certificate',false)+'</div></div>';
-    h+='<div class="cond" id="dc_ews"><div class="cond-title">EWS - EWS Certificate</div><div class="grid">'+FILE('doc_ews','EWS Certificate',false)+'</div></div>';
-    h+='<div class="cond" id="dc_ph"><div class="cond-title">PH - PwD Certificate</div><div class="grid">'+FILE('doc_pwd','PwD Certificate',false)+'</div></div>';
-    h+='<div class="cond" id="dc_ncc"><div class="cond-title">NCC - NCC Certificate</div><div class="grid">'+FILE('doc_ncc','NCC Certificate',false)+'</div></div>';
-  } else if(step===7){
-    function g(k){return fd[k]||'---';}
-    h='<div class="sec-hdr"><h2>Review &amp; Submit</h2><p>Check all details before submitting.</p></div>';
-    h+='<div class="rv-sec"><h3>Account</h3>';
-    h+='<div class="rv-row"><span class="rk">Email</span><span class="rv">'+g('email')+'</span></div>';
-    h+='<div class="rv-row"><span class="rk">Mobile</span><span class="rv">'+g('mobile')+'</span></div></div>';
-    h+='<div class="rv-sec"><h3>CNET</h3>';
-    h+='<div class="rv-row"><span class="rk">Reg. ID</span><span class="rv">'+g('registration_id')+'</span></div>';
-    h+='<div class="rv-row"><span class="rk">Roll No.</span><span class="rv">'+g('roll_no')+'</span></div>';
-    h+='<div class="rv-row"><span class="rk">Open Rank</span><span class="rv">'+g('open_rank')+'</span></div>';
-    h+='<div class="rv-row"><span class="rk">Percentile</span><span class="rv">'+g('cnet_percentile')+'</span></div></div>';
-    h+='<div class="rv-sec"><h3>Personal</h3>';
-    h+='<div class="rv-row"><span class="rk">Full Name</span><span class="rv">'+g('full_name')+'</span></div>';
-    h+='<div class="rv-row"><span class="rk">Father</span><span class="rv">'+g('father_name')+'</span></div>';
-    h+='<div class="rv-row"><span class="rk">Mother</span><span class="rv">'+g('mother_name')+'</span></div>';
-    h+='<div class="rv-row"><span class="rk">DOB</span><span class="rv">'+g('dob')+'</span></div>';
-    h+='<div class="rv-row"><span class="rk">Hostel</span><span class="rv">'+g('hostel')+'</span></div></div>';
-    h+='<div class="rv-sec"><h3>Category</h3>';
-    h+='<div class="rv-row"><span class="rk">Main</span><span class="rv">'+g('main_category')+'</span></div>';
-    h+='<div class="rv-row"><span class="rk">Sub</span><span class="rv">'+g('sub_category')+'</span></div></div>';
-    h+='<div class="rv-sec"><h3>Marks</h3>';
-    h+='<div class="rv-row"><span class="rk">Nursing</span><span class="rv">'+g('marks_nursing')+'</span></div>';
-    h+='<div class="rv-row"><span class="rk">Physics</span><span class="rv">'+g('marks_physics')+'</span></div>';
-    h+='<div class="rv-row"><span class="rk">Chemistry</span><span class="rv">'+g('marks_chemistry')+'</span></div>';
-    h+='<div class="rv-row"><span class="rk">Biology</span><span class="rv">'+g('marks_biology')+'</span></div>';
-    h+='<div class="rv-row"><span class="rk">English</span><span class="rv">'+g('marks_english_cnet')+'</span></div>';
-    h+='<div class="rv-row"><span class="rk">10th %</span><span class="rv">'+g('pct_10th')+'</span></div></div>';
-    h+='<p style="font-size:12px;color:var(--muted);margin-top:10px">By submitting you confirm all details are true and correct.</p>';
-  }
-  return h;
-}
-
-// COLLECT
-function collect(){
-  var inputs=document.querySelectorAll('#app input:not([type=radio]):not([type=checkbox]):not([type=file]),#app select,#app textarea');
-  for(var i=0;i<inputs.length;i++){var el=inputs[i];if(el.id)fd[el.id]=el.value;}
-  var radios=document.querySelectorAll('#app input[type=radio]:checked');
-  for(var i=0;i<radios.length;i++){var el=radios[i];if(el.name)fd[el.name]=el.value;}
-  var checks=document.querySelectorAll('#app input[type=checkbox]');
-  for(var i=0;i<checks.length;i++){var el=checks[i];if(el.id)fd[el.id]=el.checked?'Yes':'No';}
-}
-
-// RESTORE
-function restore(){
-  var keys=Object.keys(fd);
-  for(var i=0;i<keys.length;i++){
-    var k=keys[i]; var v=fd[k];
-    var el=document.getElementById(k);
-    if(!el)continue;
-    if(el.type==='checkbox')el.checked=(v==='Yes');
-    else if(el.tagName!=='INPUT'||el.type!=='radio')el.value=v;
-  }
-  var rnames=['hostel','main_category','sub_category','lower_limb'];
-  for(var i=0;i<rnames.length;i++){
-    var name=rnames[i];
-    if(fd[name]){
-      var r=document.querySelector('input[name="'+name+'"][value="'+fd[name]+'"]');
-      if(r){r.checked=true;syncPills(name);}
+        document.getElementById('block_reserved').style.display = (cat !== 'UR' && cat !== '') ? 'block' : 'none';
+        document.getElementById('block_ph').style.display = (sub === 'PH') ? 'block' : 'none';
     }
-  }
-  if(step===4){onCatChange();onSubChange();}
-  if(step===6){applyDocBlocks();}
-}
 
-// VALIDATE
-function validate(){
-  var ok=true; var first=null;
-  var reqs=document.querySelectorAll('#app [required]:not([type=radio]):not([type=checkbox]):not([type=file])');
-  for(var i=0;i<reqs.length;i++){
-    var el=reqs[i];
-    var emsg=document.getElementById('e_'+el.id);
-    if(!el.value.trim()){
-      if(emsg)emsg.textContent='Required.';
-      el.classList.add('err');
-      if(!first)first=el;
-      ok=false;
-    } else {
-      if(emsg)emsg.textContent='';
-      el.classList.remove('err');
+    function validateAndSubmit() {
+        document.querySelectorAll('.err').forEach(el => el.classList.remove('err'));
+        document.querySelectorAll('.emsg').forEach(el => el.textContent = '');
+
+        var isValid = true;
+
+        var fullName = document.getElementById('full_name').value.trim();
+        var aadharName = document.getElementById('aadhar_name').value.trim();
+        var homeAddress = document.getElementById('address').value.trim();
+        var aadharAddress = document.getElementById('aadhar_address').value.trim();
+
+        // Strict cross-field normalization (collapsing whitespace and removing casing variations)
+        var normFullName = fullName.toLowerCase().replace(/\s+/g, ' ');
+        var normAadharName = aadharName.toLowerCase().replace(/\s+/g, ' ');
+        var normHomeAddress = homeAddress.toLowerCase().replace(/\s+/g, ' ');
+        var normAadharAddress = aadharAddress.toLowerCase().replace(/\s+/g, ' ');
+
+        if (normFullName !== normAadharName) {
+            document.getElementById('e_aadhar_name').textContent = 'Validation Error: Full Name must exactly match Aadhaar Name layout.';
+            document.getElementById('aadhar_name').classList.add('err');
+            isValid = false;
+        }
+
+        if (normHomeAddress !== normAadharAddress) {
+            document.getElementById('e_aadhar_address').textContent = 'Validation Error: Residential Address must exactly match Aadhaar Address layout.';
+            document.getElementById('aadhar_address').classList.add('err');
+            isValid = false;
+        }
+
+        if (!isValid) {
+            var firstError = document.querySelector('.err');
+            if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+
+        var submissionPayload = {};
+        Object.keys(ENTRY_MAP).forEach(key => {
+            var fieldEl = document.getElementById(key);
+            if (fieldEl) {
+                submissionPayload[key] = fieldEl.value.trim();
+            } else {
+                var radioEl = document.querySelector(`input[name="${key}"]:checked`);
+                submissionPayload[key] = radioEl ? radioEl.value : '';
+            }
+        });
+
+        executeHiddenIframeSubmit(submissionPayload);
     }
-  }
-  var rnames=new Set();
-  var radios=document.querySelectorAll('#app input[type=radio][required]');
-  for(var i=0;i<radios.length;i++){
-    var el=radios[i];
-    var cond=el.closest('.cond');
-    if(cond&&cond.style.display==='none')continue;
-    rnames.add(el.name);
-  }
-  rnames.forEach(function(name){
-    if(!document.querySelector('#app input[name="'+name+'"]:checked')){
-      var emsg=document.getElementById('e_'+name);
-      if(emsg)emsg.textContent='Please select one.';
-      ok=false;
-    } else {
-      var emsg=document.getElementById('e_'+name);
-      if(emsg)emsg.textContent='';
+
+    function executeHiddenIframeSubmit(payload) {
+        var wrapper = document.getElementById('form-wrapper');
+        wrapper.innerHTML = '<div style="text-align:center; padding:50px;"><div style="width:36px; height:36px; border:3px solid var(--border); border-top-color:var(--gold); border-radius:50%; animation:spin 1s linear infinite; margin:0 auto 14px;"></div><p>Transmitting secured metrics to spreadsheet repository...</p></div>';
+        
+        if (!document.getElementById('spin_style')) {
+            var style = document.createElement('style');
+            style.id = 'spin_style';
+            style.innerHTML = '@keyframes spin{to{transform:rotate(360deg);}}';
+            document.head.appendChild(style);
+        }
+
+        var frameName = 'hidden_target_frame_' + Date.now();
+        var iframe = document.createElement('iframe');
+        iframe.name = frameName;
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = FORM_ACTION;
+        form.target = frameName;
+        form.style.display = 'none';
+
+        Object.keys(ENTRY_MAP).forEach(key => {
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = ENTRY_MAP[key];
+            input.value = payload[key];
+            form.appendChild(input);
+        });
+
+        document.body.appendChild(form);
+        
+        setTimeout(() => {
+            form.submit();
+            setTimeout(() => {
+                wrapper.innerHTML = `
+                    <div style="text-align:center; padding: 50px 20px;">
+                        <div style="font-size:52px; margin-bottom:15px;">✅</div>
+                        <h2 style="color:var(--navy); font-family:'Playfair Display', serif;">Application Submitted!</h2>
+                        <p style="color:var(--muted); margin-top:8px; font-size:14px;">Your data matrices have successfully streamed to the spreadsheet record file.</p>
+                    </div>
+                `;
+                try { document.body.removeChild(form); document.body.removeChild(iframe); } catch(e) {}
+            }, 1000);
+        }, 200);
     }
-  });
-  if(step===0){
-    var pw=document.getElementById('password');
-    var cpw=document.getElementById('confirm_password');
-    if(pw&&cpw&&pw.value&&pw.value!==cpw.value){
-      var emsg=document.getElementById('e_confirm_password');
-      if(emsg)emsg.textContent='Passwords do not match.';
-      cpw.classList.add('err');
-      if(!first)first=cpw;
-      ok=false;
-    }
-  }
-  if(!ok&&first)first.scrollIntoView({behavior:'smooth',block:'center'});
-  return ok;
-}
-
-// RENDER
-function render(){
-  showProg();renderProg();
-  var app=document.getElementById('app');
-  var isLast=(step===STEPS.length-1);
-  var btnLabel=isLast?(editId?'Save Changes':'Submit Application'):'Next';
-  var btnCls=isLast?'btn-gold':'btn-primary';
-  var backBtn=step>0?'<button class="btn btn-outline" onclick="goBack()">Back</button>':'<span></span>';
-  var nextBtn='<button class="btn '+btnCls+'" onclick="'+(isLast?'doSubmit()':'goNext()')+'">'+btnLabel+'</button>';
-  app.innerHTML=stepHTML()+'<div class="nav-row">'+backBtn+nextBtn+'</div>';
-  restore();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function goNext(){collect();if(!validate())return;step++;render();}
-function goBack(){collect();step--;render();}
-
-// CATEGORY CONDITIONALS
-function onCatChange(){
-  var cat='';
-  var r=document.querySelector('input[name="main_category"]:checked');
-  if(r)cat=r.value;
-  toggle('c_scst',cat==='SC'||cat==='ST');
-  toggle('c_obc',cat==='OBC');
-  toggle('c_ews',cat==='EWS');
-}
-function onSubChange(){
-  var sub='';
-  var r=document.querySelector('input[name="sub_category"]:checked');
-  if(r)sub=r.value;
-  toggle('c_ph',sub==='PH');
-  toggle('c_ncc',sub==='NCC');
-}
-function applyDocBlocks(){
-  var cat=fd.main_category||'';
-  var sub=fd.sub_category||'';
-  toggle('dc_scst',cat==='SC'||cat==='ST');
-  toggle('dc_obc',cat==='OBC');
-  toggle('dc_ews',cat==='EWS');
-  toggle('dc_ph',sub==='PH');
-  toggle('dc_ncc',sub==='NCC');
-}
-function toggle(id,show){
-  var el=document.getElementById(id);
-  if(el)el.style.display=show?'block':'none';
-}
-
-// SUBMIT
-function doSubmit(){
-  collect();
-  if(!validate())return;
-  var app=document.getElementById('app');
-  hideProg();
-  document.getElementById('editBanner').style.display='none';
-  app.innerHTML='<div class="loading"><div class="spinner"></div><p>Saving your application...</p></div>';
-
-  var isEdit=!!editId;
-  var appId;
-  if(isEdit){
-    updateApp(editId,fd);
-    appId=editId;
-  } else {
-    appId=addApp(fd);
-  }
-
-  var payload=Object.assign({},fd,{
-    _id:appId,
-    _submittedAt:new Date().toLocaleString('en-IN')
-  });
-
-  sendToSheet(payload,function(sent){
-    var action=isEdit?'Updated':'Submitted';
-    var statusMsg=sent
-      ?'<p style="color:var(--ok);font-weight:600;font-size:13px">Data saved to Google Sheets successfully</p>'
-      :'<p style="color:var(--err);font-weight:500;font-size:13px">Could not reach Google Sheets - saved locally</p>';
-    app.innerHTML='<div class="success">'
-      +'<div style="font-size:52px">'+(isEdit?'&#9989;':'&#127891;')+'</div>'
-      +'<h2>Application '+action+'!</h2>'
-      +'<p>Note your Application ID for future reference.</p>'
-      +'<div class="app-id">'+appId+'</div>'
-      +statusMsg
-      +'<div class="btn-row" style="margin-top:18px">'
-      +'<button class="btn btn-primary" onclick="showLanding()">Home</button>'
-      +(!isEdit?'<button class="btn btn-outline" onclick="startNew()">Submit Another</button>':'')
-      +'<button class="btn btn-gold" onclick="startEdit(\''+appId+'\')">Edit This</button>'
-      +'</div></div>';
-    editId=null;
-  });
-}
-
-// LANDING
-function showLanding(){
-  editId=null;step=0;fd={};
-  hideProg();
-  document.getElementById('editBanner').style.display='none';
-  document.getElementById('app').innerHTML=
-    '<div class="land">'
-    +'<div style="font-size:50px">&#127891;</div>'
-    +'<h2>CNET Admission Portal</h2>'
-    +'<p>Submit a new application or update an existing one.</p>'
-    +'<div class="land-cards">'
-    +'<div class="land-card" onclick="startNew()"><div class="lci">&#128221;</div><h3>New Application</h3><p>Fill and submit a fresh application</p></div>'
-    +'<div class="land-card" onclick="showLookup()"><div class="lci">&#9998;</div><h3>Edit Application</h3><p>Update using your Application ID</p></div>'
-    +'</div></div>';
-}
-
-function startNew(){
-  editId=null;step=0;fd={};
-  document.getElementById('editBanner').style.display='none';
-  render();
-}
-
-// LOOKUP
-function showLookup(){
-  hideProg();
-  document.getElementById('editBanner').style.display='none';
-  document.getElementById('app').innerHTML=
-    '<div class="lookup-box">'
-    +'<h3>Find Your Application</h3>'
-    +'<p>Enter your Application ID to load and edit your submission.</p>'
-    +'<div class="lookup-row">'
-    +'<input id="lid" placeholder="e.g. CNETMQTBH8KV" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key===\'Enter\')doLookup()"/>'
-    +'<button class="btn btn-primary" onclick="doLookup()">Find</button>'
-    +'</div>'
-    +'<div class="lookup-err" id="lerr"></div>'
-    +'<div style="margin-top:18px"><button class="btn btn-outline" onclick="showLanding()">Back</button></div>'
-    +'</div>';
-}
-
-function doLookup(){
-  var val=document.getElementById('lid').value.trim().toUpperCase();
-  var err=document.getElementById('lerr');
-  if(!val){err.textContent='Please enter your Application ID.';return;}
-  var rec=findApp(val);
-  if(!rec){err.textContent='No application found with this ID on this device.';return;}
-  startEdit(val);
-}
-
-function startEdit(id){
-  var rec=findApp(id);
-  if(!rec){showLookup();return;}
-  editId=id;step=0;
-  fd={};
-  var keys=Object.keys(rec);
-  for(var i=0;i<keys.length;i++)fd[keys[i]]=rec[keys[i]];
-  var banner=document.getElementById('editBanner');
-  banner.style.display='block';
-  banner.innerHTML='<div class="edit-banner"><span>Editing <strong>'+id+'</strong></span><button class="eb-btn" onclick="showLanding()">Cancel</button></div>';
-  render();
-}
-
-// INIT
-showLanding();
 </script>
 </body>
 </html>
