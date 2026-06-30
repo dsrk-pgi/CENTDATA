@@ -38,6 +38,13 @@
         .btn{padding:12px 32px; border-radius:8px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer; border:none; transition:opacity .15s;}
         .btn-gold{background: var(--gold); color:#fff;}
         .btn-gold:hover{opacity:.88;}
+        .btn-gold:disabled{opacity:.55; cursor:not-allowed;}
+        #recoveryPanel{display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:999; align-items:center; justify-content:center; padding:20px;}
+        #recoveryBox{background:#fff; border-radius:12px; max-width:700px; width:100%; max-height:80vh; overflow:auto; padding:22px;}
+        #recoveryBox h3{color:var(--navy); margin-bottom:10px; font-family:'Playfair Display',serif;}
+        #recoveryBox textarea{width:100%; height:260px; font-family:monospace; font-size:12px; border:1px solid var(--border); border-radius:8px; padding:10px;}
+        #recoveryBox .rbtns{margin-top:12px; display:flex; gap:10px; justify-content:flex-end;}
+        #recoveryBox button{padding:8px 16px; border-radius:6px; border:1px solid var(--border); background:#fff; cursor:pointer; font-size:13px;}
         @media (max-width: 580px){.grid{grid-template-columns:1fr;}.full{grid-column:1;}.radio-grp{flex-direction: column;}.pill{width:100%;}}
     </style>
 </head>
@@ -56,7 +63,7 @@
 <main>
     <div id="form-wrapper">
         <form id="admissionForm" onsubmit="event.preventDefault(); validateAndSubmit();">
-            
+
             <div class="sec-hdr">
                 <h2>Account Details</h2>
                 <p>Create your primary communication and login records.</p>
@@ -264,14 +271,32 @@
             </div>
 
             <div class="nav-row">
-                <button type="submit" class="btn btn-gold">Verify &amp; Submit Application</button>
+                <button type="submit" class="btn btn-gold" id="submitBtn">Verify &amp; Submit Application</button>
             </div>
         </form>
     </div>
 </main>
 
+<!-- Hidden recovery panel: open with Ctrl+Shift+R. Lets admin retrieve any submissions
+     that may not have reached Google Sheets, directly from the applicant's browser. -->
+<div id="recoveryPanel">
+    <div id="recoveryBox">
+        <h3>Local Submission Backup</h3>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">
+            Every submission attempt on this device is stored here as a safety net, independent of whether it reached Google Sheets.
+            Copy this JSON and send it to the admin if asked, or use it to manually re-check a record.
+        </p>
+        <textarea id="recoveryText" readonly></textarea>
+        <div class="rbtns">
+            <button onclick="copyRecovery()">Copy JSON</button>
+            <button onclick="document.getElementById('recoveryPanel').style.display='none'">Close</button>
+        </div>
+    </div>
+</div>
+
 <script>
     var FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSfpI4h3CJMKBWYqoES77bVnOm0JvBpj1ZLcd9unvNsrYulxhg/formResponse';
+    var BACKUP_KEY = 'cnet_submission_backup';
 
     var ENTRY_MAP = {
         'email': 'entry.1649872010',
@@ -288,7 +313,7 @@
         'hostel': 'entry.304482716',
         'aadhar_name': 'entry.1869915269',
         'aadhar_dob': 'entry.921195160',
-        'aadhar_address': 'entry.1787749203', 
+        'aadhar_address': 'entry.1787749203',
         'main_category': 'entry.965093396',
         'sub_category': 'entry.1044623172',
         'marks_nursing': 'entry.1512022397',
@@ -304,8 +329,8 @@
     };
 
     function syncPillClass(name) {
-        var group = document.querySelectorAll(`input[name="${name}"]`);
-        group.forEach(radio => {
+        var group = document.querySelectorAll('input[name="' + name + '"]');
+        group.forEach(function (radio) {
             var label = radio.closest('.pill');
             if (label) {
                 label.classList.toggle('checked', radio.checked);
@@ -314,16 +339,72 @@
     }
 
     function handleCategoryLogic() {
-        var cat = document.querySelector('input[name="main_category"]:checked')?.value || '';
-        var sub = document.querySelector('input[name="sub_category"]:checked')?.value || '';
+        var catEl = document.querySelector('input[name="main_category"]:checked');
+        var subEl = document.querySelector('input[name="sub_category"]:checked');
+        var cat = catEl ? catEl.value : '';
+        var sub = subEl ? subEl.value : '';
 
         document.getElementById('block_reserved').style.display = (cat !== 'UR' && cat !== '') ? 'block' : 'none';
         document.getElementById('block_ph').style.display = (sub === 'PH') ? 'block' : 'none';
     }
 
+    // ---------- Local backup queue ----------
+    function readBackup() {
+        try {
+            return JSON.parse(localStorage.getItem(BACKUP_KEY)) || [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function writeBackupEntry(payload) {
+        var list = readBackup();
+        var record = {
+            id: 'sub_' + Date.now() + '_' + Math.floor(Math.random() * 10000),
+            timestamp: new Date().toISOString(),
+            data: payload,
+            network_attempted: false
+        };
+        list.push(record);
+        try {
+            localStorage.setItem(BACKUP_KEY, JSON.stringify(list));
+        } catch (e) {
+            // localStorage full or unavailable - non-fatal, network submission still attempted
+        }
+        return record.id;
+    }
+
+    function markBackupAttempted(id) {
+        var list = readBackup();
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].id === id) {
+                list[i].network_attempted = true;
+            }
+        }
+        try {
+            localStorage.setItem(BACKUP_KEY, JSON.stringify(list));
+        } catch (e) {}
+    }
+
+    // Recovery panel: Ctrl+Shift+R
+    document.addEventListener('keydown', function (e) {
+        if (e.ctrlKey && e.shiftKey && (e.key === 'R' || e.key === 'r')) {
+            e.preventDefault();
+            document.getElementById('recoveryText').value = JSON.stringify(readBackup(), null, 2);
+            document.getElementById('recoveryPanel').style.display = 'flex';
+        }
+    });
+
+    function copyRecovery() {
+        var ta = document.getElementById('recoveryText');
+        ta.select();
+        document.execCommand('copy');
+    }
+
+    // ---------- Validation + submit ----------
     function validateAndSubmit() {
-        document.querySelectorAll('.err').forEach(el => el.classList.remove('err'));
-        document.querySelectorAll('.emsg').forEach(el => el.textContent = '');
+        document.querySelectorAll('.err').forEach(function (el) { el.classList.remove('err'); });
+        document.querySelectorAll('.emsg').forEach(function (el) { el.textContent = ''; });
 
         var isValid = true;
 
@@ -332,7 +413,6 @@
         var homeAddress = document.getElementById('address').value.trim();
         var aadharAddress = document.getElementById('aadhar_address').value.trim();
 
-        // Strict cross-field normalization (collapsing whitespace and removing casing variations)
         var normFullName = fullName.toLowerCase().replace(/\s+/g, ' ');
         var normAadharName = aadharName.toLowerCase().replace(/\s+/g, ' ');
         var normHomeAddress = homeAddress.toLowerCase().replace(/\s+/g, ' ');
@@ -357,30 +437,72 @@
         }
 
         var submissionPayload = {};
-        Object.keys(ENTRY_MAP).forEach(key => {
+        Object.keys(ENTRY_MAP).forEach(function (key) {
             var fieldEl = document.getElementById(key);
             if (fieldEl) {
                 submissionPayload[key] = fieldEl.value.trim();
             } else {
-                var radioEl = document.querySelector(`input[name="${key}"]:checked`);
+                var radioEl = document.querySelector('input[name="' + key + '"]:checked');
                 submissionPayload[key] = radioEl ? radioEl.value : '';
             }
         });
 
-        executeHiddenIframeSubmit(submissionPayload);
+        executeReliableSubmit(submissionPayload);
     }
 
-    function executeHiddenIframeSubmit(payload) {
-        var wrapper = document.getElementById('form-wrapper');
-        wrapper.innerHTML = '<div style="text-align:center; padding:50px;"><div style="width:36px; height:36px; border:3px solid var(--border); border-top-color:var(--gold); border-radius:50%; animation:spin 1s linear infinite; margin:0 auto 14px;"></div><p>Transmitting secured metrics to spreadsheet repository...</p></div>';
-        
-        if (!document.getElementById('spin_style')) {
-            var style = document.createElement('style');
-            style.id = 'spin_style';
-            style.innerHTML = '@keyframes spin{to{transform:rotate(360deg);}}';
-            document.head.appendChild(style);
+    function buildEncodedBody(payload) {
+        var params = [];
+        Object.keys(ENTRY_MAP).forEach(function (key) {
+            params.push(encodeURIComponent(ENTRY_MAP[key]) + '=' + encodeURIComponent(payload[key] || ''));
+        });
+        return params.join('&');
+    }
+
+    function executeReliableSubmit(payload) {
+        var submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
         }
 
+        // 1. Save to local backup BEFORE any network attempt - this is the safety net.
+        var backupId = writeBackupEntry(payload);
+
+        // Warn the user not to close the tab mid-submit (helps avoid the iframe
+        // being killed by navigation before the POST completes).
+        var beforeUnloadHandler = function (e) {
+            e.preventDefault();
+            e.returnValue = '';
+        };
+        window.addEventListener('beforeunload', beforeUnloadHandler);
+
+        var encodedBody = buildEncodedBody(payload);
+
+        // 2. Primary channel: fetch() with keepalive + no-cors.
+        //    keepalive lets the request finish even if the tab is being torn down,
+        //    which is the main reason the old iframe method silently dropped data.
+        var fetchDone = false;
+        try {
+            fetch(FORM_ACTION, {
+                method: 'POST',
+                mode: 'no-cors',
+                keepalive: true,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: encodedBody
+            }).then(function () {
+                fetchDone = true;
+            }).catch(function () {
+                // no-cors responses are opaque anyway; errors here are rare
+                // (e.g. fully offline). The iframe fallback below still runs.
+            });
+        } catch (e) {
+            // fetch not supported / blocked - iframe fallback covers this
+        }
+
+        // 3. Fallback / redundant channel: classic hidden iframe form POST.
+        //    Kept as a second path in case fetch() is blocked by an extension
+        //    or older browser. Iframe + form are left in the DOM for 3s
+        //    (not removed early), which was the actual cause of "sometimes skips".
         var frameName = 'hidden_target_frame_' + Date.now();
         var iframe = document.createElement('iframe');
         iframe.name = frameName;
@@ -393,7 +515,7 @@
         form.target = frameName;
         form.style.display = 'none';
 
-        Object.keys(ENTRY_MAP).forEach(key => {
+        Object.keys(ENTRY_MAP).forEach(function (key) {
             var input = document.createElement('input');
             input.type = 'hidden';
             input.name = ENTRY_MAP[key];
@@ -402,21 +524,43 @@
         });
 
         document.body.appendChild(form);
-        
-        setTimeout(() => {
+
+        var wrapper = document.getElementById('form-wrapper');
+        wrapper.innerHTML = '<div style="text-align:center; padding:50px;"><div style="width:36px; height:36px; border:3px solid var(--border); border-top-color:var(--gold); border-radius:50%; animation:spin 1s linear infinite; margin:0 auto 14px;"></div><p>Transmitting secured metrics to spreadsheet repository...</p></div>';
+
+        if (!document.getElementById('spin_style')) {
+            var style = document.createElement('style');
+            style.id = 'spin_style';
+            style.innerHTML = '@keyframes spin{to{transform:rotate(360deg);}}';
+            document.head.appendChild(style);
+        }
+
+        setTimeout(function () {
             form.submit();
-            setTimeout(() => {
-                wrapper.innerHTML = `
-                    <div style="text-align:center; padding: 50px 20px;">
-                        <div style="font-size:52px; margin-bottom:15px;">✅</div>
-                        <h2 style="color:var(--navy); font-family:'Playfair Display', serif;">Application Submitted!</h2>
-                        <p style="color:var(--muted); margin-top:8px; font-size:14px;">Your data matrices have successfully streamed to the spreadsheet record file.</p>
-                    </div>
-                `;
-                try { document.body.removeChild(form); document.body.removeChild(iframe); } catch(e) {}
-            }, 1000);
-        }, 200);
+        }, 150);
+
+        // Give both channels a full 3 seconds before tearing anything down -
+        // the old 1000ms window was too short on slow/mobile connections and
+        // could cancel the in-flight request when the iframe was removed.
+        setTimeout(function () {
+            markBackupAttempted(backupId);
+            window.removeEventListener('beforeunload', beforeUnloadHandler);
+
+            wrapper.innerHTML =
+                '<div style="text-align:center; padding: 50px 20px;">' +
+                '<div style="font-size:52px; margin-bottom:15px;">\u2705</div>' +
+                '<h2 style="color:var(--navy); font-family:\'Playfair Display\', serif;">Application Submitted!</h2>' +
+                '<p style="color:var(--muted); margin-top:8px; font-size:14px;">Your data has been transmitted and a local backup copy was also saved on this device.</p>' +
+                '</div>';
+
+            try {
+                document.body.removeChild(form);
+                document.body.removeChild(iframe);
+            } catch (e) {}
+        }, 3000);
     }
+
+    handleCategoryLogic();
 </script>
 </body>
 </html>
